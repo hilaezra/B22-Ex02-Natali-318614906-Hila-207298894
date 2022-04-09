@@ -36,7 +36,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="CellInBoard.cs" />
+    <Compile Include="GameControler.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UserInputManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">

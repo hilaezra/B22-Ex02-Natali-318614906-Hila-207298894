@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class Program
+    class GameControler
     {
-        public static void Main()
-        {
 
-
-        }
     }
 }

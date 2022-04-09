@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class Program
+    class Board
     {
-        public static void Main()
+       
+
+
+        public void PrintBoard(int i_NumOfLines, int i_NumOfCols)
         {
 
-
         }
+
     }
 }
