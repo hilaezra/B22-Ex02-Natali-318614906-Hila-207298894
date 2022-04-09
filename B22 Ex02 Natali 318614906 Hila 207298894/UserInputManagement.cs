@@ -10,8 +10,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         public static string GetUserName(bool i_FirstPlayer)
         {
-            string userName; 
-            if(i_FirstPlayer == true)
+            string userName;
+            if (i_FirstPlayer == true)
             {
                 Console.WriteLine("Please enter your name:");
             }
@@ -26,13 +26,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             int userBoardSize = 0;
             bool validBoardSize = false;
-           
-            while(validBoardSize != true)
+
+            while (validBoardSize != true)
             {
                 Console.WriteLine("Please select the desired board size (6/8/10)");
                 userBoardSize = int.Parse(Console.ReadLine());
 
-                if(userBoardSize == 6 || userBoardSize == 8 || userBoardSize == 10)
+                if (userBoardSize == 6 || userBoardSize == 8 || userBoardSize == 10)
                 {
                     validBoardSize = true;
                 }
@@ -47,16 +47,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool validChoice = false;
             bool againstComputer = false;
 
-            while(validChoice != true)
+            while (validChoice != true)
             {
                 Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
                 playerChoice = int.Parse(Console.ReadLine());
-                if(playerChoice == 1)
+                if (playerChoice == 1)
                 {
                     againstComputer = true;
                     validChoice = true;
                 }
-                else if(playerChoice == 2)
+                else if (playerChoice == 2)
                 {
                     validChoice = true;
                 }
@@ -66,22 +66,26 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
 
-            return againstComputer; 
+            return againstComputer;
         }
 
-        public static bool PartOfTheBoardSquares(string i_UserMove)
-        {   /////////////////////
-            ////// To Do!! //////
-            /////////////////////
+        public static bool PartOfTheBoardSquares(string i_UserMove, int i_BoardSize)
+        {
             bool validPointOnBoard = false;
 
-            if(i_UserMove.Length == 5)
+            if (i_UserMove.Length == 5)
             {
-               /// if(i_UserMove[0] == )
+                if (i_UserMove[0] >= 'A' && i_UserMove[0] <= (char)('A' + i_BoardSize - 1)
+                    && i_UserMove[3] >= 'A' && i_UserMove[3] <= (char)('A' + i_BoardSize - 1)
+                    && i_UserMove[2] == '>'
+                    && i_UserMove[1] >= 'a' && i_UserMove[1] <= (char)('a' + i_BoardSize - 1)
+                    && i_UserMove[4] >= 'a' && i_UserMove[4] <= (char)('a' + i_BoardSize - 1))
+                {
+                    validPointOnBoard = true;
+                }
             }
 
             return validPointOnBoard;
         }
-
     }
 }

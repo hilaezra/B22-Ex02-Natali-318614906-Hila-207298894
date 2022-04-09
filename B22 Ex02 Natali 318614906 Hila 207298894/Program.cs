@@ -10,8 +10,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         public static void Main()
         {
-
-
         }
     }
 }
