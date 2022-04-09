@@ -18,10 +18,24 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_IsEmpty = i_IsThereAPlayer;
             PlayerPieceOnBoard piece;
             if (i_NumberOfPlayer == 1)
+            {
                 piece = new PlayerPieceOnBoard('X');
-            else
+            }
+            else if (i_NumberOfPlayer == 2)
+            {
                 piece = new PlayerPieceOnBoard('O');
+            }
+            else
+            {
+                piece = new PlayerPieceOnBoard(' '); //Empty cell
+            }
             m_Cell = piece;
+        }
+
+        public Point _point
+        {
+            get { return m_Point; }
+            set { m_Point = value; }
         }
 
     }

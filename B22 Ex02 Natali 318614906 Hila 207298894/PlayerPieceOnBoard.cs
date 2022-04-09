@@ -22,7 +22,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public PlayerPieceOnBoard(char i_Sign)
         {
             m_IsPieceIsKing = false;
-            m_Sign = i_Sign;
+            m_Sign = i_Sign;  
         }
     }
 }

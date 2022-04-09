@@ -22,5 +22,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             set { m_Y = value; }
         }
 
+        public Point(int i_X, int i_Y)
+        {
+            m_X = i_X;
+            m_Y = i_Y;
+        }
+
     }
 }
