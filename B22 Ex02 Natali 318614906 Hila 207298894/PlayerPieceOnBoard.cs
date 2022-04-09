@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class PieceOnBoard
+    class PlayerPieceOnBoard
     {
+
         private bool m_IsPieceIsKing;
         private Point m_Point;//cordinate of piece
 

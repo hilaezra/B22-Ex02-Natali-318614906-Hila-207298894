@@ -68,5 +68,20 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             return againstComputer; 
         }
+
+        public static bool PartOfTheBoardSquares(string i_UserMove)
+        {   /////////////////////
+            ////// To Do!! //////
+            /////////////////////
+            bool validPointOnBoard = false;
+
+            if(i_UserMove.Length == 5)
+            {
+               /// if(i_UserMove[0] == )
+            }
+
+            return validPointOnBoard;
+        }
+
     }
 }
