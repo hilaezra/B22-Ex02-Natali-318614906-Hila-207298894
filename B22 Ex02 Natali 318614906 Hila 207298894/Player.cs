@@ -20,6 +20,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_RemainPieces = ((i_SizeOfBorad * i_SizeOfBorad) - 2 * i_SizeOfBorad) / 4;
             m_SignPlayer = i_Sign;
         }
+        public string NameOfPlayer
+        {
+            get { return m_NameOfPlayer; }
+            set { m_NameOfPlayer = value; }
+        }
         public int PointsOfPlayer
         {
             get { return m_PointsOfPlayer; }

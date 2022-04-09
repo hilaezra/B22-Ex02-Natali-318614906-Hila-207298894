@@ -69,23 +69,28 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return againstComputer;
         }
 
-        public static bool PartOfTheBoardSquares(string i_UserMove, int i_BoardSize)
+        public static string PartOfTheBoardSquares(int i_BoardSize)
         {
             bool validPointOnBoard = false;
-
-            if (i_UserMove.Length == 5)
+            string userMove;
+            Console.WriteLine("Please enter your next movment");//Ab>Ad
+            do
             {
-                if (i_UserMove[0] >= 'A' && i_UserMove[0] <= (char)('A' + i_BoardSize - 1)
-                    && i_UserMove[3] >= 'A' && i_UserMove[3] <= (char)('A' + i_BoardSize - 1)
-                    && i_UserMove[2] == '>'
-                    && i_UserMove[1] >= 'a' && i_UserMove[1] <= (char)('a' + i_BoardSize - 1)
-                    && i_UserMove[4] >= 'a' && i_UserMove[4] <= (char)('a' + i_BoardSize - 1))
-                {
-                    validPointOnBoard = true;
-                }
-            }
 
-            return validPointOnBoard;
+                userMove = Console.ReadLine();
+                if (userMove.Length == 5)
+                {
+                    if (userMove[0] >= 'A' && userMove[0] <= (char)('A' + i_BoardSize - 1)
+                        && userMove[3] >= 'A' && userMove[3] <= (char)('A' + i_BoardSize - 1)
+                        && userMove[2] == '>'
+                        && userMove[1] >= 'a' && userMove[1] <= (char)('a' + i_BoardSize - 1)
+                        && userMove[4] >= 'a' && userMove[4] <= (char)('a' + i_BoardSize - 1))
+                    {
+                        validPointOnBoard = true;
+                    }
+                }
+            } while (!validPointOnBoard);
+            return userMove;
         }
     }
 }
