@@ -8,13 +8,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
     class UserInputManagement
     {
-        public static void GetUserName()
+        public static string GetUserName()
         {
             string userName; 
             Console.WriteLine("Please enter your name:");
             userName = Console.ReadLine();
+            return userName;
         }
-        public static void GetAndCheckValidBoardSize()
+        public static int GetAndCheckValidBoardSize()
         {
             int userBoardSize = 0;
             bool validBoardSize = false;
@@ -29,6 +30,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     validBoardSize = true;
                 }
             }
+
+            return userBoardSize;
         }
     }
 }
