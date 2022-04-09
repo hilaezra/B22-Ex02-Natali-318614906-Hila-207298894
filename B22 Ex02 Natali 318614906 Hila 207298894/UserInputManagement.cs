@@ -8,10 +8,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
     class UserInputManagement
     {
-        public static string GetUserName()
+        public static string GetUserName(bool i_FirstPlayer)
         {
             string userName; 
-            Console.WriteLine("Please enter your name:");
+            if(i_FirstPlayer == true)
+            {
+                Console.WriteLine("Please enter your name:");
+            }
+            else
+            {
+                Console.WriteLine("Please enter the name of the other player:");
+            }
             userName = Console.ReadLine();
             return userName;
         }
@@ -32,6 +39,34 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
 
             return userBoardSize;
+        }
+
+        public static bool PlayAgainstComputer()
+        {
+            int playerChoice = 0;
+            bool validChoice = false;
+            bool againstComputer = false;
+
+            while(validChoice != true)
+            {
+                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
+                playerChoice = int.Parse(Console.ReadLine());
+                if(playerChoice == 1)
+                {
+                    againstComputer = true;
+                    validChoice = true;
+                }
+                else if(playerChoice == 2)
+                {
+                    validChoice = true;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter valid number!");
+                }
+            }
+
+            return againstComputer; 
         }
     }
 }
