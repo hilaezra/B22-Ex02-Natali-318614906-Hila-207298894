@@ -11,12 +11,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private int m_X;
         private int m_Y;
 
-        public int x
+        public int X
         {
             get { return m_X; }
             set { m_X = value; }
         }
-        public int y
+        public int Y
         {
             get { return m_Y; }
             set { m_Y = value; }

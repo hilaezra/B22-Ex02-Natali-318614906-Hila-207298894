@@ -11,7 +11,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private bool m_IsPieceIsKing;
         private char m_Sign;
 
-        private static bool ValidMove(Point i_NextPosition)
+        private static bool validMove(Point i_NextPosition)
         {
             bool validMove = true;
 
