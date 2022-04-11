@@ -9,7 +9,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     class PlayerPieceOnBoard
     {
         private bool m_IsPieceIsKing;
-        char m_Sign;
+        private char m_Sign;
 
         private static bool ValidMove(Point i_NextPosition)
         {
@@ -23,6 +23,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             m_IsPieceIsKing = false;
             m_Sign = i_Sign;  
+        }
+
+        public bool isKing
+        {
+            get { return m_IsPieceIsKing; }
+            set { m_IsPieceIsKing = value; }
+        }
+
+        public char signOfPlayerInBoard
+        {
+            get { return m_Sign; }
+            set { m_Sign = value; }
         }
     }
 }

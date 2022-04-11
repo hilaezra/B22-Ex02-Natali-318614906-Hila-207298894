@@ -38,5 +38,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             set { m_Point = value; }
         }
 
+        public bool isEmpty
+        {
+            get { return m_IsEmpty; }
+            set { m_IsEmpty = value; } 
+        }
+
+        public PlayerPieceOnBoard playerInBoard
+        {
+            get { return m_Cell; }
+            set { m_Cell = value; }
+        }
+
     }
 }
