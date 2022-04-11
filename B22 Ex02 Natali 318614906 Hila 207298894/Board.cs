@@ -21,11 +21,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             m_GameBoard = new CellInBoard[i_SizeOfBoard, i_SizeOfBoard];
         }
-
+        
         public void InitBoard(int i_SizeOfBoard)
         {
             int playersNumOfRow = (i_SizeOfBoard - 2) / 2;
-           
+
             InitORows(i_SizeOfBoard, playersNumOfRow);
             Init2EmptyRows(i_SizeOfBoard, playersNumOfRow);
             InitXRows(i_SizeOfBoard, playersNumOfRow);
@@ -38,8 +38,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col].ReturnedPoint = newPoint;
-                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
+                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
+
+
+
+                    // m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
                     if (row % 2 == 0 && col % 2 != 0)
                     {
@@ -61,9 +64,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
+
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col].ReturnedPoint = newPoint;
-                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
+                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
+
                     m_GameBoard[row, col].IsEmpty = true;
                     m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
                 }
@@ -77,8 +81,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col].ReturnedPoint = newPoint;
-                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
+                    
+                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
+                    // m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
                     if (row % 2 != 0 && col % 2 == 0)
                     {
@@ -98,9 +103,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         ///////// Only check!!!!!! ////////
         public void PrintBoard(int i_SizeOfBoard)
         {
-            for(int i =0;i<i_SizeOfBoard;i++)
+            for (int i = 0; i < i_SizeOfBoard; i++)
             {
-                for(int j=0;j<i_SizeOfBoard;j++)
+                for (int j = 0; j < i_SizeOfBoard; j++)
                 {
                     Console.WriteLine(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
                 }

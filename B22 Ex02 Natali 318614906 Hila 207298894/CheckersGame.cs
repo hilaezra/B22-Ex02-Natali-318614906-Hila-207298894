@@ -24,7 +24,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
                 playerNumber2.NameOfPlayer=nameOfPlayer;//SET
             }
-            
+
+            board.InitBoard(sizeOfBoard);
+
             string move = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
 
 

@@ -51,7 +51,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (validChoice != true)
             {
                 Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
-                playerChoice = int.Parse(Console.ReadLine());
+                playerChoice = int.Parse(Console.ReadLine());//צריך להוסיף בדיקת קלט-אם מקלידים מחרוזת
                 if (playerChoice == 1)
                 {
                     againstComputer = true;

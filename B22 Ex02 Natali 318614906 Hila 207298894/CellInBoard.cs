@@ -10,7 +10,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         private Point m_Point;//cordinate of cell
         private bool m_IsEmpty;
-        private PlayerPieceOnBoard m_Cell = null;
+        private PlayerPieceOnBoard m_Cell;
 
         public CellInBoard(Point i_Cordniate, bool i_IsThereAPlayer, int i_NumberOfPlayer)//constuctor
         {
