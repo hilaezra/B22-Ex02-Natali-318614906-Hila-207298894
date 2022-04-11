@@ -38,18 +38,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col]._point = newPoint;
-                    m_GameBoard[row, col].playerInBoard.isKing = false;
+                    m_GameBoard[row, col].ReturnedPoint = newPoint;
+                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
                     if (row % 2 == 0 && col % 2 != 0)
                     {
-                        m_GameBoard[row, col].isEmpty = false;
-                        m_GameBoard[row, col].playerInBoard.signOfPlayerInBoard = 'O';
+                        m_GameBoard[row, col].IsEmpty = false;
+                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'O';
                     }
                     else
                     {
-                        m_GameBoard[row, col].isEmpty = true;
-                        m_GameBoard[row, col].playerInBoard.signOfPlayerInBoard = ' ';
+                        m_GameBoard[row, col].IsEmpty = true;
+                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
                     }
                 }
             }
@@ -62,10 +62,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col]._point = newPoint;
-                    m_GameBoard[row, col].playerInBoard.isKing = false;
-                    m_GameBoard[row, col].isEmpty = true;
-                    m_GameBoard[row, col].playerInBoard.signOfPlayerInBoard = ' ';
+                    m_GameBoard[row, col].ReturnedPoint = newPoint;
+                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
+                    m_GameBoard[row, col].IsEmpty = true;
+                    m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
                 }
             }
         }
@@ -77,18 +77,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 for (int col = 0; col < i_SizeOfBoard; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col]._point = newPoint;
-                    m_GameBoard[row, col].playerInBoard.isKing = false;
+                    m_GameBoard[row, col].ReturnedPoint = newPoint;
+                    m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
                     if (row % 2 != 0 && col % 2 == 0)
                     {
-                        m_GameBoard[row, col].isEmpty = false;
-                        m_GameBoard[row, col].playerInBoard.signOfPlayerInBoard = 'X';
+                        m_GameBoard[row, col].IsEmpty = false;
+                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'X';
                     }
                     else
                     {
-                        m_GameBoard[row, col].isEmpty = true;
-                        m_GameBoard[row, col].playerInBoard.signOfPlayerInBoard = ' ';
+                        m_GameBoard[row, col].IsEmpty = true;
+                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 for(int j=0;j<i_SizeOfBoard;j++)
                 {
-                    Console.WriteLine(m_GameBoard[i, j].playerInBoard.signOfPlayerInBoard);
+                    Console.WriteLine(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
                 }
             }
         }
