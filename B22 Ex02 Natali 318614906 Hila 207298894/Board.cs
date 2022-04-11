@@ -21,96 +21,64 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             m_GameBoard = new CellInBoard[i_SizeOfBoard, i_SizeOfBoard];
         }
-        
         public void InitBoard(int i_SizeOfBoard)
         {
             int playersNumOfRow = (i_SizeOfBoard - 2) / 2;
+            int boardSize = m_GameBoard.GetLength(0);
 
-            InitORows(i_SizeOfBoard, playersNumOfRow);
-            Init2EmptyRows(i_SizeOfBoard, playersNumOfRow);
-            InitXRows(i_SizeOfBoard, playersNumOfRow);
-            PrintBoard(i_SizeOfBoard);
-        }
-
-        public void InitORows(int i_SizeOfBoard, int i_PlayersNumOfRow)
-        {
-            for (int row = 0; row < i_PlayersNumOfRow; row++)
+            for (int row = 0; row < boardSize; row++)
             {
-                for (int col = 0; col < i_SizeOfBoard; col++)
+                for (int col = 0; col < boardSize; col++)
                 {
                     Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
-
-                    // m_GameBoard[row, col].PlayerInBoard.isKing = false;
-
-                    if ((row % 2 == 0 && col % 2 != 0) || (row % 2 != 0 && col % 2 == 0))
+                    if (row < playersNumOfRow)
                     {
-                        m_GameBoard[row, col].IsEmpty = false;
-                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'O';
+                        InitXAndOCells(m_GameBoard, row, col, 2, newPoint);
+                    }
+                    else if (row > playersNumOfRow + 1 && row < playersNumOfRow + 2)
+                    {
+                        m_GameBoard[row, col] = new CellInBoard(newPoint, false, 3);
                     }
                     else
                     {
-                        m_GameBoard[row, col].IsEmpty = true;
-                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
+                        InitXAndOCells(m_GameBoard, row, col, 1, newPoint);
                     }
                 }
             }
+            PrintBoard(); //checkkkkkkkkkkkkk
         }
 
-        public void Init2EmptyRows(int i_SizeOfBoard, int i_PlayersNumOfRow)
+        public void InitXAndOCells(CellInBoard[,] i_GameBoard, int i_Row, int i_Col, int i_PlayerSing, Point i_NewPoint)
         {
-            for (int row = i_PlayersNumOfRow; row < i_PlayersNumOfRow + 2; row++)
+            if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
-                for (int col = 0; col < i_SizeOfBoard; col++)
-                {
-
-                    Point newPoint = new Point(row, col);
-                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
-
-                    m_GameBoard[row, col].IsEmpty = true;
-                    m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
-                }
+                i_GameBoard[i_Row, i_Col] = new CellInBoard(i_NewPoint, false, i_PlayerSing);
+            }
+            else
+            {
+                i_GameBoard[i_Row, i_Col] = new CellInBoard(i_NewPoint, false, 3);
             }
         }
-
-        public void InitXRows(int i_SizeOfBoard, int i_PlayersNumOfRow)
-        {
-            for (int row = i_PlayersNumOfRow + 2; row < i_SizeOfBoard; row++)
-            {
-                for (int col = 0; col < i_SizeOfBoard; col++)
-                {
-                    Point newPoint = new Point(row, col);
-                    
-                    m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
-                    // m_GameBoard[row, col].PlayerInBoard.isKing = false;
-
-                    if ((row % 2 != 0 && col % 2 == 0) || (row % 2 == 0 && col % 2 != 0))
-                    {
-                        m_GameBoard[row, col].IsEmpty = false;
-                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'X';
-                    }
-                    else
-                    {
-                        m_GameBoard[row, col].IsEmpty = true;
-                        m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = ' ';
-                    }
-                }
-            }
-        }
-
 
         ///////// Only check!!!!!! ////////
-        public void PrintBoard(int i_SizeOfBoard)
+        public void PrintBoard()
         {
-            for (int i = 0; i < i_SizeOfBoard; i++)
-            {
+            int bordSize = m_GameBoard.GetLength(0);
+            StringBuilder lineOfBoard = new StringBuilder(bordSize * 4);
 
-                for (int j = 0; j < i_SizeOfBoard; j++)
+            for (int i = 0; i < m_GameBoard.GetLength(0); i++)
+            {
+                for (int j = 0; j < m_GameBoard.GetLength(0); j++)
                 {
                     Console.Write(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
                 }
                 Console.Write(Environment.NewLine);
             }
+        }
+        public CellInBoard[,] GameBoard
+        {
+            get { return m_GameBoard; }
+            set { m_GameBoard = value; }
         }
     }
 }
