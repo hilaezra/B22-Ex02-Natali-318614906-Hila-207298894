@@ -29,6 +29,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             InitORows(i_SizeOfBoard, playersNumOfRow);
             Init2EmptyRows(i_SizeOfBoard, playersNumOfRow);
             InitXRows(i_SizeOfBoard, playersNumOfRow);
+            PrintBoard(i_SizeOfBoard);
         }
 
         public void InitORows(int i_SizeOfBoard, int i_PlayersNumOfRow)
@@ -40,11 +41,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     Point newPoint = new Point(row, col);
                     m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
 
-
-
                     // m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
-                    if (row % 2 == 0 && col % 2 != 0)
+                    if ((row % 2 == 0 && col % 2 != 0) || (row % 2 != 0 && col % 2 == 0))
                     {
                         m_GameBoard[row, col].IsEmpty = false;
                         m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'O';
@@ -85,7 +84,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     m_GameBoard[row, col] = new CellInBoard(newPoint, false, 20);//FIX!!
                     // m_GameBoard[row, col].PlayerInBoard.isKing = false;
 
-                    if (row % 2 != 0 && col % 2 == 0)
+                    if ((row % 2 != 0 && col % 2 == 0) || (row % 2 == 0 && col % 2 != 0))
                     {
                         m_GameBoard[row, col].IsEmpty = false;
                         m_GameBoard[row, col].PlayerInBoard.signOfPlayerInBoard = 'X';
@@ -105,10 +104,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             for (int i = 0; i < i_SizeOfBoard; i++)
             {
+
                 for (int j = 0; j < i_SizeOfBoard; j++)
                 {
-                    Console.WriteLine(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
+                    Console.Write(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
                 }
+                Console.Write(Environment.NewLine);
             }
         }
     }
