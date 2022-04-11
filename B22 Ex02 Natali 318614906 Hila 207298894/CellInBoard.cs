@@ -32,23 +32,22 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_Cell = piece;
         }
 
-        public Point _point
+        public Point ReturnedPoint
         {
             get { return m_Point; }
             set { m_Point = value; }
         }
 
-        public bool isEmpty
+        public bool IsEmpty
         {
             get { return m_IsEmpty; }
             set { m_IsEmpty = value; } 
         }
 
-        public PlayerPieceOnBoard playerInBoard
+        public PlayerPieceOnBoard PlayerInBoard
         {
             get { return m_Cell; }
             set { m_Cell = value; }
         }
-
     }
 }

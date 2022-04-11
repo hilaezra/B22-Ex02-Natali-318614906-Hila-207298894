@@ -96,7 +96,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
 
         ///////// Only check!!!!!! ////////
-        public void printBoard(int i_SizeOfBoard)
+        public void PrintBoard(int i_SizeOfBoard)
         {
             for(int i =0;i<i_SizeOfBoard;i++)
             {
