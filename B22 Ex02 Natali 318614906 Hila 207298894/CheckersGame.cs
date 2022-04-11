@@ -27,9 +27,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             board.InitBoard(sizeOfBoard);
 
-            string move = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
-
+            //string move = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
+            List<int> move = UserInputManagement.ChangedStringToListInt("Ab>Ac");
+            playerNumber1.CheckIfTheCurrPositionIsMine(board, move);
 
         }
+        
     }
 }

@@ -93,5 +93,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             } while (!validPointOnBoard);
             return userMove;
         }
+
+        public static List<int> ChangedStringToListInt(string i_UserMove)//AB AC >>> [0][1][0][2]
+        {
+            int currColumnPos = i_UserMove[0] - 'A', currRowPos = i_UserMove[1] - 'a', newColumnPos = i_UserMove[3] - 'A', newRowPos = i_UserMove[4] - 'a';
+            List<int> returnCurrPositionAndNewPosition = new List<int>() { currColumnPos, currRowPos, newColumnPos, newRowPos };
+
+            return returnCurrPositionAndNewPosition;
+        }
+
     }
 }
