@@ -20,6 +20,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 Console.WriteLine("Please enter the name of the other player:");
             }
             userName = Console.ReadLine();
+            Ex02.ConsoleUtils.Screen.Clear();
             return userName;
         }
         public static int GetAndCheckValidBoardSize()
@@ -30,6 +31,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             while (validBoardSize != true || isNumber != true)
             {
+                Ex02.ConsoleUtils.Screen.Clear();
                 Console.WriteLine("Please select the desired board size (6/8/10)");
                 isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
@@ -53,6 +55,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool isString = true;
             while (validChoice != true)
             {
+                Ex02.ConsoleUtils.Screen.Clear();
                 Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
                 isString = int.TryParse(Console.ReadLine(), out playerChoice);
 
@@ -70,6 +73,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     Console.WriteLine("Please enter valid number!");
                 }
             }
+            Ex02.ConsoleUtils.Screen.Clear();
 
             return againstComputer;
         }
