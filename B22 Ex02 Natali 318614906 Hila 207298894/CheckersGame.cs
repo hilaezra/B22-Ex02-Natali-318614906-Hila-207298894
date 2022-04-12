@@ -29,7 +29,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
             List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
-            if(playerNumber1.CheckIfTheCurrPositionIsMine(board, userMoverInInt))
+            if (playerNumber1.CheckIfTheCurrPositionIsMine(board, userMoverInInt))
             {
                 playerNumber1.MovePlayerOnBoard(board, userMoverInInt);
             }
