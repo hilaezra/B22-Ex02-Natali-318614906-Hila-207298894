@@ -25,13 +25,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_Sign = i_Sign;  
         }
 
-        public bool isKing
+        public bool IsKing
         {
             get { return m_IsPieceIsKing; }
             set { m_IsPieceIsKing = value; }
         }
 
-        public char signOfPlayerInBoard
+        public char SignOfPlayerInBoard
         {
             get { return m_Sign; }
             set { m_Sign = value; }

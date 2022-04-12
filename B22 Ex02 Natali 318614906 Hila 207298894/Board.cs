@@ -45,6 +45,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
             }
+            Console.Clear();
             PrintBoard(); //checkkkkkkkkkkkkk
         }
 
@@ -118,7 +119,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else if ((j + 1) % 4 == 0)
                     {
-                        lineOfBoard.Insert(j, (m_GameBoard[i, matrixIndex].PlayerInBoard.signOfPlayerInBoard).ToString());
+                        lineOfBoard.Insert(j, (m_GameBoard[i, matrixIndex].PlayerInBoard.SignOfPlayerInBoard).ToString());
                         matrixIndex++;
                     }
                     else

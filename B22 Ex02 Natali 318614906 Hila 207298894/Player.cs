@@ -39,7 +39,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public bool CheckIfTheCurrPositionIsMine(Board i_Board,List<int> i_Position)
         {
             bool returnAnswer = false,currPosition=false;
-            if(!i_Board.GameBoard[i_Position[0], i_Position[1]].IsEmpty&& (i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.signOfPlayerInBoard==this.m_SignPlayer))
+            if(!i_Board.GameBoard[i_Position[0], i_Position[1]].IsEmpty&& (i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.SignOfPlayerInBoard==this.m_SignPlayer))
             {
                 currPosition = true;//הקורדינטה שהוא רוצה להזיז היא באמת שלו
             }
@@ -58,8 +58,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public static bool CheckIfTheWantedPositionIsOk(Board i_Board, List<int> i_Position)//בדיקה האם לאן שהוא רוצה להזיז בכלל אפשרי מבחינת המקום שהוא נמצא עכשיו.
         {
             bool returnAnswer = false;
-            bool pieceIsKing = i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.isKing;
-            if (i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.signOfPlayerInBoard == 'O')
+            bool pieceIsKing = i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.IsKing;
+            if (i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.SignOfPlayerInBoard == 'O')
             {
                 if (i_Position[1] + 1 == i_Position[3] && (i_Position[0] + 1 == i_Position[2] || i_Position[0] - 1 == i_Position[2]))//בדיקה לגבי שינוי העמודה או אחד ימינה או אחד שמאלה ושורה אחד למעלה
                 {
