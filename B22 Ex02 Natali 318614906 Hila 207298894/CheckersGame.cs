@@ -15,8 +15,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool firstPlayer = true;
             string nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
             int sizeOfBoard = UserInputManagement.GetAndCheckValidBoardSize();
-            Player playerNumber1=new Player (nameOfPlayer,sizeOfBoard,'X');//PlayerNumber1IsReady            
-            Player playerNumber2=new Player("computer", sizeOfBoard, 'O'); ;
+            Player playerNumber1=new Player (nameOfPlayer,sizeOfBoard,'O');//PlayerNumber1IsReady            
+            Player playerNumber2=new Player("computer", sizeOfBoard, 'X'); ;
             Board board = new Board(sizeOfBoard);
             if (!UserInputManagement.PlayAgainstComputer())
             {
@@ -28,7 +28,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             board.InitBoard(sizeOfBoard);
 
             //string move = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
-            List<int> move = UserInputManagement.ChangedStringToListInt("Ab>Ac");
+            List<int> move = UserInputManagement.ChangedStringToListInt("Bc>Ad");
             playerNumber1.CheckIfTheCurrPositionIsMine(board, move);
 
         }
