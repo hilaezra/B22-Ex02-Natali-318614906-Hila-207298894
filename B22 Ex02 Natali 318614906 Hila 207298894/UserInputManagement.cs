@@ -77,11 +77,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Console.WriteLine("Please enter your next movment");//Ab>Ad
             do
             {
-
                 userMove = Console.ReadLine();
                 if (userMove.Length == 5)
                 {
-                    if (userMove[0] >= 'A' && userMove[0] <= (char)('A' + i_BoardSize - 1)
+                    if (userMove[0] >= 'A' && userMove[0] <= (char)('A' + Board. - 1)
                         && userMove[3] >= 'A' && userMove[3] <= (char)('A' + i_BoardSize - 1)
                         && userMove[2] == '>'
                         && userMove[1] >= 'a' && userMove[1] <= (char)('a' + i_BoardSize - 1)
