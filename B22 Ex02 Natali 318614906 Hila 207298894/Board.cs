@@ -37,7 +37,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
-                        m_GameBoard[row, col] = new CellInBoard(newPoint, false, 3);
+                        m_GameBoard[row, col] = new CellInBoard(newPoint, true, 3);
                     }
                     else
                     {
