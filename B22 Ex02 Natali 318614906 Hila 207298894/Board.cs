@@ -35,7 +35,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     {
                         InitXAndOCells(m_GameBoard, row, col, 2, newPoint);
                     }
-                    else if (row > playersNumOfRow + 1 && row < playersNumOfRow + 2)
+                    else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
                         m_GameBoard[row, col] = new CellInBoard(newPoint, false, 3);
                     }
@@ -60,21 +60,77 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        ///////// Only check!!!!!! ////////
         public void PrintBoard()
         {
-            int bordSize = m_GameBoard.GetLength(0);
-            StringBuilder lineOfBoard = new StringBuilder(bordSize * 4);
+            int boardSize = m_GameBoard.GetLength(0);
+            int lineSize = (boardSize * 4) + 3;
+            string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
-            for (int i = 0; i < m_GameBoard.GetLength(0); i++)
+            PrintBoardFrameAndDividingLine(lineSize, 0, false, letters);
+            PrintBoardSquares(boardSize, lineSize, letters);
+
+        }
+
+        public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine, string[] i_LettersArry)
+        {
+            StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
+
+            if (i_DividingLine != true)
             {
-                for (int j = 0; j < m_GameBoard.GetLength(0); j++)
+                for (int i = 0; i < i_LineSize; i++)
                 {
-                    Console.Write(m_GameBoard[i, j].PlayerInBoard.signOfPlayerInBoard);
+                    if ((i + 1) % 4 == 0 || i == 3)
+                    {
+                        lineOfBoard.Insert(i, i_LettersArry[i_LetterIndex]);
+                        i_LetterIndex++;
+                    }
+                    else
+                    {
+                        lineOfBoard.Insert(i, " ");
+                    }
                 }
-                Console.Write(Environment.NewLine);
+                Console.WriteLine("{0}", lineOfBoard);
+            }
+
+            for (int i = 0; i < i_LineSize - 1; i++)
+            {
+                Console.Write("=");
+            }
+            Console.Write(Environment.NewLine);
+        }
+
+        public void PrintBoardSquares(int i_BoardSize, int i_LineSize, string[] i_LettersArry)
+        {
+            for (int i = 0; i < i_BoardSize; i++)
+            {
+                int matrixIndex = 0;
+                StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
+
+                for (int j = 0; j < i_LineSize; j++)
+                {
+                    if (j == 0)
+                    {
+                        lineOfBoard.Insert(j, i_LettersArry[i].ToLower());
+                    }
+                    else if ((j - 1) % 4 == 0)
+                    {
+                        lineOfBoard.Insert(j, "|");
+                    }
+                    else if ((j + 1) % 4 == 0)
+                    {
+                        lineOfBoard.Insert(j, (m_GameBoard[i, matrixIndex].PlayerInBoard.signOfPlayerInBoard).ToString());
+                        matrixIndex++;
+                    }
+                    else
+                    {
+                        lineOfBoard.Insert(j, " ");
+                    }
+                }
+                Console.WriteLine(lineOfBoard);
+                PrintBoardFrameAndDividingLine(i_LineSize, 0, true, i_LettersArry);
             }
         }
+
         public CellInBoard[,] GameBoard
         {
             get { return m_GameBoard; }
