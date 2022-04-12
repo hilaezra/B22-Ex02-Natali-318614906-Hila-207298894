@@ -51,7 +51,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
             if (!this.CheckIfTheWantedPositionIsOk(i_Board, i_Position, ref io_IsEaten))
+            {
                 returnAnswer = false;
+            }
 
             return returnAnswer;
         }
@@ -69,7 +71,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 else
                 {
                     returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1);
-                    io_IsEaten = true;
+                    io_IsEaten = true; //לא בהכרח צריך לבדור מה הריטרן אנסר
                 }
             }
             else//'X'
