@@ -61,13 +61,19 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public void PrintBoard()
+        public void PrintBoard(Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
             int lineSize = (m_BoardSize * 4) + 3;
 
             Ex02.ConsoleUtils.Screen.Clear();
             PrintBoardFrameAndDividingLine(lineSize, 0, false);
             PrintBoardSquares(lineSize);
+            PrintPlayersDetails(i_PlayerNumber1, i_PlayerNumber2);
+        }
+
+        public void PrintPlayersDetails(Player i_playerNumber1, Player i_playerNumber2)
+        {
+             
         }
 
         public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
