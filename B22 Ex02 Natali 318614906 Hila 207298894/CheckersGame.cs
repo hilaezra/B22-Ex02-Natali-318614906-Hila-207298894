@@ -18,7 +18,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Player playerNumber1=new Player (nameOfPlayer,sizeOfBoard,'O');//PlayerNumber1IsReady            
             Player playerNumber2=new Player("computer", sizeOfBoard, 'X'); ;
             Board board = new Board(sizeOfBoard);
-            if (!UserInputManagement.PlayAgainstComputer())
+            if(!UserInputManagement.PlayAgainstComputer())
             {
                 firstPlayer = false;
                 nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
