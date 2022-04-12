@@ -35,11 +35,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             get { return m_RemainPieces; }
             set { m_RemainPieces = value; }
         }
-        
-        public bool CheckIfTheCurrPositionIsMine(Board i_Board,List<int> i_Position)
+
+        public bool CheckIfTheCurrPositionIsMine(Board i_Board, List<int> i_Position)
         {
-            bool returnAnswer = false,currPosition=false;
-            if(!i_Board.GameBoard[i_Position[1], i_Position[0]].IsEmpty&& (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard==this.m_SignPlayer))
+            bool returnAnswer = false, currPosition = false;
+            if (!i_Board.GameBoard[i_Position[1], i_Position[0]].IsEmpty && (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == this.m_SignPlayer))
             {
                 currPosition = true;//הקורדינטה שהוא רוצה להזיז היא באמת שלו
             }
@@ -75,6 +75,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
             return returnAnswer;
+        }
+        public void MovePlayerOnBoard(Board i_Board, List<int> i_Positions)
+        {
+           // i_Board
         }
     }
 }
