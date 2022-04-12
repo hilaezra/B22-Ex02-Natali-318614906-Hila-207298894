@@ -13,11 +13,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userName;
             if (i_FirstPlayer == true)
             {
-                Console.WriteLine("Please enter your name:");
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Please enter your name:"));
+                
             }
             else
             {
-                Console.WriteLine("Please enter the name of the other player:");
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Please enter the name of the other player:"));//AB>BD
             }
             userName = Console.ReadLine();
             Ex02.ConsoleUtils.Screen.Clear();
@@ -32,7 +33,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (validBoardSize != true || isNumber != true)
             {
                 Ex02.ConsoleUtils.Screen.Clear();
-                Console.WriteLine("Please select the desired board size (6/8/10)");
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Please select the desired board size (6/8/10)"));//AB>BD
                 isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
                 if (isNumber == true)
@@ -56,7 +57,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (validChoice != true)
             {
                 Ex02.ConsoleUtils.Screen.Clear();
-                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "If you want to play against the computer press 1, if you want to play against another player press 2."));//AB>BD
                 isString = int.TryParse(Console.ReadLine(), out playerChoice);
 
                 if (playerChoice == 1)
@@ -70,7 +71,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
                 else
                 {
-                    Console.WriteLine("Please enter valid number!");
+                    Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Please enter valid number!"));//AB>BD
+
                 }
             }
             Ex02.ConsoleUtils.Screen.Clear();
@@ -84,7 +86,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userMove;
             do
             {
-                Console.WriteLine("Please enter valid movment");//Ab>Ad
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Please enter valid movment"));//AB>BD
 
                 userMove = Console.ReadLine();
                 if (userMove.Length == 5)
