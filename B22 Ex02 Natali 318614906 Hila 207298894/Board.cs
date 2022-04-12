@@ -9,6 +9,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     class Board
     {
         private CellInBoard[,] m_GameBoard;
+        private int m_BoardSize;
         public enum Column
         {
             A, B, C, D, E, F, G, H, I, J
@@ -19,16 +20,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
         public Board(int i_SizeOfBoard)
         {
-            m_GameBoard = new CellInBoard[i_SizeOfBoard, i_SizeOfBoard];
+            m_BoardSize = i_SizeOfBoard;
+            m_GameBoard = new CellInBoard[m_BoardSize, m_BoardSize];
         }
-        public void InitBoard(int i_SizeOfBoard)
+        public void InitBoard()
         {
-            int playersNumOfRow = (i_SizeOfBoard - 2) / 2;
-            int boardSize = m_GameBoard.GetLength(0);
+            int playersNumOfRow = (m_BoardSize - 2) / 2;
 
-            for (int row = 0; row < boardSize; row++)
+            for (int row = 0; row < m_BoardSize; row++)
             {
-                for (int col = 0; col < boardSize; col++)
+                for (int col = 0; col < m_BoardSize; col++)
                 {
                     Point newPoint = new Point(row, col);
                     if (row < playersNumOfRow)
@@ -63,13 +64,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public void PrintBoard()
         {
-            int boardSize = m_GameBoard.GetLength(0);
-            int lineSize = (boardSize * 4) + 3;
+            int lineSize = (m_BoardSize * 4) + 3;
             string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
             PrintBoardFrameAndDividingLine(lineSize, 0, false, letters);
-            PrintBoardSquares(boardSize, lineSize, letters);
-
+            PrintBoardSquares( lineSize, letters);
         }
 
         public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine, string[] i_LettersArry)
@@ -100,9 +99,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Console.Write(Environment.NewLine);
         }
 
-        public void PrintBoardSquares(int i_BoardSize, int i_LineSize, string[] i_LettersArry)
+        public void PrintBoardSquares( int i_LineSize, string[] i_LettersArry)
         {
-            for (int i = 0; i < i_BoardSize; i++)
+            for (int i = 0; i < m_BoardSize; i++)
             {
                 int matrixIndex = 0;
                 StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
