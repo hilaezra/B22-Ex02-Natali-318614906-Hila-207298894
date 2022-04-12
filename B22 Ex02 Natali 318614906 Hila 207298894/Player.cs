@@ -78,7 +78,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
         public void MovePlayerOnBoard(Board i_Board, List<int> i_Positions)
         {
-           // i_Board
+            i_Board.GameBoard[i_Positions[1], i_Positions[0]].IsEmpty = true;
+            i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
+            i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = this.m_SignPlayer;
         }
     }
 }
