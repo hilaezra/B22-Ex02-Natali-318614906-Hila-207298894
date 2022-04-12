@@ -46,7 +46,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
             }
-            Console.Clear();
             PrintBoard(); //checkkkkkkkkkkkkk
         }
 
@@ -65,13 +64,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void PrintBoard()
         {
             int lineSize = (m_BoardSize * 4) + 3;
-            string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
-            PrintBoardFrameAndDividingLine(lineSize, 0, false, letters);
-            PrintBoardSquares( lineSize, letters);
+            Console.Clear();
+            PrintBoardFrameAndDividingLine(lineSize, 0, false);
+            PrintBoardSquares(lineSize);
         }
 
-        public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine, string[] i_LettersArry)
+        public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
         {
             StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
 
@@ -81,7 +80,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if ((i + 1) % 4 == 0 || i == 3)
                     {
-                        lineOfBoard.Insert(i, i_LettersArry[i_LetterIndex]);
+                        lineOfBoard.Insert(i, (Column)i_LetterIndex);
                         i_LetterIndex++;
                     }
                     else
@@ -99,7 +98,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Console.Write(Environment.NewLine);
         }
 
-        public void PrintBoardSquares( int i_LineSize, string[] i_LettersArry)
+        public void PrintBoardSquares(int i_LineSize)
         {
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -110,7 +109,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if (j == 0)
                     {
-                        lineOfBoard.Insert(j, i_LettersArry[i].ToLower());
+                        lineOfBoard.Insert(j, (Row)i);
                     }
                     else if ((j - 1) % 4 == 0)
                     {
@@ -127,7 +126,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
                 Console.WriteLine(lineOfBoard);
-                PrintBoardFrameAndDividingLine(i_LineSize, 0, true, i_LettersArry);
+                PrintBoardFrameAndDividingLine(i_LineSize, 0, true);
             }
         }
 
