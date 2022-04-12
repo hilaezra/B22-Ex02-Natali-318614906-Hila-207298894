@@ -57,6 +57,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
         public static bool CheckIfTheWantedPositionIsOk(Board i_Board, List<int> i_Position)//בדיקה האם לאן שהוא רוצה להזיז בכלל אפשרי מבחינת המקום שהוא נמצא עכשיו.
         {
+            //צריך להבדיל האם זה מלך ואז יש לו עוד אופציות לאן ללכת
             bool returnAnswer = false;
             bool pieceIsKing = i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.IsKing;
             if (i_Board.GameBoard[i_Position[0], i_Position[1]].PlayerInBoard.SignOfPlayerInBoard == 'O')
