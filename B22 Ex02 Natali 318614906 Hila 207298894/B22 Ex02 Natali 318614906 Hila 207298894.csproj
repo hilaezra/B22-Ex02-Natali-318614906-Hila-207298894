@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="CellInBoard.cs" />
+    <Compile Include="CheckersGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerPieceOnBoard.cs" />
     <Compile Include="Point.cs" />
