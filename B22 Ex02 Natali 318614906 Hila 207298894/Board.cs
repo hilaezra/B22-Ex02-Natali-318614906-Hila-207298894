@@ -65,7 +65,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             int lineSize = (m_BoardSize * 4) + 3;
 
-            Console.Clear();
+            Ex02.ConsoleUtils.Screen.Clear();
             PrintBoardFrameAndDividingLine(lineSize, 0, false);
             PrintBoardSquares(lineSize);
         }
@@ -73,6 +73,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
         {
             StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
+            StringBuilder dividingLine = new StringBuilder(i_LineSize);
 
             if (i_DividingLine != true)
             {
@@ -88,14 +89,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         lineOfBoard.Insert(i, " ");
                     }
                 }
-                Console.WriteLine("{0}", lineOfBoard);
+                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
+               // Console.WriteLine("{0}", lineOfBoard);
             }
 
             for (int i = 0; i < i_LineSize - 1; i++)
             {
-                Console.Write("=");
+                dividingLine.Insert(i, "=");
             }
-            Console.Write(Environment.NewLine);
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (dividingLine.Length / 2)) + "}", dividingLine));
         }
 
         public void PrintBoardSquares(int i_LineSize)
@@ -125,7 +127,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         lineOfBoard.Insert(j, " ");
                     }
                 }
-                Console.WriteLine(lineOfBoard);
+                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
                 PrintBoardFrameAndDividingLine(i_LineSize, 0, true);
             }
         }
