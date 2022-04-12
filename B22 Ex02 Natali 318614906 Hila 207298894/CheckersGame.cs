@@ -27,11 +27,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             board.InitBoard();
 
-            //string move = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
-            List<int> move = UserInputManagement.ChangedStringToListInt("Bc>Ad");
-            if(playerNumber1.CheckIfTheCurrPositionIsMine(board, move))
+            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
+            List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+            if(playerNumber1.CheckIfTheCurrPositionIsMine(board, userMoverInInt))
             {
-                playerNumber1.MovePlayerOnBoard(board, move);
+                playerNumber1.MovePlayerOnBoard(board, userMoverInInt);
             }
             else
             {
