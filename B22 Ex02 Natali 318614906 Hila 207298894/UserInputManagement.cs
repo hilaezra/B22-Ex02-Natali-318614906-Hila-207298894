@@ -24,18 +24,21 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
         public static int GetAndCheckValidBoardSize()
         {
-            //TO DO: check if its not a numberrrrrr!!!!!!!!!!!!!
             int userBoardSize = 0;
             bool validBoardSize = false;
+            bool isNumber = false;
 
-            while (validBoardSize != true)
+            while (validBoardSize != true || isNumber != true)
             {
                 Console.WriteLine("Please select the desired board size (6/8/10)");
-                userBoardSize = int.Parse(Console.ReadLine());
+                isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
-                if (userBoardSize == 6 || userBoardSize == 8 || userBoardSize == 10)
+                if (isNumber == true)
                 {
-                    validBoardSize = true;
+                    if (userBoardSize == 6 || userBoardSize == 8 || userBoardSize == 10)
+                    {
+                        validBoardSize = true;
+                    }
                 }
             }
 
@@ -47,11 +50,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             int playerChoice = 0;
             bool validChoice = false;
             bool againstComputer = false;
-
+            bool isString = true;
             while (validChoice != true)
             {
                 Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
-                playerChoice = int.Parse(Console.ReadLine());//צריך להוסיף בדיקת קלט-אם מקלידים מחרוזת
+                isString = int.TryParse(Console.ReadLine(), out playerChoice);
+
                 if (playerChoice == 1)
                 {
                     againstComputer = true;
@@ -74,9 +78,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool validPointOnBoard = false;
             string userMove;
-            Console.WriteLine("Please enter your next movment");//Ab>Ad
             do
             {
+                Console.WriteLine("Please enter valid movment");//Ab>Ad
+
                 userMove = Console.ReadLine();
                 if (userMove.Length == 5)
                 {
@@ -97,8 +102,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             int currColumnPos = i_UserMove[0] - 'A', currRowPos = i_UserMove[1] - 'a', newColumnPos = i_UserMove[3] - 'A', newRowPos = i_UserMove[4] - 'a';
             List<int> returnCurrPositionAndNewPosition = new List<int>() { currColumnPos, currRowPos, newColumnPos, newRowPos };
-            
-            return returnCurrPositionAndNewPosition;            
+
+            return returnCurrPositionAndNewPosition;
         }
 
     }
