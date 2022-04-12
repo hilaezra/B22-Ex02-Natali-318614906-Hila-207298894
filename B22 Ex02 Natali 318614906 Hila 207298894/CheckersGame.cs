@@ -10,6 +10,44 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         private bool m_IsPlayingAgainstComputer;
 
+        public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
+        {
+            bool check = true;//סתם....
+            int i = 0;
+            while (check)
+            {
+                Ex02.ConsoleUtils.Screen.Clear();
+                i_Board.PrintBoard();
+                string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
+                List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                if (i % 2 == 0)
+                {
+                    if (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt))
+                    {
+                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt);
+                    }
+                    else
+                    {
+                        check = false;
+                    }
+                }
+                else
+                {
+                    if (i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt))
+                    {
+                        i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt);
+                    }
+                    else
+                    {
+                        check = false;
+                    }
+                }
+                i++;
+                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Enter move"));
+                System.Threading.Thread.Sleep(2000);
+            }
+        }
+
         public static void InitializationGame()
         {
             bool firstPlayer = true;
@@ -24,21 +62,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
                 playerNumber2.NameOfPlayer = nameOfPlayer;//SET
             }
-
             board.InitBoard();
-
-            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(sizeOfBoard);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
-            List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
-            if (playerNumber1.CheckIfTheCurrPositionIsMine(board, userMoverInInt))
-            {
-                playerNumber1.MovePlayerOnBoard(board, userMoverInInt);
-            }
-            else
-            {
-                //ERROR
-            }
-            board.PrintBoard();
+            RunGame(board, playerNumber1, playerNumber2);
         }
-
     }
 }
