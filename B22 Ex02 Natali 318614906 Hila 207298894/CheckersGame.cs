@@ -12,19 +12,19 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
-            bool check = true;//סתם....
+            bool check = true, isEaten = false;//סתם....
             int i = 0;
             while (check)
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 i_Board.PrintBoard();
-                string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize);//כל זה יהיה בתוך לולאה כמובן. זה רק לשם הבדיקה :)
+                string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize);
                 List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                 if (i % 2 == 0)
                 {
-                    if (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt))
+                    if (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))//להכניס לפונקציה-יש שכפול
                     {
-                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt);
+                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 1);
                     }
                     else
                     {
@@ -33,9 +33,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
                 else
                 {
-                    if (i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt))
+                    if (i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
                     {
-                        i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt);
+                        i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
                     }
                     else
                     {
@@ -43,7 +43,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
                 i++;
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(1200);
             }
         }
 
