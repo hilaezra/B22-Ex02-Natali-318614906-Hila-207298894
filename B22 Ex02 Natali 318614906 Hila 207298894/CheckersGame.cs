@@ -26,26 +26,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
-                    if(!i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
-                    {
-                        i--;
-                    }
-                    else
-                    {
-                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 1);
-                    }         
+                    CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
+                          
                 }
                 else
                 {
                     indexWhoEat = 2;
-                    if (!i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
-                    {
-                        i--;
-                    }
-                    else
-                    {
-                        i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
-                    }
+                    CheckPositionAndMove(i_PlayerNumber2, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
+
                 }
                 if (isEaten)
                 {
@@ -61,6 +49,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i++;
                 
                 System.Threading.Thread.Sleep(500);
+            }
+        }
+        public static void CheckPositionAndMove(Player i_Player, Board i_Board,List<int> i_UserMoveInt,ref bool io_IsEaten,ref int i,int i_NumberOfPlayer)
+        {
+            if (!i_Player.CheckIfTheCurrPositionIsMine(i_Board, i_UserMoveInt, ref io_IsEaten))
+            {
+                i--;
+            }
+            else
+            {
+                i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_NumberOfPlayer);
             }
         }
         public static void UpdatePlayersAfterEaten(Player i_WinPlayer,Player i_LoserPlayer,ref bool i_EndGame)
