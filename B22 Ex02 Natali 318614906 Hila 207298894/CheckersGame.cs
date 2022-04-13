@@ -18,8 +18,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 i_Board.PrintBoard(i_PlayerNumber1, i_PlayerNumber2);
-                //i_PlayerNumber1.PrintPlayersDetails();
-                //i_PlayerNumber2.PrintPlayersDetails();
+                i_PlayerNumber1.PrintPlayersDetails();
+                i_PlayerNumber2.PrintPlayersDetails();
                 string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize);
                 List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                 if (i % 2 == 0)
