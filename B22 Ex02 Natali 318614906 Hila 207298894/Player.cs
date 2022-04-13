@@ -79,7 +79,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, i_NumberOfPlayer, ref io_IsEaten);
+                returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1, ref io_IsEaten);
             }
             return returnAnswer;
         }
