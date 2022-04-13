@@ -6,23 +6,27 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class Board
+    public class Board
     {
         private CellInBoard[,] m_GameBoard;
         private int m_BoardSize;
+
         public enum Column
         {
             A, B, C, D, E, F, G, H, I, J
         }
+
         public enum Row
         {
             a, b, c, d, e, f, g, h, i, j
         }
+
         public Board(int i_SizeOfBoard)
         {
             m_BoardSize = i_SizeOfBoard;
             m_GameBoard = new CellInBoard[m_BoardSize, m_BoardSize];
         }
+
         public void InitBoard()
         {
             int playersNumOfRow = (m_BoardSize - 2) / 2;
@@ -68,7 +72,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             PrintBoardSquares(lineSize);
         }
 
-
         public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
         {
             StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
@@ -88,14 +91,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         lineOfBoard.Insert(i, " ");
                     }
                 }
-                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
+
+                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
             }
 
             for (int i = 0; i < i_LineSize - 1; i++)
             {
                 dividingLine.Insert(i, "=");
             }
-            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (dividingLine.Length / 2)) + "}", dividingLine));
+
+            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (dividingLine.Length / 2)) + "}", dividingLine));
         }
 
         public void PrintBoardSquares(int i_LineSize)
@@ -117,7 +122,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else if ((j + 1) % 4 == 0)
                     {
-                        lineOfBoard.Insert(j, (m_GameBoard[i, matrixIndex].PlayerInBoard.SignOfPlayerInBoard).ToString());
+                        lineOfBoard.Insert(j, m_GameBoard[i, matrixIndex].PlayerInBoard.SignOfPlayerInBoard.ToString());
                         matrixIndex++;
                     }
                     else
@@ -125,7 +130,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         lineOfBoard.Insert(j, " ");
                     }
                 }
-                Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
+
+                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
                 PrintBoardFrameAndDividingLine(i_LineSize, 0, true);
             }
         }

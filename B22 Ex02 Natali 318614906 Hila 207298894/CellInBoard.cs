@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class CellInBoard
+    public class CellInBoard
     {
         private bool m_IsEmpty;
         private PlayerPieceOnBoard m_Cell;
 
-        public CellInBoard(bool i_IsThereAPlayer, int i_NumberOfPlayer)//constuctor
+        public CellInBoard(bool i_IsThereAPlayer, int i_NumberOfPlayer)////constuctor
         {
             m_IsEmpty = i_IsThereAPlayer;
             PlayerPieceOnBoard piece;
@@ -25,8 +25,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                piece = new PlayerPieceOnBoard(' '); //Empty cell
+                piece = new PlayerPieceOnBoard(' '); ////Empty cell
             }
+
             m_Cell = piece;
         }
 

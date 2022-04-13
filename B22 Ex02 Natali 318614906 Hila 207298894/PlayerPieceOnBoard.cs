@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class PlayerPieceOnBoard
+    public class PlayerPieceOnBoard
     {
         private bool m_IsPieceIsKing;
         private char m_Sign;

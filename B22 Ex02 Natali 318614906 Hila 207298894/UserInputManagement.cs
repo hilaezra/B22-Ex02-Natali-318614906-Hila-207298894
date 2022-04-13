@@ -6,25 +6,28 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class UserInputManagement
+    public class UserInputManagement
     {
         public static string GetUserName(bool i_FirstPlayer)
         {
             string userName;
-            Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
             if (i_FirstPlayer == true)
             {
                 Console.WriteLine("Please enter your name:");
             }
             else
             {
-                Console.WriteLine("Please enter the name of the other player:");//AB>BD
+                Console.WriteLine("Please enter the name of the other player:"); ////AB>BD
             }
-            Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
             userName = Console.ReadLine();
             Ex02.ConsoleUtils.Screen.Clear();
+
             return userName;
         }
+        
         public static int GetAndCheckValidBoardSize()
         {
             int userBoardSize = 0;
@@ -34,9 +37,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (validBoardSize != true || isNumber != true)
             {
                 Ex02.ConsoleUtils.Screen.Clear();
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
-                Console.WriteLine("Please select the desired board size (6/8/10)");//AB>BD
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
+                Console.WriteLine("Please select the desired board size (6/8/10)");  ////AB>BD
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
                 isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
                 if (isNumber == true)
@@ -60,9 +63,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (validChoice != true)
             {
                 Ex02.ConsoleUtils.Screen.Clear();
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 50, Console.CursorTop);
-                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");//AB>BD
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 50, Console.CursorTop);
+                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2."); ////AB>BD
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
                 isString = int.TryParse(Console.ReadLine(), out playerChoice);
 
                 if (playerChoice == 1)
@@ -76,10 +79,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
                 else
                 {
-                    Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
-                    Console.WriteLine("Please enter valid number!");//AB>BD
+                    Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
+                    Console.WriteLine("Please enter valid number!");  ////AB>BD
                 }
             }
+
             Ex02.ConsoleUtils.Screen.Clear();
 
             return againstComputer;
@@ -101,7 +105,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     requestStep.Insert(0, i_Player2.NameOfPlayer + ", Please enter valid movment");
                 }
-                Console.WriteLine(requestStep);//AB>BD
+
+                Console.WriteLine(requestStep); ////AB>BD
                 Console.SetCursorPosition(85, 1);
                 userMove = Console.ReadLine();
 
@@ -116,17 +121,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         validPointOnBoard = true;
                     }
                 }
-            } while (!validPointOnBoard);
+            } 
+            while (!validPointOnBoard);
+
             return userMove;
         }
 
-        public static List<int> ChangedStringToListInt(string i_UserMove)//AB AC >>> [0][1][0][2]
+        public static List<int> ChangedStringToListInt(string i_UserMove) ////AB AC >>> [0][1][0][2]
         {
             int currColumnPos = i_UserMove[0] - 'A', currRowPos = i_UserMove[1] - 'a', newColumnPos = i_UserMove[3] - 'A', newRowPos = i_UserMove[4] - 'a';
             List<int> returnCurrPositionAndNewPosition = new List<int>() { currColumnPos, currRowPos, newColumnPos, newRowPos };
 
             return returnCurrPositionAndNewPosition;
         }
-
     }
 }
