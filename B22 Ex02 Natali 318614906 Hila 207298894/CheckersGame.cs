@@ -90,27 +90,91 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else ///computer turn
             {
-                //ComputerMove(i_Board, i_PlayerNumber2, ref i_EndGame);
+                ComputerMove(i_Board, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame);
             }
         }
-        /*
+
         public static void ComputerMove(Board i_GameBoard, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame)
         {
-            List<int> positionOfPlayerToEat = new List<int>(2);
-            bool someoneToEat = CheckIfThereIsSomeoneToEat(i_GameBoard, positionOfPlayerToEat);
-
+            List<int> fromWhereToWhereToEatAndMove = new List<int>(4);
+            int rowNumOfTheOneWhoEaten = 0, colNumOfTheOneWhoEaten = 0;
+            bool someoneToEat = CheckIfThereIsSomeoneToEat(i_GameBoard, i_PlayerNumber1, i_PlayerNumber2, fromWhereToWhereToEatAndMove, ref rowNumOfTheOneWhoEaten, ref colNumOfTheOneWhoEaten);
             if (someoneToEat == true)
             {
-                Move(i_GameBoard, positionOfPlayerToEat);
+                Move(i_GameBoard, fromWhereToWhereToEatAndMove, someoneToEat, rowNumOfTheOneWhoEaten, colNumOfTheOneWhoEaten);
                 UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref i_EndGame);
             }
             else
             {
-                GetRandomPosition();
-                Move(i_GameBoard, positionOfPlayerToEat);
+                GetRandomPosition(i_GameBoard, fromWhereToWhereToEatAndMove); ///To Do!!!!!!!!!!!!!!!!!
+                Move(i_GameBoard, fromWhereToWhereToEatAndMove, someoneToEat, rowNumOfTheOneWhoEaten, colNumOfTheOneWhoEaten);
             }
 
-        }*/
+        }
+
+        public static bool CheckIfThereIsSomeoneToEat(Board i_GameBoard, Player i_PlayerNumber1, Player i_PlayerNumber2, List<int> io_FromWhereToWhereToEatAndMove, ref int io_RowNumOfTheOneWhoEaten, ref int io_ColNumOfTheOneWhoEaten)
+        {
+            bool someOneToEat = false;
+
+            for (int i = 1; i < i_GameBoard.BoardSize - 1; i++)
+            {
+                for (int j = 1; j < i_GameBoard.BoardSize - 1; j++)
+                {
+                    if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'O')
+                    {
+                        someOneToEat = CheckIfThereIsAnyoneToEatForEachO(i_GameBoard, i, j, io_FromWhereToWhereToEatAndMove);
+                        if(someOneToEat == true)
+                        {
+                            io_RowNumOfTheOneWhoEaten = i;
+                            io_ColNumOfTheOneWhoEaten = j;
+                        }
+                    }
+                }
+            }
+
+            return someOneToEat;
+        }
+
+        public static bool CheckIfThereIsAnyoneToEatForEachO(Board i_GameBoard, int i_ORow, int i_OCol, List<int> io_FromWhereToWhereToEatAndMove)
+        {
+            bool someoneToEat = false;
+            ///check the left side 
+            if (i_GameBoard.GameBoard[i_ORow + 1, i_OCol - 1].PlayerInBoard.SignOfPlayerInBoard == 'X' &&
+                i_GameBoard.GameBoard[i_ORow - 1, i_OCol + 1].IsEmpty == true)
+            {
+                io_FromWhereToWhereToEatAndMove[0] = i_ORow + 1;
+                io_FromWhereToWhereToEatAndMove[1] = i_OCol - 1;
+                io_FromWhereToWhereToEatAndMove[2] = i_ORow - 1;
+                io_FromWhereToWhereToEatAndMove[3] = i_OCol + 1;
+                someoneToEat = true;
+            }
+            ///check the right side
+            if (i_GameBoard.GameBoard[i_ORow + 1, i_OCol + 1].PlayerInBoard.SignOfPlayerInBoard == 'X' &&
+                i_GameBoard.GameBoard[i_ORow - 1, i_OCol - 1].IsEmpty == true)
+            {
+                io_FromWhereToWhereToEatAndMove[0] = i_ORow + 1;
+                io_FromWhereToWhereToEatAndMove[1] = i_OCol + 1;
+                io_FromWhereToWhereToEatAndMove[2] = i_ORow - 1;
+                io_FromWhereToWhereToEatAndMove[3] = i_OCol - 1;
+                someoneToEat = true;
+            }
+
+            return someoneToEat;
+        }
+
+        public static void Move(Board i_GameBoard, List<int> i_CurrPosAndNextPos, bool i_MoveWithEat, int i_RowNumOfTheOneWhoEaten, int i_ColNumOfTheOneWhoEaten)
+        {
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].IsEmpty = true;
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[3], i_CurrPosAndNextPos[2]].IsEmpty = false;
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].PlayerInBoard.SignOfPlayerInBoard = 'X';
+
+            if (i_MoveWithEat == true)
+            {
+                i_GameBoard.GameBoard[i_CurrPosAndNextPos[i_RowNumOfTheOneWhoEaten], i_CurrPosAndNextPos[i_ColNumOfTheOneWhoEaten]].IsEmpty = true;
+                i_GameBoard.GameBoard[i_CurrPosAndNextPos[i_RowNumOfTheOneWhoEaten], i_CurrPosAndNextPos[i_ColNumOfTheOneWhoEaten]].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            }
+        }
 
         public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer)
         {
