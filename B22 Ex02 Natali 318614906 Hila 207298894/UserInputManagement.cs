@@ -80,7 +80,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 else
                 {
                     Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
-                    Console.WriteLine("Please enter valid number!");  ////AB>BD
+                    Console.WriteLine("Please enter valid number!");  
                 }
             }
 
