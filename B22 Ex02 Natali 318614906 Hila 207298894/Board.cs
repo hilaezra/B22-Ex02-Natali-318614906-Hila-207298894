@@ -34,6 +34,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     if (row < playersNumOfRow)
                     {
                         InitXAndOCells(m_GameBoard, row, col, 2);
+
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
