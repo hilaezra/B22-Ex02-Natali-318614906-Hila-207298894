@@ -38,12 +38,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public bool CheckIfTheCurrPositionIsMine(Board i_Board, List<int> i_Position, ref bool io_IsEaten)
         {
-            bool returnAnswer = false, currPosition = false;
+            bool returnAnswer = false;
             if (!i_Board.GameBoard[i_Position[1], i_Position[0]].IsEmpty && (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == this.m_SignPlayer))
-            {
-                currPosition = true;//הקורדינטה שהוא רוצה להזיז היא באמת שלו
-            }
-            if (currPosition)
             {
                 if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty)
                 {
@@ -66,12 +62,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == 'O')
             {
                 returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, 1, i_Board, ref io_IsEaten);
-
             }
             else//'X'
             {
-                returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, 2, i_Board,ref io_IsEaten);
-                
+                returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, 2, i_Board,ref io_IsEaten);    
             }
             return returnAnswer;
         }
@@ -85,12 +79,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1);
-                io_IsEaten = true;
+                returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1, ref io_IsEaten);
             }
             return returnAnswer;
         }
-        public bool CheckIfCanEaten(Board i_Board, List<int> i_Position, int i_NumberOfPlayer)
+        public bool CheckIfCanEaten(Board i_Board, List<int> i_Position, int i_NumberOfPlayer, ref bool io_IsEaten)
         {
             bool returnAns = false;
             int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
@@ -100,6 +93,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 if (i_Position[1] + addOrSub == i_Position[3] && (i_Position[0] + addOrSub == i_Position[2]))
                 {
+                    io_IsEaten = true;
                     returnAns = true;
                 }
             }
@@ -118,7 +112,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].IsEmpty = true;
             }
-
         }
         public static void FindMiddlePosition(List<int> i_Positions, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer)
         {
