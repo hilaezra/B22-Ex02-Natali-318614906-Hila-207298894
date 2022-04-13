@@ -65,7 +65,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_NumberOfPlayer);
+                i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_Player.NumberOfPlayer);
             }
         }
 
@@ -97,8 +97,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool firstPlayer = true;
             string nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
             int sizeOfBoard = UserInputManagement.GetAndCheckValidBoardSize();
-            Player playerNumber1 = new Player(nameOfPlayer, sizeOfBoard, 'O'); ////PlayerNumber1IsReady
-            Player playerNumber2 = new Player("computer", sizeOfBoard, 'X');
+            Player playerNumber1 = new Player(nameOfPlayer, sizeOfBoard, 'O', 1); ////PlayerNumber1IsReady
+            Player playerNumber2 = new Player("computer", sizeOfBoard, 'X', 2);
             Board board = new Board(sizeOfBoard);
             if (!UserInputManagement.PlayAgainstComputer())
             {
