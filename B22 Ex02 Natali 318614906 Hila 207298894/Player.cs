@@ -12,13 +12,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private int m_PointsOfPlayer;
         private int m_RemainPieces;
         private char m_SignPlayer;
+        private int m_NumberOfPlayer;
 
-        public Player(string i_Name, int i_SizeOfBorad, char i_Sign)
+        public Player(string i_Name, int i_SizeOfBorad, char i_Sign,int i_NumberOfPlayer)
         {
             m_NameOfPlayer = i_Name;
             m_PointsOfPlayer = 0;
             m_RemainPieces = (((i_SizeOfBorad * i_SizeOfBorad) - 2) * i_SizeOfBorad) / 4;
             m_SignPlayer = i_Sign;
+            m_NumberOfPlayer = i_NumberOfPlayer;
         }
 
         public static void FindMiddlePosition(List<int> i_Positions, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer)
@@ -54,6 +56,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             get { return m_PointsOfPlayer; }
             set { m_PointsOfPlayer = value; }
+        }
+
+        public int NumberOfPlayer
+        {
+            get { return m_NumberOfPlayer; }
+            set { m_NumberOfPlayer = value; }
         }
 
         public int RemainPieces
