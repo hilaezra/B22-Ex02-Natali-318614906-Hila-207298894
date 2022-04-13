@@ -31,32 +31,31 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 for (int col = 0; col < m_BoardSize; col++)
                 {
-                    Point newPoint = new Point(row, col);
                     if (row < playersNumOfRow)
                     {
-                        InitXAndOCells(m_GameBoard, row, col, 2, newPoint);
+                        InitXAndOCells(m_GameBoard, row, col, 2);
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
-                        m_GameBoard[row, col] = new CellInBoard(newPoint, true, 3);
+                        m_GameBoard[row, col] = new CellInBoard(true, 3);
                     }
                     else
                     {
-                        InitXAndOCells(m_GameBoard, row, col, 1, newPoint);
+                        InitXAndOCells(m_GameBoard, row, col, 1);
                     }
                 }
             }
         }
 
-        public void InitXAndOCells(CellInBoard[,] i_GameBoard, int i_Row, int i_Col, int i_PlayerSing, Point i_NewPoint)
+        public void InitXAndOCells(CellInBoard[,] i_GameBoard, int i_Row, int i_Col, int i_PlayerSing)
         {
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
-                i_GameBoard[i_Row, i_Col] = new CellInBoard(i_NewPoint, false, i_PlayerSing);
+                i_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);
             }
             else
             {
-                i_GameBoard[i_Row, i_Col] = new CellInBoard(i_NewPoint, false, 3);
+                i_GameBoard[i_Row, i_Col] = new CellInBoard(false, 3);
             }
         }
 
@@ -90,7 +89,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
                 Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
-                // Console.WriteLine("{0}", lineOfBoard);
             }
 
             for (int i = 0; i < i_LineSize - 1; i++)

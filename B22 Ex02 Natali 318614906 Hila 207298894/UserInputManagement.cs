@@ -35,7 +35,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
-                Console.WriteLine( "Please select the desired board size (6/8/10)");//AB>BD
+                Console.WriteLine("Please select the desired board size (6/8/10)");//AB>BD
                 Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
                 isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
@@ -91,10 +91,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userMove;
             do
             {
-                Console.SetCursorPosition(80, 0);
-                //Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
-                Console.WriteLine("Please enter valid movment");//AB>BD
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+                Console.SetCursorPosition(85, 0);
+                StringBuilder requestStep = new StringBuilder();
+                if (i_WhichPlayer % 2 == 0)
+                {
+                    requestStep.Insert(0, i_Player1.NameOfPlayer + ", Please enter valid movment");
+                }
+                else
+                {
+                    requestStep.Insert(0, i_Player2.NameOfPlayer + ", Please enter valid movment");
+                }
+                Console.WriteLine(requestStep);//AB>BD
+                Console.SetCursorPosition(85, 1);
                 userMove = Console.ReadLine();
 
                 if (userMove.Length == 5)

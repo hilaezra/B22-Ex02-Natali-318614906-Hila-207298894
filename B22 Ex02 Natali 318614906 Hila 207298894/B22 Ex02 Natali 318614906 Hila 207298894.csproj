@@ -41,7 +41,6 @@
     <Compile Include="CheckersGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerPieceOnBoard.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="UserInputManagement.cs" />
   </ItemGroup>

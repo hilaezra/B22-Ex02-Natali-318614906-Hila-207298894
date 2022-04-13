@@ -8,13 +8,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
     class CellInBoard
     {
-        private Point m_Point;//cordinate of cell
         private bool m_IsEmpty;
         private PlayerPieceOnBoard m_Cell;
 
-        public CellInBoard(Point i_Cordniate, bool i_IsThereAPlayer, int i_NumberOfPlayer)//constuctor
+        public CellInBoard(bool i_IsThereAPlayer, int i_NumberOfPlayer)//constuctor
         {
-            m_Point = i_Cordniate;
             m_IsEmpty = i_IsThereAPlayer;
             PlayerPieceOnBoard piece;
             if (i_NumberOfPlayer == 1)
@@ -30,12 +28,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 piece = new PlayerPieceOnBoard(' '); //Empty cell
             }
             m_Cell = piece;
-        }
-
-        public Point ReturnedPoint
-        {
-            get { return m_Point; }
-            set { m_Point = value; }
         }
 
         public bool IsEmpty
