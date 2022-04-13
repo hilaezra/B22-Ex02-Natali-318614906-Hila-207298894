@@ -90,7 +90,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
                 Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
-               // Console.WriteLine("{0}", lineOfBoard);
+                // Console.WriteLine("{0}", lineOfBoard);
             }
 
             for (int i = 0; i < i_LineSize - 1; i++)
