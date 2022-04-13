@@ -18,10 +18,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 i_Board.PrintBoard(i_PlayerNumber1, i_PlayerNumber2);
+                //i_PlayerNumber1.PrintPlayersDetails();
+                //i_PlayerNumber2.PrintPlayersDetails();
                 string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize);
                 List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                 if (i % 2 == 0)
                 {
+                    do
+                    {
+                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 1);
+                    } while (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten));
+                    /*
                     if (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))//להכניס לפונקציה-יש שכפול
                     {
                         i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 1);
@@ -29,10 +36,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     else
                     {
                         check = false;
-                    }
+                    }*/
                 }
                 else
                 {
+                    do
+                    {
+                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
+                    } while (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten));
+                    /*
                     if (i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
                     {
                         i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
@@ -40,13 +52,30 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     else
                     {
                         check = false;
-                    }
+                    }*/
                 }
                 i++;
-                System.Threading.Thread.Sleep(1200);
+                System.Threading.Thread.Sleep(500);
             }
         }
+        public static void UpdatePlayersAfterEaten(Player i_WinPlayer,Player i_LoserPlayer,ref bool i_EndGame)
+        {
+            AddPointAfterEat(i_WinPlayer);
+            i_EndGame=SubPieceOfTheRemainPiece(i_LoserPlayer);
+        }
+        public static bool SubPieceOfTheRemainPiece(Player i_Player)
+        {
+            bool returnAnswer = false;//True only if there isnt remain piece after the sub
+            int remainPieces = i_Player.RemainPieces--;
+            if (remainPieces == 0)
+                returnAnswer = true;
 
+            return returnAnswer;
+        }
+        public static void AddPointAfterEat(Player i_Player)
+        {
+            i_Player.PointsOfPlayer++;
+        }
         public static void InitializationGame()
         {
             bool firstPlayer = true;
