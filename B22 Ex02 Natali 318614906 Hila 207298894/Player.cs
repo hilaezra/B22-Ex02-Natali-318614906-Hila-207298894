@@ -107,6 +107,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (pieceIsKing && !returnAnswer)
             {
                 returnAnswer = CheckIfTheWantedPositionIsOkForKing(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, this.m_NumberOfPlayer, i_Board, ref io_IsEaten, ref io_EatBackWord);//NATALI
+                if(returnAnswer)
+                {
+                    io_EatBackWord = true;
+                }
             }
 
             return returnAnswer;
@@ -149,7 +153,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void MovePlayerOnBoard(Board i_Board, List<int> i_Positions, bool i_IsEaten, int i_NumberOfPlayer, ref bool io_EatBackWord)//צריך לשים את כל החרא פה בפונקציה שמעדכנת את השחקנים
         {
             int intMoveCol = 0, addOrSub = 0, indexMiddle = 0;
-            FindMiddlePosition(i_Positions, ref intMoveCol, ref addOrSub, ref indexMiddle, i_NumberOfPlayer);
+            int backWard = 1;
+            if (io_EatBackWord)
+            {
+                
+                if (this.m_NumberOfPlayer == 1)
+                {
+                    backWard = 2;
+                }
+            }
+            
+            FindMiddlePosition(i_Positions, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
+            
             if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)//צריך לסדר אתזה , רק לשם בדיקה
             {
                 i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing = false;
@@ -164,6 +179,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].IsEmpty = true;
             }
+            
         }
 
         public void PrintPlayersDetails()

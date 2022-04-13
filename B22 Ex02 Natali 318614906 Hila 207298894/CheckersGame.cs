@@ -90,10 +90,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else ///computer turn
             {
-                ComputerMove(i_Board, i_PlayerNumber2, ref i_EndGame);
+                //ComputerMove(i_Board, i_PlayerNumber2, ref i_EndGame);
             }
         }
-
+        /*
         public static void ComputerMove(Board i_GameBoard, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame)
         {
             List<int> positionOfPlayerToEat = new List<int>(2);
@@ -110,7 +110,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 Move(i_GameBoard, positionOfPlayerToEat);
             }
 
-        }
+        }*/
 
         public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer)
         {
