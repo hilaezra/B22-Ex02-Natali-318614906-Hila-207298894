@@ -12,10 +12,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
-            bool check = true, isEaten = false;//סתם....
-            int i = 0;
-            while (check)
+            bool endGame = false, isEaten = false;//סתם....
+            int i = 0,indexWhoEat=1;
+            while (!endGame)
             {
+                isEaten = false;
                 Ex02.ConsoleUtils.Screen.Clear();
                 i_Board.PrintBoard(i_PlayerNumber1, i_PlayerNumber2);
                 i_PlayerNumber1.PrintPlayersDetails();
@@ -24,21 +25,41 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                 if (i % 2 == 0)
                 {
-                    do
+                    indexWhoEat = 1;
+                    if(!i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
+                    {
+                        i--;
+                    }
+                    else
                     {
                         i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 1);
-                    } while (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten));
-                    
+                    }         
                 }
                 else
                 {
-                    do
+                    indexWhoEat = 2;
+                    if (!i_PlayerNumber2.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten))
                     {
-                        i_PlayerNumber1.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
-                    } while (i_PlayerNumber1.CheckIfTheCurrPositionIsMine(i_Board, userMoverInInt, ref isEaten));
-                    
+                        i--;
+                    }
+                    else
+                    {
+                        i_PlayerNumber2.MovePlayerOnBoard(i_Board, userMoverInInt, isEaten, 2);
+                    }
+                }
+                if (isEaten)
+                {
+                    if (indexWhoEat == 1)
+                    {
+                        UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2,ref endGame);
+                    }
+                    else
+                    {
+                        UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref endGame);
+                    }
                 }
                 i++;
+                
                 System.Threading.Thread.Sleep(500);
             }
         }
