@@ -62,29 +62,31 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             //צריך להבדיל האם זה מלך ואז יש לו עוד אופציות לאן ללכת
             bool returnAnswer = false;
             bool pieceIsKing = i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.IsKing;
+            int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
             if (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == 'O')
             {
-                if (i_Position[1] + 1 == i_Position[3] && (i_Position[0] + 1 == i_Position[2] || i_Position[0] - 1 == i_Position[2]))//בדיקה לגבי שינוי העמודה או אחד ימינה או אחד שמאלה ושורה אחד למעלה
-                {
-                    returnAnswer = true;//לשים את כל התנאי הזה בפונקציהההה יש פה שכפול
-                }
-                else
-                {
-                    returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1);
-                    io_IsEaten = true; //לא בהכרח צריך לבדור מה הריטרן אנסר
-                }
+                returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, 1, i_Board, ref io_IsEaten);
+
             }
             else//'X'
             {
-                if (i_Position[1] - 1 == i_Position[3] && (i_Position[0] + 1 == i_Position[2] || i_Position[0] - 1 == i_Position[2]))//בדיקה לגבי שינוי העמודה או אחד ימינה או אחד שמאלה ושורה אחד למעלה
-                {
-                    returnAnswer = true;
-                }
-                else
-                {
-                    returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 2);
-                    io_IsEaten = true;
-                }
+                returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, 2, i_Board,ref io_IsEaten);
+                
+            }
+            return returnAnswer;
+        }
+        public bool CheckWantedPosition(List<int> i_Position, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer, Board i_Board, ref bool io_IsEaten)
+        {
+            bool returnAnswer = false;
+            FindMiddlePosition(i_Position, ref io_MoveCol, ref io_AddOrSub, ref io_IndexMiddle, i_NumberOfPlayer);
+            if (i_Position[1] + io_IndexMiddle == i_Position[3] && (i_Position[0] + io_MoveCol == i_Position[2]))//בדיקה לגבי שינוי העמודה או אחד ימינה או אחד שמאלה ושורה אחד למעלה
+            {
+                returnAnswer = true;
+            }
+            else
+            {
+                returnAnswer = this.CheckIfCanEaten(i_Board, i_Position, 1);
+                io_IsEaten = true;
             }
             return returnAnswer;
         }
@@ -112,7 +114,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
             i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = this.m_SignPlayer;
             if (i_IsEaten)
-            { 
+            {
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].IsEmpty = true;
             }
@@ -120,7 +122,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
         public static void FindMiddlePosition(List<int> i_Positions, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer)
         {
-            if (i_Positions[0] < i_Positions[3])
+            if (i_Positions[0] < i_Positions[2])
             {
                 io_MoveCol = 1;
             }
