@@ -53,7 +53,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     {
                         UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2,ref endGame);
                     }
-                    else
+                    else if(indexWhoEat==2)
                     {
                         UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref endGame);
                     }
