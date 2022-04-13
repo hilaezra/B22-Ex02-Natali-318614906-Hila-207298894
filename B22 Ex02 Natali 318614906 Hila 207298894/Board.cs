@@ -46,7 +46,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
             }
-            PrintBoard(); //checkkkkkkkkkkkkk
         }
 
         public void InitXAndOCells(CellInBoard[,] i_GameBoard, int i_Row, int i_Col, int i_PlayerSing, Point i_NewPoint)
@@ -68,13 +67,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Ex02.ConsoleUtils.Screen.Clear();
             PrintBoardFrameAndDividingLine(lineSize, 0, false);
             PrintBoardSquares(lineSize);
-            PrintPlayersDetails(i_PlayerNumber1, i_PlayerNumber2);
         }
 
-        public void PrintPlayersDetails(Player i_playerNumber1, Player i_playerNumber2)
-        {
-             
-        }
 
         public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
         {

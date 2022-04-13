@@ -141,5 +141,20 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 io_IndexMiddle = -1;
             }
         }
+
+        public void PrintPlayersDetails()
+        {
+            StringBuilder playerDetails = new StringBuilder();
+            if(m_SignPlayer == 'O')
+            {
+                playerDetails.Insert(0, "First player name: ");
+            }
+            else
+            {
+                playerDetails.Insert(0, "Second player name: ");
+            }
+            playerDetails.Insert(playerDetails.Length, m_NameOfPlayer + "\nPoints = " + m_PointsOfPlayer);
+            Console.WriteLine(playerDetails);
+        }
     }
 }
