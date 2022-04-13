@@ -37,7 +37,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if (row < playersNumOfRow)
                     {
-                        InitXAndOCells(m_GameBoard, row, col, 2);
+                        InitXAndOCells(row, col, 2);
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
@@ -45,21 +45,23 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        InitXAndOCells(m_GameBoard, row, col, 1);
+                        InitXAndOCells(row, col, 1);
                     }
                 }
             }
+
+            m_GameBoard[2, 1].PlayerInBoard.IsKing = true;//לשם בדיקה בלבדדדד
         }
 
-        public void InitXAndOCells(CellInBoard[,] i_GameBoard, int i_Row, int i_Col, int i_PlayerSing)
+        public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing)
         {
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
-                i_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);
+                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);
             }
             else
             {
-                i_GameBoard[i_Row, i_Col] = new CellInBoard(false, 3);
+                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, 3);
             }
         }
 

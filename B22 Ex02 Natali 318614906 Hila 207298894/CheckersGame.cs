@@ -10,7 +10,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         private bool m_IsPlayingAgainstComputer;
 
-         public static void InitializationGame()
+        public static void InitializationGame()
         {
             bool firstPlayer = true;
             string nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
@@ -40,13 +40,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_PlayerNumber1.PrintPlayersDetails();
                 i_PlayerNumber2.PrintPlayersDetails();
 
-                if(i_PlayerNumber2.NameOfPlayer == "computer")
+                if (i_PlayerNumber2.NameOfPlayer == "computer")
                 {
                     RunGameAgainstComputer(ref i, i_Board, i_PlayerNumber1, i_PlayerNumber2, ref isEaten, ref endGame);
                 }
                 else
                 {
-                    RunGameAgainstOtherPlayer(ref i, i_Board,  i_PlayerNumber1, i_PlayerNumber2, ref isEaten, ref endGame);
+                    RunGameAgainstOtherPlayer(ref i, i_Board, i_PlayerNumber1, i_PlayerNumber2, ref isEaten, ref endGame);
                 }
 
                 i++;
@@ -65,7 +65,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 indexWhoEat = 1;
                 CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref i_IsEaten, ref i_WhichPlayer, indexWhoEat);
             }
-          
+
             else ///X
             {
                 indexWhoEat = 2;
@@ -126,13 +126,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void CheckPositionAndMove(Player i_Player, Board i_Board, List<int> i_UserMoveInt, ref bool io_IsEaten, ref int i, int i_NumberOfPlayer)
         {
-            if (!i_Player.CheckIfTheCurrPositionIsMine(i_Board, i_UserMoveInt, ref io_IsEaten))
+            bool eatBackWord = false;
+            if (!i_Player.CheckIfTheCurrPositionIsMine(i_Board, i_UserMoveInt, ref io_IsEaten, ref eatBackWord))
             {
                 i--;
             }
             else
             {
-                i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_Player.NumberOfPlayer);
+                i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_Player.NumberOfPlayer, ref eatBackWord);
             }
         }
 
@@ -159,6 +160,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             i_Player.PointsOfPlayer++;
         }
 
-       
+
     }
 }

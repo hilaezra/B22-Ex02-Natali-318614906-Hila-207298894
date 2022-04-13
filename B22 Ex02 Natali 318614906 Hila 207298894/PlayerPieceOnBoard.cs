@@ -28,5 +28,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             get { return m_Sign; }
             set { m_Sign = value; }
         }
+
+        public static bool CheckAndReturnIfThePieceIsKing(Board i_Board,int i_Row,int i_Col)//Nataliiii
+        {
+            bool returnAnswer = false;
+            if(i_Board.GameBoard[i_Row,i_Col].PlayerInBoard.IsKing==true)
+            {
+                returnAnswer = true;
+            }
+            return returnAnswer;
+        }
     }
 }
