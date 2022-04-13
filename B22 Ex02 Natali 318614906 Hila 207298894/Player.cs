@@ -147,10 +147,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             StringBuilder playerDetails = new StringBuilder();
             if(m_SignPlayer == 'O')
             {
+                Console.SetCursorPosition(0, 0);
                 playerDetails.Insert(0, "First player name: ");
             }
             else
             {
+                Console.SetCursorPosition(0, 3);
                 playerDetails.Insert(0, "Second player name: ");
             }
             playerDetails.Insert(playerDetails.Length, m_NameOfPlayer + "\nPoints = " + m_PointsOfPlayer);

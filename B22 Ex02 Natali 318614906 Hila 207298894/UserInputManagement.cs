@@ -85,13 +85,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return againstComputer;
         }
 
-        public static string PartOfTheBoardSquares(int i_BoardSize)
+        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, Player i_Player2)
         {
             bool validPointOnBoard = false;
             string userMove;
             do
             {
-                Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
+                Console.SetCursorPosition(80, 0);
+                //Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
                 Console.WriteLine("Please enter valid movment");//AB>BD
                 Console.SetCursorPosition(((Console.WindowWidth) / 2) - 23, Console.CursorTop);
                 userMove = Console.ReadLine();
