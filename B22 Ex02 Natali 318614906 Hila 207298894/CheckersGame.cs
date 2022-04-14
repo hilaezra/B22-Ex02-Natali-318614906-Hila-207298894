@@ -97,6 +97,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public static void ComputerMove(Board i_GameBoard, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame)
         {
             List<int> fromWhereToWhereToEatAndMove = new List<int>(4);
+
             int rowNumOfTheOneWhoEaten = 0, colNumOfTheOneWhoEaten = 0;
             bool someoneToEat = CheckIfThereIsSomeoneToEat(i_GameBoard, i_PlayerNumber1, i_PlayerNumber2, fromWhereToWhereToEatAndMove, ref rowNumOfTheOneWhoEaten, ref colNumOfTheOneWhoEaten);
             if (someoneToEat == true)
@@ -106,10 +107,58 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                GetRandomPosition(i_GameBoard, fromWhereToWhereToEatAndMove); ///To Do!!!!!!!!!!!!!!!!!
+                GetRandomPosition(i_GameBoard, fromWhereToWhereToEatAndMove, i_PlayerNumber2); ///To Do!!!!!!!!!!!!!!!!!
                 Move(i_GameBoard, fromWhereToWhereToEatAndMove, someoneToEat, rowNumOfTheOneWhoEaten, colNumOfTheOneWhoEaten);
             }
 
+        }
+
+        public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2)
+        {
+            bool validRandomMove = false;
+
+            for (int i = 1; i < i_GameBoard.BoardSize && validRandomMove != true; i++)
+            {
+                for (int j = 0; j < i_GameBoard.BoardSize && validRandomMove != true; j++)
+                {
+                    if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'X')
+                    {
+                        if (j == 0 && i_GameBoard.GameBoard[i - 1, j + 1].IsEmpty == true)
+                        {
+                            updateArrOfPosition(io_FromWhereToWhereToEatAndMove, i, j, i - 1, j + 1);
+                        }
+                        else if (j == i_GameBoard.BoardSize - 1 && i_GameBoard.GameBoard[i - 1, j - 1].IsEmpty == true)
+                        {
+                            updateArrOfPosition(io_FromWhereToWhereToEatAndMove, i, j, i - 1, j + 1);
+                        }
+                        else
+                        {
+                            bool validChoice = false;
+                            while (validChoice != true)
+                            {
+                                Random rand = new Random();
+                                List<int> possibleCols = new List<int> { j - 1, j + 1 };
+                                int randomCol = rand.Next(possibleCols.Count);
+                                if (i_GameBoard.GameBoard[i - 1, randomCol].IsEmpty == true)
+                                {
+                                    updateArrOfPosition(io_FromWhereToWhereToEatAndMove, i, j, i - 1, possibleCols[randomCol]);
+                                    validChoice = true;
+                                }
+                            }
+                        }
+                        validRandomMove = true;
+                    }
+                }
+            }
+        }
+
+        public static void updateArrOfPosition(List<int> io_FromWhereToWhereToEatAndMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
+        {
+            io_FromWhereToWhereToEatAndMove.Clear();
+            io_FromWhereToWhereToEatAndMove.Add(i_CurrRowNum);
+            io_FromWhereToWhereToEatAndMove.Add(i_CurrColNum);
+            io_FromWhereToWhereToEatAndMove.Add(i_NextRowNum);
+            io_FromWhereToWhereToEatAndMove.Add(i_NextColNum);
         }
 
         public static bool CheckIfThereIsSomeoneToEat(Board i_GameBoard, Player i_PlayerNumber1, Player i_PlayerNumber2, List<int> io_FromWhereToWhereToEatAndMove, ref int io_RowNumOfTheOneWhoEaten, ref int io_ColNumOfTheOneWhoEaten)
@@ -123,7 +172,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'O')
                     {
                         someOneToEat = CheckIfThereIsAnyoneToEatForEachO(i_GameBoard, i, j, io_FromWhereToWhereToEatAndMove);
-                        if(someOneToEat == true)
+                        if (someOneToEat == true)
                         {
                             io_RowNumOfTheOneWhoEaten = i;
                             io_ColNumOfTheOneWhoEaten = j;
@@ -142,20 +191,22 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (i_GameBoard.GameBoard[i_ORow + 1, i_OCol - 1].PlayerInBoard.SignOfPlayerInBoard == 'X' &&
                 i_GameBoard.GameBoard[i_ORow - 1, i_OCol + 1].IsEmpty == true)
             {
-                io_FromWhereToWhereToEatAndMove[0] = i_ORow + 1;
-                io_FromWhereToWhereToEatAndMove[1] = i_OCol - 1;
-                io_FromWhereToWhereToEatAndMove[2] = i_ORow - 1;
-                io_FromWhereToWhereToEatAndMove[3] = i_OCol + 1;
+                io_FromWhereToWhereToEatAndMove.Clear();
+                io_FromWhereToWhereToEatAndMove.Add( i_ORow + 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_OCol - 1);
+                io_FromWhereToWhereToEatAndMove.Add( i_ORow - 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_OCol + 1);
                 someoneToEat = true;
             }
             ///check the right side
             if (i_GameBoard.GameBoard[i_ORow + 1, i_OCol + 1].PlayerInBoard.SignOfPlayerInBoard == 'X' &&
                 i_GameBoard.GameBoard[i_ORow - 1, i_OCol - 1].IsEmpty == true)
             {
-                io_FromWhereToWhereToEatAndMove[0] = i_ORow + 1;
-                io_FromWhereToWhereToEatAndMove[1] = i_OCol + 1;
-                io_FromWhereToWhereToEatAndMove[2] = i_ORow - 1;
-                io_FromWhereToWhereToEatAndMove[3] = i_OCol - 1;
+                io_FromWhereToWhereToEatAndMove.Clear();
+                io_FromWhereToWhereToEatAndMove.Add(i_ORow + 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_OCol + 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_ORow - 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_OCol - 1);
                 someoneToEat = true;
             }
 
@@ -164,10 +215,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void Move(Board i_GameBoard, List<int> i_CurrPosAndNextPos, bool i_MoveWithEat, int i_RowNumOfTheOneWhoEaten, int i_ColNumOfTheOneWhoEaten)
         {
-            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].IsEmpty = true;
-            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].PlayerInBoard.SignOfPlayerInBoard = ' ';
-            i_GameBoard.GameBoard[i_CurrPosAndNextPos[3], i_CurrPosAndNextPos[2]].IsEmpty = false;
-            i_GameBoard.GameBoard[i_CurrPosAndNextPos[1], i_CurrPosAndNextPos[0]].PlayerInBoard.SignOfPlayerInBoard = 'X';
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[0], i_CurrPosAndNextPos[1]].IsEmpty = true;
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[0], i_CurrPosAndNextPos[1]].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[2], i_CurrPosAndNextPos[3]].IsEmpty = false;
+            i_GameBoard.GameBoard[i_CurrPosAndNextPos[2], i_CurrPosAndNextPos[3]].PlayerInBoard.SignOfPlayerInBoard = 'X';
 
             if (i_MoveWithEat == true)
             {
