@@ -49,8 +49,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
             }
-
-            m_GameBoard[2, 1].PlayerInBoard.IsKing = true;//לשם בדיקה בלבדדדד
         }
 
         public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing)

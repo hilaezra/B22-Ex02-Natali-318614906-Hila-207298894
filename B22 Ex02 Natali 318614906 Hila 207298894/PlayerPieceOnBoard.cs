@@ -14,7 +14,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public PlayerPieceOnBoard(char i_Sign)
         {
             m_IsPieceIsKing = false;
-            m_Sign = i_Sign;  
+            m_Sign = i_Sign;
         }
 
         public bool IsKing
@@ -29,13 +29,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             set { m_Sign = value; }
         }
 
-        public static bool CheckAndReturnIfThePieceIsKing(Board i_Board,int i_Row,int i_Col)//Nataliiii
+        public static bool CheckAndReturnIfThePieceIsKing(Board i_Board, int i_Row, int i_Col)
         {
             bool returnAnswer = false;
-            if(i_Board.GameBoard[i_Row,i_Col].PlayerInBoard.IsKing==true)
+            if (i_Board.GameBoard[i_Row, i_Col].PlayerInBoard.IsKing == true)
             {
                 returnAnswer = true;
             }
+
             return returnAnswer;
         }
     }

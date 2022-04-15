@@ -93,8 +93,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool validPointOnBoard = false;
             string userMove;
-            do///יש בעיה שאם מקלידים משהו לא נכון זה לא נמחק מהלוח
+            do
             {
+                ////יש בעיה שאם מקלידים משהו לא נכון זה לא נמחק מהלוח
                 Console.SetCursorPosition(85, 0);
                 StringBuilder requestStep = new StringBuilder();
                 if (i_WhichPlayer % 2 == 0)
