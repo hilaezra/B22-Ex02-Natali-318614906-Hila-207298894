@@ -176,6 +176,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         {
                             io_RowNumOfTheOneWhoEaten = i;
                             io_ColNumOfTheOneWhoEaten = j;
+                            ///finishhh loop!!!!
                         }
                     }
                 }
@@ -192,9 +193,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_GameBoard.GameBoard[i_ORow - 1, i_OCol + 1].IsEmpty == true)
             {
                 io_FromWhereToWhereToEatAndMove.Clear();
-                io_FromWhereToWhereToEatAndMove.Add( i_ORow + 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_ORow + 1);
                 io_FromWhereToWhereToEatAndMove.Add(i_OCol - 1);
-                io_FromWhereToWhereToEatAndMove.Add( i_ORow - 1);
+                io_FromWhereToWhereToEatAndMove.Add(i_ORow - 1);
                 io_FromWhereToWhereToEatAndMove.Add(i_OCol + 1);
                 someoneToEat = true;
             }
