@@ -107,7 +107,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (pieceIsKing && !returnAnswer)
             {
                 returnAnswer = CheckIfTheWantedPositionIsOkForKing(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, this.m_NumberOfPlayer, i_Board, ref io_IsEaten, ref io_EatBackWord);//NATALI
-                if(returnAnswer)
+                if (returnAnswer)
                 {
                     io_EatBackWord = true;
                 }
@@ -132,6 +132,73 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
+        public bool CheckIfThereIsAnythingToEat(Board i_Board, List<int> i_Position, List<int> i_MustEatOneOfThem)//NEW-אם יש משהו לאכול, לא נאפשר לשחקן לבחור דברים אחרים ונציג לו הודעה מתאימה
+        {
+            bool returnAnswer = false, pieceIsKing = i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.IsKing;
+            int sizeOfBoard = i_Board.BoardSize, numberOfPlayer = this.m_NumberOfPlayer;
+            //יש פה כפילות של הטאליבןןןןן לשים בפונקציה!
+            if (numberOfPlayer == 1)
+            {
+                if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] + 1, i_MustEatOneOfThem)))
+                {
+                    if (i_Board.GameBoard[i_Position[1] + 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
+                    {
+                        if (i_Position[1] + 1 != sizeOfBoard - 1 && (i_Position[0] + 1 != sizeOfBoard - 1))
+                            returnAnswer = true;
+                    }
+                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] - 1, i_MustEatOneOfThem)))
+                    {
+                        if (i_Board.GameBoard[i_Position[1] + 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
+                        {
+                            if (i_Position[1] + 1 != sizeOfBoard - 1 && (i_Position[0] - 1 != 0))
+                                returnAnswer = true;
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] - 1, i_Position[0] + 1, i_MustEatOneOfThem)))
+                {
+                    if (i_Board.GameBoard[i_Position[1] - 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] - 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
+                    {
+                        if (i_Position[1] - 1 != 0 && (i_Position[0] + 1 != sizeOfBoard-1))
+                            returnAnswer = true;
+                    }
+                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] - 1, i_Position[0] - 1, i_MustEatOneOfThem)))
+                    {
+                        if (i_Board.GameBoard[i_Position[1] - 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] - 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
+                        {
+                            if (i_Position[1] - 1 != 0 && (i_Position[0] - 1 != 0))
+                                returnAnswer = true;
+                        }
+                    }
+
+                }
+                if (pieceIsKing && !returnAnswer)
+                {
+                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] + 1, i_MustEatOneOfThem)) || (CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] - 1, i_MustEatOneOfThem)))
+                    {
+                        returnAnswer = true;
+                    }
+                }
+            }
+
+
+            return returnAnswer;
+        }
+        public static bool CheckThatWeDontGoBeyondBoundaries(int i_SizeOfTheBoard, int i_WantedRow, int i_WantedCol, List<int> i_MustEatOneOfThem)//NEW
+        {
+            bool returnAnswer = false;
+            if (i_WantedCol < i_SizeOfTheBoard && i_WantedRow < i_SizeOfTheBoard)
+            {
+                i_MustEatOneOfThem.Add(i_WantedRow);
+                i_MustEatOneOfThem.Add(i_WantedCol);
+                returnAnswer = true;
+            }
+            return returnAnswer;
+        }
         public bool CheckIfCanEaten(Board i_Board, List<int> i_Position, int i_NumberOfPlayer, ref bool io_IsEaten)
         {
             bool returnAns = false;
@@ -153,18 +220,21 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void MovePlayerOnBoard(Board i_Board, List<int> i_Positions, bool i_IsEaten, int i_NumberOfPlayer, ref bool io_EatBackWord)//צריך לשים את כל החרא פה בפונקציה שמעדכנת את השחקנים
         {
             int intMoveCol = 0, addOrSub = 0, indexMiddle = 0;
-            int backWard = 1;
+            int backWard = i_NumberOfPlayer;
             if (io_EatBackWord)
             {
-                
                 if (this.m_NumberOfPlayer == 1)
                 {
                     backWard = 2;
                 }
+                else
+                {
+                    backWard = 1;
+                }
             }
-            
+
             FindMiddlePosition(i_Positions, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
-            
+
             if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)//צריך לסדר אתזה , רק לשם בדיקה
             {
                 i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing = false;
@@ -179,7 +249,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].IsEmpty = true;
             }
-            
+
         }
 
         public void PrintPlayersDetails()
