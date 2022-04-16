@@ -80,7 +80,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             set { m_Winning = value; }
         }
 
-        public List<Point> Positions  
+        public List<Point> Positions
         {
             get { return m_ListOfPositionsOfRemainPieces; }
             set { m_ListOfPositionsOfRemainPieces = value; }
@@ -154,7 +154,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
             FindMiddlePosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, i_NumberOfPlayer);
 
-            if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer&& i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard !=' ')
+            if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != ' ')
             {
                 if (i_Position[1] + addOrSub == i_Position[3] && (i_Position[0] + (intMoveCol * 2) == i_Position[2]))
                 {
@@ -247,73 +247,5 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
     }
-
-    /*
-        public bool CheckIfThereIsAnythingToEat(Board i_Board, List<int> i_Position, List<int> i_MustEatOneOfThem)//NEW-אם יש משהו לאכול, לא נאפשר לשחקן לבחור דברים אחרים ונציג לו הודעה מתאימה
-        {
-            bool returnAnswer = false, pieceIsKing = i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.IsKing;
-            int sizeOfBoard = i_Board.BoardSize, numberOfPlayer = this.m_NumberOfPlayer;
-            //יש פה כפילות של הטאליבןןןןן לשים בפונקציה!
-            if (numberOfPlayer == 1)
-            {
-                if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] + 1, i_MustEatOneOfThem)))
-                {
-                    if (i_Board.GameBoard[i_Position[1] + 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
-                    {
-                        if (i_Position[1] + 1 != sizeOfBoard - 1 && (i_Position[0] + 1 != sizeOfBoard - 1))
-                            returnAnswer = true;
-                    }
-                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] - 1, i_MustEatOneOfThem)))
-                    {
-                        if (i_Board.GameBoard[i_Position[1] + 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
-                        {
-                            if (i_Position[1] + 1 != sizeOfBoard - 1 && (i_Position[0] - 1 != 0))
-                                returnAnswer = true;
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] - 1, i_Position[0] + 1, i_MustEatOneOfThem)))
-                {
-                    if (i_Board.GameBoard[i_Position[1] - 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] - 1, i_Position[0] + 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
-                    {
-                        if (i_Position[1] - 1 != 0 && (i_Position[0] + 1 != sizeOfBoard-1))
-                            returnAnswer = true;
-                    }
-                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] - 1, i_Position[0] - 1, i_MustEatOneOfThem)))
-                    {
-                        if (i_Board.GameBoard[i_Position[1] - 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] - 1, i_Position[0] - 1].PlayerInBoard.SignOfPlayerInBoard != ' ')
-                        {
-                            if (i_Position[1] - 1 != 0 && (i_Position[0] - 1 != 0))
-                                returnAnswer = true;
-                        }
-                    }
-
-                }
-                if (pieceIsKing && !returnAnswer)
-                {
-                    if ((CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] + 1, i_MustEatOneOfThem)) || (CheckThatWeDontGoBeyondBoundaries(sizeOfBoard, i_Position[1] + 1, i_Position[0] - 1, i_MustEatOneOfThem)))
-                    {
-                        returnAnswer = true;
-                    }
-                }
-            }
-
-
-            return returnAnswer;
-        }
-        public static bool CheckThatWeDontGoBeyondBoundaries(int i_SizeOfTheBoard, int i_WantedRow, int i_WantedCol, List<int> i_MustEatOneOfThem)//NEW
-        {
-            bool returnAnswer = false;
-            if (i_WantedCol < i_SizeOfTheBoard && i_WantedRow < i_SizeOfTheBoard)
-            {
-                i_MustEatOneOfThem.Add(i_WantedRow);
-                i_MustEatOneOfThem.Add(i_WantedCol);
-                returnAnswer = true;
-            }
-            return returnAnswer;
-        }*/
 }
+

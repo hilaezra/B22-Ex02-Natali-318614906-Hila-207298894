@@ -40,6 +40,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_Board.PrintBoard(i_PlayerNumber1, i_PlayerNumber2);
                 i_PlayerNumber1.PrintPlayersDetails();
                 i_PlayerNumber2.PrintPlayersDetails();
+                quit = false;
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
@@ -97,13 +98,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
         }
-        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool i_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index)
+        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index)
         {
             List<int> userMoverInInt = new List<int>(4);
-            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, ref i_Quit);
-            if (i_Quit)
+            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
+            if (io_Quit)
             {
-                i_Quit = false;
                 if (CheckIfThePlayerWantToQuit(i_Board, i_CurrPlayer, i_NextPlayer))
                 {
                     io_EndGame = true;
