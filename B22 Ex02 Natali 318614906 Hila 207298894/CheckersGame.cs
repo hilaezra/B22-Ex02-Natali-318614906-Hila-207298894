@@ -23,7 +23,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 playerNumber2.NameOfPlayer = nameOfPlayer; ////SET
             }
 
-            board.InitBoard();
+            board.InitBoard(playerNumber1, playerNumber2);
             RunGame(board, playerNumber1, playerNumber2);
         }
 
