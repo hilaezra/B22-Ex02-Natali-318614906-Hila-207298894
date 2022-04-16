@@ -10,24 +10,33 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         public static string GetUserName(bool i_FirstPlayer)
         {
-            string userName;
-            Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
-            if (i_FirstPlayer == true)
+            string userName = "";
+            bool validName = false;
+            while(validName != true)
             {
-                Console.WriteLine("Please enter your name:");
-            }
-            else
-            {
-                Console.WriteLine("Please enter the name of the other player:"); ////AB>BD
-            }
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
+                if (i_FirstPlayer == true)
+                {
+                    Console.WriteLine("Please enter your name:");
+                }
+                else
+                {
+                    Console.WriteLine("Please enter the name of the other player:"); 
+                }
 
-            Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
-            userName = Console.ReadLine();
-            Ex02.ConsoleUtils.Screen.Clear();
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
+                userName = Console.ReadLine();
+                if(userName.Length <= 20 && !userName.Contains(" "))
+                {
+                    validName = true;
+                }
+
+                Ex02.ConsoleUtils.Screen.Clear();
+            }
 
             return userName;
         }
-        
+
         public static int GetAndCheckValidBoardSize()
         {
             int userBoardSize = 0;
@@ -38,7 +47,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
-                Console.WriteLine("Please select the desired board size (6/8/10)");  ////AB>BD
+                Console.WriteLine("Please select the desired board size (6/8/10)");  
                 Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop);
                 isNumber = int.TryParse(Console.ReadLine(), out userBoardSize);
 
@@ -95,7 +104,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userMove;
             do
             {
-                ////יש בעיה שאם מקלידים משהו לא נכון זה לא נמחק מהלוח
                 Console.SetCursorPosition(85, 0);
                 StringBuilder requestStep = new StringBuilder();
                 if (i_WhichPlayer % 2 == 0)
@@ -107,8 +115,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     requestStep.Insert(0, i_Player2.NameOfPlayer + ", Please enter valid movment");
                 }
 
-                Console.WriteLine(requestStep); ////AB>BD
+                Console.WriteLine(requestStep); 
                 Console.SetCursorPosition(85, 1);
+                Console.WriteLine("                                       ");
+                Console.SetCursorPosition(85, 1);
+
                 userMove = Console.ReadLine();
 
                 if (userMove.Length == 5)
