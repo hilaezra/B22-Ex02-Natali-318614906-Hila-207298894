@@ -20,7 +20,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             m_NameOfPlayer = i_Name;
             m_PointsOfPlayer = 0;
-            m_RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4;
+            m_RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard))) / 4;
             m_SignPlayer = i_Sign;
             m_NumberOfPlayer = i_NumberOfPlayer;
             m_Winning = 0;
@@ -111,7 +111,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool returnAnswer = false;
             bool pieceIsKing = i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.IsKing;
             int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
-            if (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == 'O')
+            if (i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.SignOfPlayerInBoard == 'O')////צריך לסדר כי כשזה בפינה ויש מלך זה חורג מגבולות המערך !
             {
                 returnAnswer = CheckWantedPosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, this.m_NumberOfPlayer, i_Board, ref io_IsEaten);
             }
@@ -154,7 +154,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
             FindMiddlePosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, i_NumberOfPlayer);
 
-            if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer)
+            if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer&& i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard !=' ')
             {
                 if (i_Position[1] + addOrSub == i_Position[3] && (i_Position[0] + (intMoveCol * 2) == i_Position[2]))
                 {

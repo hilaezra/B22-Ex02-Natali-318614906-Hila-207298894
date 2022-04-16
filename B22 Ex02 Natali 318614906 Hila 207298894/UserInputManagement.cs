@@ -98,7 +98,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return againstComputer;
         }
 
-        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, Player i_Player2,ref bool io_Quit)
+        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1,ref bool io_Quit)
         {
             bool validPointOnBoard = false;
             string userMove;
@@ -106,15 +106,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Console.SetCursorPosition(85, 0);
                 StringBuilder requestStep = new StringBuilder();
-                if (i_WhichPlayer % 2 == 0)
-                {
-                    requestStep.Insert(0, i_Player1.NameOfPlayer + ", Please enter valid movment");
-                }
-                else
-                {
-                    requestStep.Insert(0, i_Player2.NameOfPlayer + ", Please enter valid movment");
-                }
-
+                requestStep.Insert(0, i_Player1.NameOfPlayer + ", Please enter valid movment");                
                 Console.WriteLine(requestStep); 
                 Console.SetCursorPosition(85, 1);
                 Console.WriteLine("                                       ");
