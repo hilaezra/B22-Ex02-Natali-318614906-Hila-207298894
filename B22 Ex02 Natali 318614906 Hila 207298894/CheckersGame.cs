@@ -151,7 +151,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 for (int j = 0; j < i_GameBoard.BoardSize && validRandomMove != true; j++)
                 {
-                    if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'X')
+                    if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'X' || i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'K')
                     {
                         if (j == 0 && i_GameBoard.GameBoard[i - 1, j + 1].IsEmpty == true)
                         {
