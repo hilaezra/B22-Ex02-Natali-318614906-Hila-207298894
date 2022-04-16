@@ -23,7 +23,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 playerNumber2.NameOfPlayer = nameOfPlayer; ////SET
             }
 
-            board.InitBoard();
+            board.InitBoard(playerNumber1, playerNumber2);
             RunGame(board, playerNumber1, playerNumber2);
         }
 
@@ -43,14 +43,23 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
+                    CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(userMoveInString,i_Board,)
+                    /*
                     userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2,ref quit);
-                    if(quit)
+                    if (quit)
                     {
-                        i_PlayerNumber2.Winning++;
-                        endGame = true;
+                        quit = false;
+                        if (CheckIfThePlayerWantToQuit(i_Board, i_PlayerNumber1, i_PlayerNumber2))
+                        {
+                            endGame = true;
+                        }                        
                     }
-                    userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
-                    CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
+                    else
+                    {
+                        userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                        CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
+                    }
+                    */
                 }
                 else
                 {
@@ -63,9 +72,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2,ref quit);
                         if (quit)
                         {
-                            endGame = true;
+                            quit = false;
+                            if (CheckIfThePlayerWantToQuit(i_Board, i_PlayerNumber2, i_PlayerNumber1))
+                            {
+                                endGame = true;
+                            }                            
                         }
-                        userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                        else
+                        {
+                            userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                        }
                     }
 
                     indexWhoEat = 2;
@@ -82,6 +98,48 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
+        public static void CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(string io_UserMoveInString,Board i_Board,ref bool i_Quit,Player i_CurrPlayer,Player i_NextPlayer,ref bool io_EndGame,ref bool io_IsEaten,ref int i_Index,ref int i_IndexWhoEat)
+        {
+            List<int> userMoverInInt = new List<int>(4);
+            io_UserMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, i_NextPlayer, ref i_Quit);
+            if (i_Quit)
+            {
+                i_Quit = false;
+                if (CheckIfThePlayerWantToQuit(i_Board, i_CurrPlayer, i_NextPlayer))
+                {
+                    io_EndGame = true;
+                }
+            }
+            else
+            {
+                userMoverInInt = UserInputManagement.ChangedStringToListInt(io_UserMoveInString);
+                CheckPositionAndMove(i_CurrPlayer, i_Board, userMoverInInt, ref io_IsEaten, ref i_Index, i_IndexWhoEat);
+            }
+        }
+        public static bool CheckIfThePlayerWantToQuit(Board i_Board,Player i_PlayerQuit, Player i_Player)
+        { 
+            bool returnAnswer = false;
+            string answer;
+            i_Player.Winning++;
+            do
+            {
+                Ex02.ConsoleUtils.Screen.Clear();
+                StringBuilder checkIfContinueGame = new StringBuilder();
+                checkIfContinueGame.Insert(0, "GAME OVER!!" + Environment.NewLine + i_PlayerQuit.NameOfPlayer + ", Do you want to play another round??" + Environment.NewLine + "Prass 1)Yes  2)No");
+                Console.WriteLine(checkIfContinueGame);
+                answer = Console.ReadLine();
+            } while (answer != "1" && answer != "2");
+            if (answer == "1")
+            {
+                i_Board.InitBoard();
+            }
+            else
+            {
+                returnAnswer = true;
+            }
+
+            return returnAnswer;
+        }
         /*
         public static void RunGameAgainstOtherPlayer(ref int i_WhichPlayer, Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_IsEaten, ref bool i_EndGame)
         {
