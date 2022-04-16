@@ -29,7 +29,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
-            bool endGame = false, isEaten = false,quit=false;
+            bool endGame = false, isEaten = false, quit = false;
             int i = 0, indexWhoEat;
             List<int> userMoverInInt = new List<int>(4);
             while (!endGame)
@@ -42,8 +42,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
-                    userMoverInInt=CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber1, i_PlayerNumber2, ref endGame, ref isEaten, ref i);
-                    CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten,ref i, indexWhoEat);
+                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber1, i_PlayerNumber2, ref endGame, ref isEaten, ref i);
+                    CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        userMoverInInt=CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber2, i_PlayerNumber1, ref endGame, ref isEaten, ref i);
+                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber2, i_PlayerNumber1, ref endGame, ref isEaten, ref i);
                     }
 
                     indexWhoEat = 2;
@@ -70,7 +70,27 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board,ref bool i_Quit,Player i_CurrPlayer,Player i_NextPlayer,ref bool io_EndGame,ref bool io_IsEaten,ref int i_Index)
+        public static void UpdatePlayerIfKing(Board i_Board, Player i_Player, List<int> i_Position)///יכנס לפה רק אם כל הבדיקות הקודמות עבדו
+        {
+            int numberOfPlayer = i_Player.NumberOfPlayer;
+            if (numberOfPlayer == 1)
+            {
+                if(i_Position[3]==i_Board.BoardSize-1)
+                {
+                    i_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.IsKing = true;
+                    i_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.SignOfPlayerInBoard = 'U';
+                }                
+            }
+            else
+            {
+                if (i_Position[3] == 0)
+                {
+                    i_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.IsKing = true;
+                    i_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.SignOfPlayerInBoard = 'K';
+                }
+            }
+        }
+        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool i_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index)
         {
             List<int> userMoverInInt = new List<int>(4);
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, i_NextPlayer, ref i_Quit);
@@ -88,8 +108,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             return userMoverInInt;
         }
-        public static bool CheckIfThePlayerWantToQuit(Board i_Board,Player i_PlayerQuit, Player i_Player)
-        { 
+        public static bool CheckIfThePlayerWantToQuit(Board i_Board, Player i_PlayerQuit, Player i_Player)
+        {
             bool returnAnswer = false;
             string answer;
             i_Player.Winning++;
@@ -112,30 +132,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             return returnAnswer;
         }
-        /*
-        public static void RunGameAgainstOtherPlayer(ref int i_WhichPlayer, Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_IsEaten, ref bool i_EndGame)
+
+        public static void InitNewGame(Player i_Player1, Player i_Player2, int i_SizeOfBoard)
         {
-            int indexWhoEat = 1;
-            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_WhichPlayer, i_PlayerNumber1, i_PlayerNumber2);
-            List<int> userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
-
-            if (i_WhichPlayer % 2 == 0) ///O
-            {
-                indexWhoEat = 1;
-                CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref i_IsEaten, ref i_WhichPlayer, indexWhoEat);
-            }
-
-            else ///X
-            {
-                indexWhoEat = 2;
-                CheckPositionAndMove(i_PlayerNumber2, i_Board, userMoverInInt, ref i_IsEaten, ref i_WhichPlayer, indexWhoEat);
-            }
-
-            if (i_IsEaten)
-            {
-                CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame, indexWhoEat);
-            }
-        }*/
+            i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4; ;
+        }
+        public static void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
+        {
+            int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = i_WinnerPlayer.RemainPieces;
+            i_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;///ההפרש בין השחקנים של המנצח למפסיד הולך למנצח
+        }
 
         public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2)
         {
@@ -210,6 +216,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             else
             {
                 i_Player.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_Player.NumberOfPlayer, ref eatBackWord);
+                UpdatePlayerIfKing(i_Board, i_Player, i_UserMoveInt);//לעדכן אם זה מלך
             }
         }
 
@@ -245,7 +252,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_MustEatOneOfThem.Add(i_WantedCol);
                 returnAnswer = true;
             }
-            
+
             return returnAnswer;
         }
     }

@@ -16,11 +16,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private int m_Winning;
         private List<Point> m_ListOfPositionsOfRemainPieces;
 
-        public Player(string i_Name, int i_SizeOfBorad, char i_Sign, int i_NumberOfPlayer)
+        public Player(string i_Name, int i_SizeOfBoard, char i_Sign, int i_NumberOfPlayer)
         {
             m_NameOfPlayer = i_Name;
             m_PointsOfPlayer = 0;
-            m_RemainPieces = (((i_SizeOfBorad * i_SizeOfBorad) - 2) * i_SizeOfBorad) / 4;
+            m_RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4;
             m_SignPlayer = i_Sign;
             m_NumberOfPlayer = i_NumberOfPlayer;
             m_Winning = 0;
