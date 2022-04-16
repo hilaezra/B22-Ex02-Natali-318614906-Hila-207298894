@@ -37,7 +37,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if (row < playersNumOfRow)
                     {
-                        InitXAndOCells(row, col, 2, io_Player1, io_Player2);
+                        InitXAndOCells(row, col, 1, io_Player1, io_Player2);
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
@@ -45,21 +45,41 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        InitXAndOCells(row, col, 1, io_Player1, io_Player2);
+                        InitXAndOCells(row, col, 2, io_Player1, io_Player2);
                     }
                 }
             }
+            //for (int i = 0; i < playerNumber1.Positions.Count; i++)
+            //{
+            //    Console.WriteLine("player 1:");
+            //    Console.WriteLine("{0} , {1}", playerNumber1.Positions[i].X, playerNumber1.Positions[i].Y);
+            //}
+            //for (int i = 0; i < playerNumber2.Positions.Count; i++)
+            //{
+            //    Console.WriteLine("player 2:");
+            //    Console.WriteLine("{0} , {1}", playerNumber2.Positions[i].X, playerNumber2.Positions[i].Y);
+            //}
         }
 
         public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing, Player io_Player1, Player io_Player2)
         {
+            Point newPoint = new Point(i_Row, i_Col);
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
                 m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);  ////1==O , 2 == X
+                if(i_PlayerSing == 1)
+                {
+                    io_Player1.Positions.Add(newPoint);
+                }
+                else
+                {
+                    io_Player2.Positions.Add(newPoint);
+
+                }
             }
             else
             {
-                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, 3);
+                m_GameBoard[i_Row, i_Col] = new CellInBoard(true, 3);
             }
         }
 

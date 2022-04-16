@@ -17,11 +17,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             PlayerPieceOnBoard piece;
             if (i_NumberOfPlayer == 1)
             {
-                piece = new PlayerPieceOnBoard('X');
+                piece = new PlayerPieceOnBoard('O');
             }
             else if (i_NumberOfPlayer == 2)
             {
-                piece = new PlayerPieceOnBoard('O');
+                piece = new PlayerPieceOnBoard('X');
             }
             else
             {
