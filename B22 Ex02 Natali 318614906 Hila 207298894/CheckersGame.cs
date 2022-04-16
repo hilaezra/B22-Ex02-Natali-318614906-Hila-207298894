@@ -54,7 +54,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if (i_PlayerNumber2.NameOfPlayer == "computer")
                     {
-                        GetRandomPosition(i_Board, userMoverInInt, i_PlayerNumber2);
+                        GetRandomPosition(i_Board, userMoverInInt, i_PlayerNumber2, listOfPositionOptionToEat);
                     }
                     else
                     {
@@ -150,55 +150,54 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             i_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;///ההפרש בין השחקנים של המנצח למפסיד הולך למנצח
         }
 
-        public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2)
+        public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2, List<List<int>> io_ListOfPositionOptionToEat)
         {
-            bool validRandomMove = false;
+            List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
+            int currRow, currCol, randomPos;
+            bool someoneToEat = CheckIfThereIsAnyoneToEatAndReturnOptions(i_GameBoard, i_PlayerNumber2, io_ListOfPositionOptionToEat);
+            Random rand = new Random();
 
-            for (int i = 1; i < i_GameBoard.BoardSize && validRandomMove != true; i++)
+            if (someoneToEat == true)
             {
-                for (int j = 0; j < i_GameBoard.BoardSize && validRandomMove != true; j++)
-                {
-                    if (i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'X' || i_GameBoard.GameBoard[i, j].PlayerInBoard.SignOfPlayerInBoard == 'K')
-                    {
-                        if (j == 0 && i_GameBoard.GameBoard[i - 1, j + 1].IsEmpty == true)
-                        {
-                            UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, j, i, j + 1, i - 1);
-                            validRandomMove = true;
-                        }
-                        else if (j == i_GameBoard.BoardSize - 1 && i_GameBoard.GameBoard[i - 1, j - 1].IsEmpty == true)
-                        {
-                            UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, j, i, j - 1, i - 1);
-                            validRandomMove = true;
-                        }
-                        else if (j != i_GameBoard.BoardSize - 1 && j != 0)
-                        {
-                            bool validChoice = false;
+                randomPos = rand.Next(io_ListOfPositionOptionToEat.Count() - 1);
+                UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, io_ListOfPositionOptionToEat[randomPos][1], io_ListOfPositionOptionToEat[randomPos][0], io_ListOfPositionOptionToEat[randomPos][3], io_ListOfPositionOptionToEat[randomPos][2]);
 
-                            for (int n = 0; n < 2 && !validChoice; n++)
-                            {
-                                Random rand = new Random();
-                                List<int> possibleCols = new List<int> { j - 1, j + 1 };
-                                int randomCol = rand.Next(possibleCols.Count);
-                                if (i_GameBoard.GameBoard[i - 1, possibleCols[randomCol]].IsEmpty == true)
-                                {
-                                    UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, j, i, possibleCols[randomCol], i - 1);
-                                    validChoice = true;
-                                    validRandomMove = true;
-                                }
-                            }
-                        }
+            }
+            else
+            {
+                for (int i = 0; i < i_PlayerNumber2.Positions.Count; i++)
+                {
+                    currRow = i_PlayerNumber2.Positions[i].X;
+                    currCol = i_PlayerNumber2.Positions[i].Y;
+                    if (CheckThatWeDontGoBeyondBoundaries(i_GameBoard.BoardSize, currRow - 1, currCol - 1) &&
+                        i_GameBoard.GameBoard[currRow - 1, currCol - 1].IsEmpty)
+                    {
+                        List<int> possiblePosition = new List<int>(4);
+                        UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol - 1);
+                        listOfPositionOptionToMove.Add(possiblePosition);
+                    }
+
+                    if (CheckThatWeDontGoBeyondBoundaries(i_GameBoard.BoardSize, currRow - 1, currCol + 1) &&
+                        i_GameBoard.GameBoard[currRow - 1, currCol + 1].IsEmpty)
+                    {
+                        List<int> possiblePosition = new List<int>(4);
+                        UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, currRow, currCol, currRow - 1, currCol + 1);
+                        listOfPositionOptionToMove.Add(possiblePosition);
                     }
                 }
+
+                randomPos = rand.Next(listOfPositionOptionToMove.Count() - 1);
+                UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, listOfPositionOptionToMove[randomPos][1], listOfPositionOptionToMove[randomPos][0], listOfPositionOptionToMove[randomPos][3], listOfPositionOptionToMove[randomPos][2]);
             }
         }
 
-        public static void UpdateArrOfPosition(List<int> io_FromWhereToWhereToEatAndMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
+        public static void UpdateArrOfPosition(List<int> io_FromWhereToWhereToMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
         {
-            io_FromWhereToWhereToEatAndMove.Clear();
-            io_FromWhereToWhereToEatAndMove.Add(i_CurrRowNum);
-            io_FromWhereToWhereToEatAndMove.Add(i_CurrColNum);
-            io_FromWhereToWhereToEatAndMove.Add(i_NextRowNum);
-            io_FromWhereToWhereToEatAndMove.Add(i_NextColNum);
+            //io_FromWhereToWhereToEatAndMove.Clear();
+            io_FromWhereToWhereToMove.Add(i_CurrColNum);
+            io_FromWhereToWhereToMove.Add(i_CurrRowNum);
+            io_FromWhereToWhereToMove.Add(i_NextColNum);
+            io_FromWhereToWhereToMove.Add(i_NextRowNum);
         }
 
         public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer)
@@ -236,10 +235,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static bool CheckIfTheWantedPositionIsMustEatenPosition(List<List<int>> i_PossiblePositionToEat, List<int> i_WantedPosition)
         {
-            bool returnAnswer = false;                      
-            for(int i=0;i< i_PossiblePositionToEat.Count;i++)
+            bool returnAnswer = false;
+            for (int i = 0; i < i_PossiblePositionToEat.Count; i++)
             {
-                if(i_PossiblePositionToEat[i][0] == i_WantedPosition[0] && i_PossiblePositionToEat[i][1] == i_WantedPosition[1]
+                if (i_PossiblePositionToEat[i][0] == i_WantedPosition[0] && i_PossiblePositionToEat[i][1] == i_WantedPosition[1]
                     && i_PossiblePositionToEat[i][2] == i_WantedPosition[2] && i_PossiblePositionToEat[i][3] == i_WantedPosition[3])
                 {
                     returnAnswer = true;
