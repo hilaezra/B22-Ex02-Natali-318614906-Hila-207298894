@@ -29,7 +29,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
-            bool endGame = false, isEaten = false;
+            bool endGame = false, isEaten = false,quit=false;
             int i = 0, indexWhoEat;
             string userMoveInString;
             List<int> userMoverInInt = new List<int>(4);
@@ -43,7 +43,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
-                    userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2);
+                    userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2,ref quit);
+                    if(quit)
+                    {
+                        i_PlayerNumber2.Winning++;
+                        endGame = true;
+                    }
                     userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                     CheckPositionAndMove(i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat);
                 }
@@ -55,7 +60,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2);
+                        userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i, i_PlayerNumber1, i_PlayerNumber2,ref quit);
+                        if (quit)
+                        {
+                            endGame = true;
+                        }
                         userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
                     }
 

@@ -98,7 +98,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return againstComputer;
         }
 
-        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, Player i_Player2)
+        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, Player i_Player2,ref bool io_Quit)
         {
             bool validPointOnBoard = false;
             string userMove;
@@ -131,6 +131,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         && userMove[4] >= 'a' && userMove[4] <= (char)('a' + i_BoardSize - 1))
                     {
                         validPointOnBoard = true;
+                    }
+                }
+                else if(userMove.Length == 1)
+                {
+                    if(userMove[0]=='Q')
+                    {
+                        validPointOnBoard = true;
+                        io_Quit = true;
                     }
                 }
             } 
