@@ -98,6 +98,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
         }
+
         public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index)
         {
             List<int> userMoverInInt = new List<int>(4);
@@ -115,6 +116,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             return userMoverInInt;
         }
+       
         public static bool CheckIfThePlayerWantToQuit(Board i_Board, Player i_PlayerQuit, Player i_Player)
         {
             bool returnAnswer = false;
@@ -144,6 +146,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4; ;
         }
+        
         public static void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
         {
             int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = i_WinnerPlayer.RemainPieces;
@@ -161,7 +164,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 randomPos = rand.Next(io_ListOfPositionOptionToEat.Count() - 1);
                 UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, io_ListOfPositionOptionToEat[randomPos][1], io_ListOfPositionOptionToEat[randomPos][0], io_ListOfPositionOptionToEat[randomPos][3], io_ListOfPositionOptionToEat[randomPos][2]);
-
             }
             else
             {
@@ -263,6 +265,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
         }
+        
         public static bool CheckIfThereIsAnyoneToEatAndReturnOptions(Board i_Board, Player i_CurrPlayer, List<List<int>> o_PossiblePositionToEat)
         {
             bool returnAnswer = false, isKing = false;
