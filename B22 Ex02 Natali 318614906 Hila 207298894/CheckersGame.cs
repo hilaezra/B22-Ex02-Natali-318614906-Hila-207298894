@@ -103,7 +103,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             } while (answer != "1" && answer != "2");
             if (answer == "1")
             {
-                i_Board.InitBoard();
+                i_Board.InitBoard(i_PlayerQuit, i_Player);
             }
             else
             {
