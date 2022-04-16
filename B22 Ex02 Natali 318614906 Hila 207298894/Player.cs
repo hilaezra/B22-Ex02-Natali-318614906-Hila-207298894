@@ -14,6 +14,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private char m_SignPlayer;
         private int m_NumberOfPlayer;
         private int m_Winning;
+        private List<Point> m_ListOfPositionsOfRemainPieces;
 
         public Player(string i_Name, int i_SizeOfBorad, char i_Sign, int i_NumberOfPlayer)
         {
@@ -23,6 +24,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_SignPlayer = i_Sign;
             m_NumberOfPlayer = i_NumberOfPlayer;
             m_Winning = 0;
+            m_ListOfPositionsOfRemainPieces = new List<Point>(m_RemainPieces);
         }
 
         public static void FindMiddlePosition(List<int> i_Positions, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer)
@@ -77,6 +79,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             get { return m_Winning; }
             set { m_Winning = value; }
         }
+
+        public List<Point> Positions  
+        {
+            get { return m_ListOfPositionsOfRemainPieces; }
+            set { m_ListOfPositionsOfRemainPieces = value; }
+        }
+
         public bool CheckIfTheCurrPositionIsMine(Board i_Board, List<int> i_Position, ref bool io_IsEaten, ref bool io_EatBackWord)
         {
             bool returnAnswer = false;

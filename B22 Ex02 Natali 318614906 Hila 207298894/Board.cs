@@ -27,7 +27,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_GameBoard = new CellInBoard[m_BoardSize, m_BoardSize];
         }
 
-        public void InitBoard()
+        public void InitBoard(Player io_Player1, Player io_Player2)
         {
             int playersNumOfRow = (m_BoardSize - 2) / 2;
 
@@ -37,7 +37,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if (row < playersNumOfRow)
                     {
-                        InitXAndOCells(row, col, 2);
+                        InitXAndOCells(row, col, 2, io_Player1, io_Player2);
                     }
                     else if (row >= playersNumOfRow && row < playersNumOfRow + 2)
                     {
@@ -45,17 +45,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        InitXAndOCells(row, col, 1);
+                        InitXAndOCells(row, col, 1, io_Player1, io_Player2);
                     }
                 }
             }
         }
 
-        public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing)
+        public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing, Player io_Player1, Player io_Player2)
         {
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
-                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);
+                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);  ////1==O , 2 == X
             }
             else
             {

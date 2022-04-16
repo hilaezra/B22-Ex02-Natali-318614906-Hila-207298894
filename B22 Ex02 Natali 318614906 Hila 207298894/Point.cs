@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class Point
+    public class Point
     {
         private int m_X;
         private int m_Y;
