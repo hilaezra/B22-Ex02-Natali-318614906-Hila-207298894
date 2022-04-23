@@ -228,7 +228,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool returnAns = false;
             List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
-            CheckersGame.UpdateOptionsOfValidMovements(this, i_Board, listOfPositionOptionToMove);
+            CheckersGame.UpdateOptionsOfValidMovements(this, i_Board, listOfPositionOptionToMove, this.NumberOfPlayer);
             if (listOfPositionOptionToMove.Count == 0)
             {
                 returnAns = true;

@@ -30,6 +30,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void InitBoard(Player io_Player1, Player io_Player2)
         {
             int playersNumOfRow = (m_BoardSize - 2) / 2;
+            io_Player1.Positions.Clear();
+            io_Player2.Positions.Clear();
 
             for (int row = 0; row < m_BoardSize; row++)
             {
@@ -49,16 +51,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                 }
             }
-            //for (int i = 0; i < playerNumber1.Positions.Count; i++)
-            //{
-            //    Console.WriteLine("player 1:");
-            //    Console.WriteLine("{0} , {1}", playerNumber1.Positions[i].X, playerNumber1.Positions[i].Y);
-            //}
-            //for (int i = 0; i < playerNumber2.Positions.Count; i++)
-            //{
-            //    Console.WriteLine("player 2:");
-            //    Console.WriteLine("{0} , {1}", playerNumber2.Positions[i].X, playerNumber2.Positions[i].Y);
-            //}
         }
 
         public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing, Player io_Player1, Player io_Player2)
