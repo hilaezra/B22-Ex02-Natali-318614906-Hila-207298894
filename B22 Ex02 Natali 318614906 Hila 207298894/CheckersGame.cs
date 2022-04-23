@@ -4,6 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/*
+ * מה נותר לעשות:
+ * צריך לסדר את העניין שאם אוכלים מלך זה 4 נק- ניסיתי זה יצר באלגן היה צריך לשנות את כלללל הפונק
+ * צריך לסדר את הפונק הקיימות ולייפות אותן
+ * צריך להדפיס על המסך מחוץ מנקודות לכל שחקן גם ניצחונות לכל שחקן
+ * מי שלוחץ על יציאה ההפרש בין השחקנים שלו לשני (לבדוק!!!)
+ * תיקווווו (כלומר צריך לבדוק האם אין ל2 השחקנים מהלכים חוקיים לעשות) בנוסף צריך לבדוק על כל אחד מהשחקנים כדאי לראות האם מישהו הפסיד ונשאר לו שחקנים
+ * זהו?!?!??!? סיימנו?
+ */
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
     public class CheckersGame
@@ -70,7 +80,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
                 if (isEaten)
                 {
-                    CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat);
+                    bool IsEatKing = CheckIfThePlayerEatKing();
+                    CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat, IsEatKing);
+                    if (endGame == true)
+                    {
+                        CheckWhoWinAndAnnounceToThePlayer(i_Board, indexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref endGame);
+                    }
                 }
 
                 i++;
@@ -105,7 +120,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
             if (io_Quit)
             {
-                if (CheckIfThePlayerWantToQuit(i_Board, i_CurrPlayer, i_NextPlayer))
+                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_CurrPlayer, i_NextPlayer))
                 {
                     io_EndGame = true;
                 }
@@ -116,8 +131,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             return userMoverInInt;
         }
-       
-        public static bool CheckIfThePlayerWantToQuit(Board i_Board, Player i_PlayerQuit, Player i_Player)
+
+        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(Board i_Board, Player i_PlayerQuit, Player i_Player)
         {
             bool returnAnswer = false;
             string answer;
@@ -146,7 +161,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4; ;
         }
-        
+
         public static void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
         {
             int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = i_WinnerPlayer.RemainPieces;
@@ -202,15 +217,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             io_FromWhereToWhereToMove.Add(i_NextRowNum);
         }
 
-        public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer)
+        public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer, bool i_EatKing)
         {
             if (i_NumberOfPlayer == 1)
             {
-                UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2, ref io_endGame);
+                UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2, ref io_endGame, i_EatKing);
             }
             else if (i_NumberOfPlayer == 2)
             {
-                UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref io_endGame);
+                UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref io_endGame, i_EatKing);
             }
         }
 
@@ -232,6 +247,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 i_CurrPlayer.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_CurrPlayer.NumberOfPlayer, ref eatBackWord);
                 UpdateListPointsOfPlayer(i_CurrPlayer, i_NextPlayer, i_UserMoveInt, io_IsEaten);
                 UpdatePlayerIfKing(i_Board, i_CurrPlayer, i_UserMoveInt);//לעדכן אם זה מלך
+                if (CheckIfThereAreMoreToEatForThatPiece(i_Board, i_UserMoveInt, i_CurrPlayer.NumberOfPlayer, i_CurrPlayer) && io_IsEaten)
+                {
+                    i--;
+                }
             }
         }
 
@@ -251,13 +270,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public static void CheckForEachRemainPieceIfCanEat(ref bool o_ReturnAns, Board i_GameBoard, Player i_CurrPlayer, int i_IndexOfPiece, List<List<int>> o_PossiblePositionToEat, int i_Row, int i_Col)
+        public static void CheckForEachRemainPieceIfCanEat(ref bool o_ReturnAns, Board i_GameBoard, Player i_CurrPlayer, int i_IndexOfPiece, List<List<int>> o_PossiblePositionToEat, int i_Row, int i_Col, int i_NumberOfPlayer)
         {
             bool canEat = false, eat = false;
             if (CheckThatWeDontGoBeyondBoundaries(i_GameBoard.BoardSize, i_CurrPlayer.Positions[i_IndexOfPiece].X + i_Row, i_CurrPlayer.Positions[i_IndexOfPiece].Y + i_Col))
             {
                 List<int> position = new List<int> { i_CurrPlayer.Positions[i_IndexOfPiece].Y, i_CurrPlayer.Positions[i_IndexOfPiece].X, i_CurrPlayer.Positions[i_IndexOfPiece].Y + i_Col, i_CurrPlayer.Positions[i_IndexOfPiece].X + i_Row };
-                canEat = i_CurrPlayer.CheckIfCanEaten(i_GameBoard, position, i_CurrPlayer.NumberOfPlayer, ref eat);
+                canEat = i_CurrPlayer.CheckIfCanEaten(i_GameBoard, position, i_NumberOfPlayer, ref eat);
                 if (canEat)
                 {
                     o_PossiblePositionToEat.Add(position);
@@ -265,7 +284,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
         }
-        
+
         public static bool CheckIfThereIsAnyoneToEatAndReturnOptions(Board i_Board, Player i_CurrPlayer, List<List<int>> o_PossiblePositionToEat)
         {
             bool returnAnswer = false, isKing = false;
@@ -275,14 +294,26 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 isKing = i_Board.GameBoard[i_CurrPlayer.Positions[k].X, i_CurrPlayer.Positions[k].Y].PlayerInBoard.IsKing;
                 if (i_CurrPlayer.NumberOfPlayer == 2)
                 {
-                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, 2);
-                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, -2);
+                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, 2, 2);
+                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, -2, 2);
+                    if (isKing)
+                    {
+                        CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, 2, 1);
+                        CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, -2, 1);
+                    }
                 }
                 else
                 {
-                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, 2);
-                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, -2);
+                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, 2, 1);
+                    CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, 2, -2, 1);
+                    if (isKing)
+                    {
+                        CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, 2, 2);
+                        CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, -2, 2);
+                    }
+
                 }
+
             }
 
             return returnAnswer;
@@ -290,7 +321,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void UpdateListPointsOfPlayer(Player io_CurrPlayer, Player io_NextPlayer, List<int> i_FromWhereToWhere, bool i_IsEaten)
         {
-            int sizeOfPositionCurr = io_CurrPlayer.RemainPieces, sizeOfPositionNext = io_NextPlayer.NumberOfPlayer;
+            int sizeOfPositionCurr = io_CurrPlayer.RemainPieces, sizeOfPositionNext = io_NextPlayer.RemainPieces;
             int intMoveCol = 0, addOrSub = 0, indexMiddle = 0;
             int backWard = io_CurrPlayer.NumberOfPlayer;
             for (int k = 0; k < sizeOfPositionCurr; k++)
@@ -317,19 +348,40 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         j = sizeOfPositionNext;
                     }
                 }
+                if (backWard == 1)
+                {
+                    backWard = 2;
+                }
+                else
+                {
+                    backWard = 1;
+                }
+                sizeOfPositionNext = io_NextPlayer.Positions.Count;
+                //תוספת לאכילה לאחור????
+                Player.FindMiddlePosition(i_FromWhereToWhere, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
+                colToDelete = i_FromWhereToWhere[0] + intMoveCol;
+                rowToDelete = i_FromWhereToWhere[1] + indexMiddle;
+                for (int j = 0; j < sizeOfPositionNext; j++)
+                {
+                    if (colToDelete == io_NextPlayer.Positions[j].Y && rowToDelete == io_NextPlayer.Positions[j].X)
+                    {
+                        io_NextPlayer.Positions.RemoveAt(j);
+                        j = sizeOfPositionNext;
+                    }
+                }
             }
         }
 
-        public static void UpdatePlayersAfterEaten(Player i_WinPlayer, Player i_LoserPlayer, ref bool i_EndGame)
+        public static void UpdatePlayersAfterEaten(Player i_WinPlayer, Player i_LoserPlayer, ref bool o_EndGame, bool i_EatKing)
         {
-            AddPointAfterEat(i_WinPlayer);
-            i_EndGame = SubPieceOfTheRemainPiece(i_LoserPlayer);
+            AddPointAfterEat(i_WinPlayer, i_EatKing);
+            o_EndGame = SubPieceOfTheRemainPiece(i_LoserPlayer);
         }
 
-        public static bool SubPieceOfTheRemainPiece(Player i_Player)
+        public static bool SubPieceOfTheRemainPiece(Player i_Player)//מחזיר אמת אם נגמר השחקנים אחרי האכילה
         {
             bool returnAnswer = false;
-            int remainPieces = i_Player.RemainPieces--;
+            int remainPieces = --i_Player.RemainPieces;
             if (remainPieces == 0)
             {
                 returnAnswer = true;
@@ -338,9 +390,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public static void AddPointAfterEat(Player i_Player)
+        public static void AddPointAfterEat(Player i_Player, bool i_EatKing)
         {
-            i_Player.PointsOfPlayer++;
+            if (!i_EatKing)
+            {
+                i_Player.PointsOfPlayer++;
+            }
+            else
+            {
+                i_Player.PointsOfPlayer += 4;
+            }
         }
 
         public static bool CheckThatWeDontGoBeyondBoundaries(int i_SizeOfTheBoard, int i_WantedRow, int i_WantedCol)
@@ -352,6 +411,87 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
 
             return returnAnswer;
+        }
+
+        public static bool CheckIfThereAreMoreToEatForThatPiece(Board i_Board, List<int> i_Position, int i_NumberOfPlayer, Player i_Player)
+        {
+            bool isKing = i_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.IsKing;
+            bool returnAnswer = false;
+            if (i_NumberOfPlayer == 1)
+            {
+                returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Board, i_Position, i_Player, 1, 1);
+            }
+            else
+            {
+                returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Board, i_Position, i_Player, -1, 1);
+            }
+            if (isKing && !returnAnswer)
+            {
+                if (i_NumberOfPlayer == 1)
+                {
+                    returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Board, i_Position, i_Player, -1, 1);
+                }
+                else
+                {
+                    returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Board, i_Position, i_Player, 1, 1);
+                }
+            }
+
+            return returnAnswer;
+        }
+
+        public static bool CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(Board i_Board, List<int> i_Position, Player i_Player, int i_Col, int i_Row)
+        {
+            bool returnAnswer = false;
+            if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] + i_Col) &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != ' '
+                     ||
+                     CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] - i_Col) &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != ' '
+                     )
+            {
+                if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2) &&
+                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2].IsEmpty
+                    ||
+                    CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + 2, i_Position[2] - i_Col * 2) &&
+                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2].IsEmpty
+                    )
+                {
+                    returnAnswer = true;
+                }
+            }
+            return returnAnswer;
+        }
+
+        public static void CheckWhoWinAndAnnounceToThePlayer(Board i_Board, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame)//צריך לשים בפונקציותתתת
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            string msg;
+            if (i_Index == 1)
+            {
+                i_Player1.Winning++;
+                msg = string.Format("Congratulations {0} !!!!{1}You are the    W I N N E R    !", i_Player1.NameOfPlayer, Environment.NewLine);
+                Ex02.ConsoleUtils.Screen.Clear();
+                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player1, i_Player2);
+            }
+            else
+            {
+                i_Player2.Winning++;
+                msg = string.Format("Congratulations {0} !!!!{1}You are the    W I N N E R    !", i_Player2.NameOfPlayer, Environment.NewLine);
+                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player2, i_Player1);
+
+            }
+
+            Console.WriteLine(msg);
+        }
+    
+        public static bool CheckIfThePlayerEatKing()
+        {
+            return true;//סתם שירוץ.....
         }
     }
 }
