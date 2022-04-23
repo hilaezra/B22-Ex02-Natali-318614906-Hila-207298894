@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 /*
  * מה נותר לעשות:
- * צריך לסדר את העניין שאם אוכלים מלך זה 4 נק- ניסיתי זה יצר באלגן היה צריך לשנות את כלללל הפונק
  * צריך לסדר את הפונק הקיימות ולייפות אותן
  * צריך להדפיס על המסך מחוץ מנקודות לכל שחקן גם ניצחונות לכל שחקן
  * מי שלוחץ על יציאה ההפרש בין השחקנים שלו לשני (לבדוק!!!)
@@ -80,8 +79,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
                 if (isEaten)
                 {
-                    bool IsEatKing = CheckIfThePlayerEatKing();
-                    CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat, IsEatKing);
+                    CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat);
                     if (endGame == true)
                     {
                         CheckWhoWinAndAnnounceToThePlayer(i_Board, indexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref endGame);
@@ -217,15 +215,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             io_FromWhereToWhereToMove.Add(i_NextRowNum);
         }
 
-        public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer, bool i_EatKing)
+        public static void CheckWhowEatAndUpdate(Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool io_endGame, int i_NumberOfPlayer)
         {
             if (i_NumberOfPlayer == 1)
             {
-                UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2, ref io_endGame, i_EatKing);
+                UpdatePlayersAfterEaten(i_PlayerNumber1, i_PlayerNumber2, ref io_endGame);
             }
             else if (i_NumberOfPlayer == 2)
             {
-                UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref io_endGame, i_EatKing);
+                UpdatePlayersAfterEaten(i_PlayerNumber2, i_PlayerNumber1, ref io_endGame);
             }
         }
 
@@ -372,9 +370,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static void UpdatePlayersAfterEaten(Player i_WinPlayer, Player i_LoserPlayer, ref bool o_EndGame, bool i_EatKing)
+        public static void UpdatePlayersAfterEaten(Player i_WinPlayer, Player i_LoserPlayer, ref bool o_EndGame)
         {
-            AddPointAfterEat(i_WinPlayer, i_EatKing);
             o_EndGame = SubPieceOfTheRemainPiece(i_LoserPlayer);
         }
 
@@ -489,9 +486,5 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Console.WriteLine(msg);
         }
     
-        public static bool CheckIfThePlayerEatKing()
-        {
-            return true;//סתם שירוץ.....
-        }
     }
 }

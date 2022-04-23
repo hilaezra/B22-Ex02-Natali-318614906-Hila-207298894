@@ -233,7 +233,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
             if (i_IsEaten)
             {
-                ////צריך לסדר אתזה לאכילה אחורה.....
+                if(i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.IsKing)
+                {
+                    CheckersGame.AddPointAfterEat(this, true);
+                }
+                else
+                {
+                    CheckersGame.AddPointAfterEat(this, false);
+                }
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
                 i_Board.GameBoard[i_Positions[1] + indexMiddle, i_Positions[0] + intMoveCol].IsEmpty = true;
             }
