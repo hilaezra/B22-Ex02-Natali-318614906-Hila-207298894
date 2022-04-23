@@ -196,7 +196,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         i_GameBoard.GameBoard[currRow - 1, currCol + 1].IsEmpty)
                     {
                         List<int> possiblePosition = new List<int>(4);
-                        UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, currRow, currCol, currRow - 1, currCol + 1);
+                        UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol + 1);
                         listOfPositionOptionToMove.Add(possiblePosition);
                     }
                 }
@@ -208,7 +208,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void UpdateArrOfPosition(List<int> io_FromWhereToWhereToMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
         {
-            //io_FromWhereToWhereToEatAndMove.Clear();
+            io_FromWhereToWhereToMove.Clear();
             io_FromWhereToWhereToMove.Add(i_CurrColNum);
             io_FromWhereToWhereToMove.Add(i_CurrRowNum);
             io_FromWhereToWhereToMove.Add(i_NextColNum);
@@ -334,7 +334,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             if (i_IsEaten)
             {
-                //לסדr לאכילה אחורה
                 Player.FindMiddlePosition(i_FromWhereToWhere, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
                 int colToDelete = i_FromWhereToWhere[0] + intMoveCol;
                 int rowToDelete = i_FromWhereToWhere[1] + indexMiddle;
@@ -355,7 +354,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     backWard = 1;
                 }
                 sizeOfPositionNext = io_NextPlayer.Positions.Count;
-                //תוספת לאכילה לאחור????
                 Player.FindMiddlePosition(i_FromWhereToWhere, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
                 colToDelete = i_FromWhereToWhere[0] + intMoveCol;
                 rowToDelete = i_FromWhereToWhere[1] + indexMiddle;
@@ -437,30 +435,33 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public static bool CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(Board i_Board, List<int> i_Position, Player i_Player, int i_Col, int i_Row)
+        public static bool CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(Board i_Board, List<int> i_Position, Player i_Player, int i_Row, int i_Col)
         {
             bool returnAnswer = false;
             if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] + i_Col) &&
                      i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
                      i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
-                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != ' '
-                     ||
-                     CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] - i_Col) &&
-                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
-                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
-                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != ' '
-                     )
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != ' ')
             {
                 if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2) &&
-                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2].IsEmpty
-                    ||
-                    CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + 2, i_Position[2] - i_Col * 2) &&
-                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2].IsEmpty
-                    )
+                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2].IsEmpty)
+                {
+                    returnAnswer = true;
+                }
+
+            }
+            else if(CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] - i_Col) &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
+                     i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != ' ')
+            {
+                if(CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + 2, i_Position[2] - i_Col * 2) &&
+                    i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2].IsEmpty)
                 {
                     returnAnswer = true;
                 }
             }
+
             return returnAnswer;
         }
 
@@ -485,6 +486,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             Console.WriteLine(msg);
         }
-    
+
     }
 }
