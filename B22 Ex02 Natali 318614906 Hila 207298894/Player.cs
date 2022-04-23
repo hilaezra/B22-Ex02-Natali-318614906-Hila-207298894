@@ -13,7 +13,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private int m_RemainPieces;
         private char m_SignPlayer;
         private int m_NumberOfPlayer;
-        private int m_Winning;
         private List<Point> m_ListOfPositionsOfRemainPieces;
         private char m_SignOfKing;
 
@@ -24,7 +23,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard))) / 4;
             m_SignPlayer = i_Sign;
             m_NumberOfPlayer = i_NumberOfPlayer;
-            m_Winning = 0;
             m_ListOfPositionsOfRemainPieces = new List<Point>(m_RemainPieces);
             if (i_NumberOfPlayer == 1)
             {
@@ -93,12 +91,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             get { return m_SignPlayer; }
             set { m_SignPlayer = value; }
-        }
-
-        public int Winning
-        {
-            get { return m_Winning; }
-            set { m_Winning = value; }
         }
 
         public List<Point> Positions
@@ -214,7 +206,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player,char i_KingSign)
+        public static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player, char i_KingSign)
         {
             if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)
             {
@@ -232,16 +224,56 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
         }
 
-        public static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions,int i_IndexMiddle,int i_IndexMoveCol,Player i_Player)
+        public bool CheckIfThereIsNoValidMoveForPlayer(Board i_Board)
         {
-            if (i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].PlayerInBoard.IsKing)
+            bool returnAns = false;
+            List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
+            CheckersGame.UpdateOptionsOfValidMovements(this, i_Board, listOfPositionOptionToMove);
+            if (listOfPositionOptionToMove.Count == 0)
             {
-                CheckersGame.AddPointAfterEat(i_Player, true);
+                returnAns = true;
+            }
+            return returnAns;
+        }
+
+        public void UpdatePointsAfterEachGame(Player i_LosePlayer, Board i_Board)//לסדר אתזה
+        {
+            int currNumberOfDamka = 0, loseNumberOfDamka = 0;
+            for (int i = 0; i < this.RemainPieces; i++)
+            {
+                if (i_Board.GameBoard[this.Positions[i].X, this.Positions[i].Y].PlayerInBoard.IsKing)
+                {
+                    currNumberOfDamka += 4;
+                }
+                else
+                {
+                    currNumberOfDamka++;
+                }
+            }
+
+            if (i_LosePlayer.RemainPieces == 0)
+            {
+                this.PointsOfPlayer += currNumberOfDamka;
             }
             else
             {
-                CheckersGame.AddPointAfterEat(i_Player, false);
+                for (int i = 0; i < i_LosePlayer.RemainPieces; i++)
+                {
+                    if (i_Board.GameBoard[i_LosePlayer.Positions[i].X, i_LosePlayer.Positions[i].Y].PlayerInBoard.IsKing)
+                    {
+                        loseNumberOfDamka += 4;
+                    }
+                    else
+                    {
+                        loseNumberOfDamka++;
+                    }
+                }
+                this.PointsOfPlayer += currNumberOfDamka - loseNumberOfDamka;
             }
+        }
+
+        public static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions, int i_IndexMiddle, int i_IndexMoveCol, Player i_Player)
+        {
             i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
             i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].IsEmpty = true;
         }

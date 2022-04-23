@@ -38,7 +38,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void RunGame(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2)
         {
-            bool endGame = false, isEaten = false, quit = false;
+            bool endGame = false, isEaten = false, quit = false, draw = false;
             int i = 0, indexWhoEat;
             List<int> userMoverInInt = new List<int>(4);
             List<List<int>> listOfPositionOptionToEat = new List<List<int>>();
@@ -57,6 +57,15 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     if (!quit)
                     {
                         CheckPositionAndMove(i_PlayerNumber1, i_PlayerNumber2, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat, listOfPositionOptionToEat);
+                        CheckIfDrawOrIfSomeoneCantMove(ref endGame, ref draw, i_PlayerNumber1, i_PlayerNumber2, i_Board);
+                        if (endGame)
+                        {
+                            if (!draw)
+                            {
+                                i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
+                            }
+                            CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_PlayerNumber1, i_PlayerNumber2);
+                        }
                     }
                 }
                 else
@@ -74,14 +83,32 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     if (!quit)
                     {
                         CheckPositionAndMove(i_PlayerNumber2, i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat, listOfPositionOptionToEat);
+                        CheckIfDrawOrIfSomeoneCantMove(ref endGame, ref draw, i_PlayerNumber2, i_PlayerNumber1, i_Board);
+                    
+                        if (endGame)
+                        {
+                            if (!draw)
+                            {
+                                i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
+                            }
+                            CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_PlayerNumber2, i_PlayerNumber1);
+                        }
                     }
                 }
 
                 if (isEaten)
                 {
                     CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat);
-                    if (endGame == true)
+                    if (endGame == true)///במקרה ומישהו הפסיד לגמרי
                     {
+                        if (indexWhoEat == 1)
+                        {
+                            i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
+                        }
+                        else
+                        {
+                            i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
+                        }
                         CheckWhoWinAndAnnounceToThePlayer(i_Board, indexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref endGame);
                     }
                 }
@@ -118,6 +145,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
             if (io_Quit)
             {
+                i_NextPlayer.UpdatePointsAfterEachGame(i_CurrPlayer, i_Board);
                 if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_CurrPlayer, i_NextPlayer))
                 {
                     io_EndGame = true;
@@ -134,7 +162,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool returnAnswer = false;
             string answer;
-            i_Player.Winning++;
             do
             {
                 Ex02.ConsoleUtils.Screen.Clear();
@@ -169,7 +196,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2, List<List<int>> io_ListOfPositionOptionToEat)
         {
             List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
-            int currRow, currCol, randomPos;
+            int randomPos;
             bool someoneToEat = CheckIfThereIsAnyoneToEatAndReturnOptions(i_GameBoard, i_PlayerNumber2, io_ListOfPositionOptionToEat);
             Random rand = new Random();
 
@@ -180,30 +207,53 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
-                for (int i = 0; i < i_PlayerNumber2.Positions.Count; i++)
-                {
-                    currRow = i_PlayerNumber2.Positions[i].X;
-                    currCol = i_PlayerNumber2.Positions[i].Y;
-                    if (CheckThatWeDontGoBeyondBoundaries(i_GameBoard.BoardSize, currRow - 1, currCol - 1) &&
-                        i_GameBoard.GameBoard[currRow - 1, currCol - 1].IsEmpty)
-                    {
-                        List<int> possiblePosition = new List<int>(4);
-                        UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol - 1);
-                        listOfPositionOptionToMove.Add(possiblePosition);
-                    }
-
-                    if (CheckThatWeDontGoBeyondBoundaries(i_GameBoard.BoardSize, currRow - 1, currCol + 1) &&
-                        i_GameBoard.GameBoard[currRow - 1, currCol + 1].IsEmpty)
-                    {
-                        List<int> possiblePosition = new List<int>(4);
-                        UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol + 1);
-                        listOfPositionOptionToMove.Add(possiblePosition);
-                    }
-                }
-
+                UpdateOptionsOfValidMovements(i_PlayerNumber2, i_GameBoard, listOfPositionOptionToMove);
                 randomPos = rand.Next(listOfPositionOptionToMove.Count() - 1);
                 UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, listOfPositionOptionToMove[randomPos][1], listOfPositionOptionToMove[randomPos][0], listOfPositionOptionToMove[randomPos][3], listOfPositionOptionToMove[randomPos][2]);
             }
+        }
+
+        public static void UpdateOptionsOfValidMovements(Player i_Player, Board i_Board, List<List<int>> io_ListOfPositionOptionToMove)
+        {
+            int currRow, currCol;
+            for (int i = 0; i < i_Player.Positions.Count; i++)
+            {
+                currRow = i_Player.Positions[i].X;
+                currCol = i_Player.Positions[i].Y;
+                if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, currRow - 1, currCol - 1) &&
+                    i_Board.GameBoard[currRow - 1, currCol - 1].IsEmpty)
+                {
+                    List<int> possiblePosition = new List<int>(4);
+                    UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol - 1);
+                    io_ListOfPositionOptionToMove.Add(possiblePosition);
+                }
+
+                if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, currRow - 1, currCol + 1) &&
+                    i_Board.GameBoard[currRow - 1, currCol + 1].IsEmpty)
+                {
+                    List<int> possiblePosition = new List<int>(4);
+                    UpdateArrOfPosition(possiblePosition, currRow, currCol, currRow - 1, currCol + 1);
+                    io_ListOfPositionOptionToMove.Add(possiblePosition);
+                }
+            }
+        }
+
+        public static void CheckIfDrawOrIfSomeoneCantMove(ref bool o_EndGame, ref bool o_Draw, Player i_CurrPlayer, Player i_NextPlayer, Board i_Board)
+        {
+            bool validMovesOfCurrPlayer, validMovesOfNextPlayer;
+            validMovesOfCurrPlayer = i_CurrPlayer.CheckIfThereIsNoValidMoveForPlayer(i_Board);
+            validMovesOfNextPlayer = i_NextPlayer.CheckIfThereIsNoValidMoveForPlayer(i_Board);
+
+            if (validMovesOfCurrPlayer && validMovesOfNextPlayer)
+            {
+                o_Draw = true;
+                o_EndGame = true;
+            }
+            else if (validMovesOfCurrPlayer)
+            {
+                o_EndGame = true;
+            }
+
         }
 
         public static void UpdateArrOfPosition(List<int> io_FromWhereToWhereToMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
@@ -385,18 +435,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public static void AddPointAfterEat(Player i_Player, bool i_EatKing)
-        {
-            if (!i_EatKing)
-            {
-                i_Player.PointsOfPlayer++;
-            }
-            else
-            {
-                i_Player.PointsOfPlayer += 4;
-            }
-        }
-
         public static bool CheckThatWeDontGoBeyondBoundaries(int i_SizeOfTheBoard, int i_WantedRow, int i_WantedCol)
         {
             bool returnAnswer = false;
@@ -450,12 +488,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
 
             }
-            else if(CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] - i_Col) &&
+            else if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + i_Row, i_Position[2] - i_Col) &&
                      i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfKing &&
                      i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
                      i_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != ' ')
             {
-                if(CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + 2, i_Position[2] - i_Col * 2) &&
+                if (CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[3] + 2, i_Position[2] - i_Col * 2) &&
                     i_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2].IsEmpty)
                 {
                     returnAnswer = true;
@@ -468,18 +506,19 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public static void CheckWhoWinAndAnnounceToThePlayer(Board i_Board, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame)//צריך לשים בפונקציותתתת
         {
             Ex02.ConsoleUtils.Screen.Clear();
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 50, Console.CursorTop + 1);
+
             string msg;
             if (i_Index == 1)
             {
-                i_Player1.Winning++;
                 msg = string.Format("Congratulations {0} !!!!{1}You are the    W I N N E R    !", i_Player1.NameOfPlayer, Environment.NewLine);
-                Ex02.ConsoleUtils.Screen.Clear();
+                System.Threading.Thread.Sleep(2500);
                 io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player1, i_Player2);
             }
             else
             {
-                i_Player2.Winning++;
                 msg = string.Format("Congratulations {0} !!!!{1}You are the    W I N N E R    !", i_Player2.NameOfPlayer, Environment.NewLine);
+                System.Threading.Thread.Sleep(2500);
                 io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player2, i_Player1);
 
             }
