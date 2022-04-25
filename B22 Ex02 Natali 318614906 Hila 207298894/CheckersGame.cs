@@ -277,6 +277,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 o_EndGame = true;
             }
+            else if(validMovesOfNextPlayer)
+            {
+                o_EndGame = true;
+            }
         }
 
         public static void UpdateArrOfPosition(List<int> io_FromWhereToWhereToMove, int i_CurrRowNum, int i_CurrColNum, int i_NextRowNum, int i_NextColNum)
