@@ -10,7 +10,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
     {
         public static string GetUserName(bool i_FirstPlayer)
         {
-            string userName = "";
+            string userName = string.Empty;
             bool validName = false;
             while (validName != true)
             {
@@ -146,5 +146,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             return returnCurrPositionAndNewPosition;
         }
+
     }
 }

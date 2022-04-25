@@ -15,12 +15,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private int m_NumberOfPlayer;
         private List<Point> m_ListOfPositionsOfRemainPieces;
         private char m_SignOfKing;
+        private string m_LastMove;
 
         public Player(string i_Name, int i_SizeOfBoard, char i_Sign, int i_NumberOfPlayer)
         {
+            m_LastMove = string.Empty;
             m_NameOfPlayer = i_Name;
             m_PointsOfPlayer = 0;
-            m_RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard))) / 4;
+            m_RemainPieces = ((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard)) / 4;
             m_SignPlayer = i_Sign;
             m_NumberOfPlayer = i_NumberOfPlayer;
             m_ListOfPositionsOfRemainPieces = new List<Point>(m_RemainPieces);
@@ -32,6 +34,30 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 m_SignOfKing = 'K';
             }
+        }
+
+        public static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions, int i_IndexMiddle, int i_IndexMoveCol, Player i_Player)
+        {
+            i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].IsEmpty = true;
+        }
+
+        public static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player, char i_KingSign)
+        {
+            if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)
+            {
+                i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing = false;
+                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.IsKing = true;
+                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = i_KingSign;
+            }
+            else
+            {
+                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = i_Player.m_SignPlayer;
+            }
+
+            i_Board.GameBoard[i_Positions[1], i_Positions[0]].IsEmpty = true;
+            i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.SignOfPlayerInBoard = ' ';
+            i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
         }
 
         public static void FindMiddlePosition(List<int> i_Positions, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer)
@@ -61,6 +87,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             get { return m_NameOfPlayer; }
             set { m_NameOfPlayer = value; }
+        }
+
+        public string LastMove
+        {
+            get { return m_LastMove; }
+            set { m_LastMove = value; }
         }
 
         public int PointsOfPlayer
@@ -198,30 +230,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     backWard = 1;
                 }
             }
+
             FindMiddlePosition(i_Positions, ref intMoveCol, ref addOrSub, ref indexMiddle, backWard);
             UpdateCellInBoardWhileThePlayerMove(i_Board, i_Positions, this, kingSign);
             if (i_IsEaten)
             {
                 UpdatePlayerAfterGotEaten(i_Board, i_Positions, indexMiddle, intMoveCol, this);
             }
-        }
-
-        public static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player, char i_KingSign)
-        {
-            if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)
-            {
-                i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing = false;
-                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.IsKing = true;
-                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = i_KingSign;
-            }
-            else
-            {
-                i_Board.GameBoard[i_Positions[3], i_Positions[2]].PlayerInBoard.SignOfPlayerInBoard = i_Player.m_SignPlayer;
-            }
-
-            i_Board.GameBoard[i_Positions[1], i_Positions[0]].IsEmpty = true;
-            i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.SignOfPlayerInBoard = ' ';
-            i_Board.GameBoard[i_Positions[3], i_Positions[2]].IsEmpty = false;
         }
 
         public bool CheckIfThereIsNoValidMoveForPlayer(Board i_Board)
@@ -233,12 +248,27 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 returnAns = true;
             }
+
             return returnAns;
         }
 
-        public void UpdatePointsAfterEachGame(Player i_LosePlayer, Board i_Board)//לסדר אתזה
+        public void UpdatePointsAfterEachGame(Player i_LosePlayer, Board i_Board)
         {
             int currNumberOfDamka = 0, loseNumberOfDamka = 0;
+            this.GoOverAllPlayerPositionAfterGameOverAndSumUpPoints(i_Board, ref currNumberOfDamka);
+            if (i_LosePlayer.RemainPieces == 0)
+            {
+                this.PointsOfPlayer += currNumberOfDamka;
+            }
+            else
+            {
+                i_LosePlayer.GoOverAllPlayerPositionAfterGameOverAndSumUpPoints(i_Board, ref loseNumberOfDamka);
+                this.PointsOfPlayer += currNumberOfDamka - loseNumberOfDamka;
+            }
+        }
+
+        public void GoOverAllPlayerPositionAfterGameOverAndSumUpPoints(Board i_Board, ref int currNumberOfDamka)
+        {
             for (int i = 0; i < this.RemainPieces; i++)
             {
                 if (i_Board.GameBoard[this.Positions[i].X, this.Positions[i].Y].PlayerInBoard.IsKing)
@@ -250,32 +280,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     currNumberOfDamka++;
                 }
             }
-
-            if (i_LosePlayer.RemainPieces == 0)
-            {
-                this.PointsOfPlayer += currNumberOfDamka;
-            }
-            else
-            {
-                for (int i = 0; i < i_LosePlayer.RemainPieces; i++)
-                {
-                    if (i_Board.GameBoard[i_LosePlayer.Positions[i].X, i_LosePlayer.Positions[i].Y].PlayerInBoard.IsKing)
-                    {
-                        loseNumberOfDamka += 4;
-                    }
-                    else
-                    {
-                        loseNumberOfDamka++;
-                    }
-                }
-                this.PointsOfPlayer += currNumberOfDamka - loseNumberOfDamka;
-            }
-        }
-
-        public static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions, int i_IndexMiddle, int i_IndexMoveCol, Player i_Player)
-        {
-            i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
-            i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].IsEmpty = true;
         }
 
         public void PrintPlayersDetails()
@@ -284,15 +288,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (m_SignPlayer == 'O')
             {
                 Console.SetCursorPosition(0, 0);
-                playerDetails.Insert(0, "First player name: ");
+                playerDetails.Insert(0, "First player name: " + m_NameOfPlayer);
             }
             else
             {
                 Console.SetCursorPosition(0, 3);
-                playerDetails.Insert(0, "Second player name: ");
+                playerDetails.Insert(0, Environment.NewLine + "Second player name: ");
             }
 
-            playerDetails.Insert(playerDetails.Length, m_NameOfPlayer + "\nPoints = " + m_PointsOfPlayer);
+            playerDetails.Insert(playerDetails.Length, Environment.NewLine + "    Score in totall = " + m_PointsOfPlayer);
+            playerDetails.Insert(playerDetails.Length, Environment.NewLine + "    Last move was: = " + m_LastMove);
             Console.WriteLine(playerDetails);
         }
 
@@ -324,4 +329,3 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         }
     }
 }
-

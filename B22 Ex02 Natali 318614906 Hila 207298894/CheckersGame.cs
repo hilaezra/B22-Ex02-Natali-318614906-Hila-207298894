@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
 /*
  * מה נותר לעשות:
+ * צריך לסדר את הצעד האחרון של המחשב מכייון וזה במספרים ולא בסטרינג
  * צריך לסדר את הפונק הקיימות ולייפות אותן
  * צריך להדפיס על המסך מחוץ מנקודות לכל שחקן גם ניצחונות לכל שחקן
  * מי שלוחץ על יציאה ההפרש בין השחקנים שלו לשני (לבדוק!!!)
@@ -22,14 +21,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool firstPlayer = true;
             string nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
             int sizeOfBoard = UserInputManagement.GetAndCheckValidBoardSize();
-            Player playerNumber1 = new Player(nameOfPlayer, sizeOfBoard, 'O', 1); ////PlayerNumber1IsReady
+            Player playerNumber1 = new Player(nameOfPlayer, sizeOfBoard, 'O', 1);
             Player playerNumber2 = new Player("computer", sizeOfBoard, 'X', 2);
             Board board = new Board(sizeOfBoard);
             if (!UserInputManagement.PlayAgainstComputer())
             {
                 firstPlayer = false;
                 nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
-                playerNumber2.NameOfPlayer = nameOfPlayer; ////SET
+                playerNumber2.NameOfPlayer = nameOfPlayer;
             }
 
             board.InitBoard(playerNumber1, playerNumber2);
@@ -40,6 +39,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool endGame = false, isEaten = false, quit = false, draw = false, playerWithoutPieces = false;
             int i = 0, indexWhoEat;
+            string userMoveInString = string.Empty;
             List<int> userMoverInInt = new List<int>(4);
             List<List<int>> listOfPositionOptionToEat = new List<List<int>>();
             while (!endGame)
@@ -53,72 +53,83 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
-                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber1, i_PlayerNumber2, ref endGame, ref isEaten, ref i);
-                    if (!quit)
-                    {
-                        CheckPositionAndMove(i_PlayerNumber1, i_PlayerNumber2, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat, listOfPositionOptionToEat);
-                        CheckIfDrawOrIfSomeoneCantMove(ref endGame, ref draw, i_PlayerNumber1, i_PlayerNumber2, i_Board);
-                    }
+                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber1, i_PlayerNumber2, ref endGame, ref isEaten, ref i, ref userMoveInString);
+                    IfThePlayerDosentWantToQuitContinueTheGame(quit, i_PlayerNumber1, i_PlayerNumber2, i_Board, ref isEaten, ref i, ref indexWhoEat, ref endGame, ref draw, userMoverInInt, ref userMoveInString, listOfPositionOptionToEat);
                 }
                 else
                 {
                     if (i_PlayerNumber2.NameOfPlayer == "computer")
                     {
-                        GetRandomPosition(i_Board, userMoverInInt, i_PlayerNumber2, listOfPositionOptionToEat);
+                        GetRandomPosition(i_Board, userMoverInInt, i_PlayerNumber2, listOfPositionOptionToEat, ref userMoveInString);
                     }
                     else
                     {
-                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber2, i_PlayerNumber1, ref endGame, ref isEaten, ref i);
+                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(i_Board, ref quit, i_PlayerNumber2, i_PlayerNumber1, ref endGame, ref isEaten, ref i, ref userMoveInString);
                     }
 
                     indexWhoEat = 2;
-                    if (!quit)
-                    {
-                        CheckPositionAndMove(i_PlayerNumber2, i_PlayerNumber1, i_Board, userMoverInInt, ref isEaten, ref i, indexWhoEat, listOfPositionOptionToEat);
-                        CheckIfDrawOrIfSomeoneCantMove(ref endGame, ref draw, i_PlayerNumber2, i_PlayerNumber1, i_Board);
-                    }
+                    IfThePlayerDosentWantToQuitContinueTheGame(quit, i_PlayerNumber2, i_PlayerNumber1, i_Board, ref isEaten, ref i, ref indexWhoEat, ref endGame, ref draw, userMoverInInt, ref userMoveInString, listOfPositionOptionToEat);
                 }
 
                 if (isEaten)
                 {
-                    CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat);
-                    if (endGame == true)///במקרה ומישהו הפסיד לגמרי
-                    {
-                        playerWithoutPieces = true;
-                        if (indexWhoEat == 1)
-                        {
-                            i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
-                        }
-                        else
-                        {
-                            i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
-                        }
-                        CheckWhoWinAndAnnounceToThePlayer(i_Board, indexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref endGame);
-                    }
+                    UpdatePlayersAfterOneOfThemGotEaten(i_Board, i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat, ref playerWithoutPieces);
                 }
 
                 if (endGame && !playerWithoutPieces && !quit)
                 {
-                    if (indexWhoEat == 1)
-                    {
-                        if (!draw)
-                        {
-                            i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
-                        }
-                    }
-                    else
-                    {
-                        if (!draw)
-                        {
-                            i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
-                        }
-                    }
-
-                    CheckWhoWinAndAnnounceToThePlayer(i_Board, indexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref endGame);
+                    CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(indexWhoEat, draw, i_PlayerNumber1, i_PlayerNumber2, i_Board, ref endGame);
                 }
 
                 i++;
-                System.Threading.Thread.Sleep(500);
+            }
+        }
+
+        public static void CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(int i_IndexWhoEat, bool i_Draw, Player i_PlayerNumber1, Player i_PlayerNumber2, Board i_Board, ref bool i_EndGame)
+        {
+            if (i_IndexWhoEat == 1)
+            {
+                if (!i_Draw)
+                {
+                    i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
+                }
+            }
+            else
+            {
+                if (!i_Draw)
+                {
+                    i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
+                }
+            }
+
+            CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame);
+        }
+
+        public static void UpdatePlayersAfterOneOfThemGotEaten(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame, int i_IndexWhoEat, ref bool i_PlayerWithoutPieces)
+        {
+            CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame, i_IndexWhoEat);
+            if (i_EndGame == true)
+            {
+                i_PlayerWithoutPieces = true;
+                if (i_IndexWhoEat == 1)
+                {
+                    i_PlayerNumber1.UpdatePointsAfterEachGame(i_PlayerNumber2, i_Board);
+                }
+                else
+                {
+                    i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
+                }
+
+                CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame);
+            }
+        }
+
+        public static void IfThePlayerDosentWantToQuitContinueTheGame(bool i_Quit, Player i_CurrPlayer, Player i_NextPlayer, Board i_Board, ref bool i_IsEaten, ref int i_Index, ref int i_IndexWhoEat, ref bool i_EndGame, ref bool i_Draw, List<int> i_UserMoverInInt, ref string i_UserMoveInString, List<List<int>> i_ListOfPositionOptionToEat)
+        {
+            if (!i_Quit)
+            {
+                CheckPositionAndMove(i_CurrPlayer, i_NextPlayer, i_Board, i_UserMoverInInt, ref i_IsEaten, ref i_Index, i_IndexWhoEat, i_ListOfPositionOptionToEat, i_UserMoveInString);
+                CheckIfDrawOrIfSomeoneCantMove(ref i_EndGame, ref i_Draw, i_CurrPlayer, i_NextPlayer, i_Board);
             }
         }
 
@@ -143,7 +154,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index)
+        public static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(Board i_Board, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index, ref string i_UserMoveInString)
         {
             List<int> userMoverInInt = new List<int>(4);
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(i_Board.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
@@ -158,7 +169,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             else
             {
                 userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                i_UserMoveInString = userMoveInString;
             }
+
             return userMoverInInt;
         }
 
@@ -173,7 +186,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 checkIfContinueGame.Insert(0, "GAME OVER!!" + Environment.NewLine + i_PlayerQuit.NameOfPlayer + ", Do you want to play another round??" + Environment.NewLine + "Prass 1)Yes  2)No");
                 Console.WriteLine(checkIfContinueGame);
                 answer = Console.ReadLine();
-            } while (answer != "1" && answer != "2");
+            }
+            while (answer != "1" && answer != "2");
             if (answer == "1")
             {
                 i_Board.InitBoard(i_PlayerQuit, i_Player);
@@ -188,16 +202,16 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void InitNewGame(Player i_Player1, Player i_Player2, int i_SizeOfBoard)
         {
-            i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4; ;
+            i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4;
         }
 
         public static void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
         {
             int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = i_WinnerPlayer.RemainPieces;
-            i_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;///ההפרש בין השחקנים של המנצח למפסיד הולך למנצח
+            i_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;
         }
 
-        public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2, List<List<int>> io_ListOfPositionOptionToEat)
+        public static void GetRandomPosition(Board i_GameBoard, List<int> io_FromWhereToWhereToEatAndMove, Player i_PlayerNumber2, List<List<int>> io_ListOfPositionOptionToEat, ref string io_UserInString)
         {
             List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
             int randomPos;
@@ -215,6 +229,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 randomPos = rand.Next(listOfPositionOptionToMove.Count() - 1);
                 UpdateArrOfPosition(io_FromWhereToWhereToEatAndMove, listOfPositionOptionToMove[randomPos][1], listOfPositionOptionToMove[randomPos][0], listOfPositionOptionToMove[randomPos][3], listOfPositionOptionToMove[randomPos][2]);
             }
+            io_UserInString = ChangeIntToString(io_FromWhereToWhereToEatAndMove);
         }
 
         public static void UpdateOptionsOfValidMovements(Player i_Player, Board i_Board, List<List<int>> io_ListOfPositionOptionToMove, int i_NumberOfPlayer)
@@ -224,6 +239,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 direction = 1;
             }
+
             for (int i = 0; i < i_Player.Positions.Count; i++)
             {
                 currRow = i_Player.Positions[i].X;
@@ -284,7 +300,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static void CheckPositionAndMove(Player i_CurrPlayer, Player i_NextPlayer, Board i_Board, List<int> i_UserMoveInt, ref bool io_IsEaten, ref int i, int i_NumberOfPlayer, List<List<int>> io_PossiblePositionToEat)
+        public static void CheckPositionAndMove(Player i_CurrPlayer, Player i_NextPlayer, Board i_Board, List<int> i_UserMoveInt, ref bool io_IsEaten, ref int i, int i_NumberOfPlayer, List<List<int>> io_PossiblePositionToEat, string i_UserMoveInString)
         {
             bool eatBackWord = false, validEatMove = true;
             bool isThereSomeoneToEat = CheckIfThereIsAnyoneToEatAndReturnOptions(i_Board, i_CurrPlayer, io_PossiblePositionToEat);
@@ -299,14 +315,20 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
             else
             {
+                UpdateLastValidMoveForPlayer(i_UserMoveInString, i_CurrPlayer);
                 i_CurrPlayer.MovePlayerOnBoard(i_Board, i_UserMoveInt, io_IsEaten, i_CurrPlayer.NumberOfPlayer, ref eatBackWord);
                 UpdateListPointsOfPlayer(i_CurrPlayer, i_NextPlayer, i_UserMoveInt, io_IsEaten);
-                UpdatePlayerIfKing(i_Board, i_CurrPlayer, i_UserMoveInt);//לעדכן אם זה מלך
+                UpdatePlayerIfKing(i_Board, i_CurrPlayer, i_UserMoveInt);
                 if (CheckIfThereAreMoreToEatForThatPiece(i_Board, i_UserMoveInt, i_CurrPlayer.NumberOfPlayer, i_CurrPlayer) && io_IsEaten)
                 {
                     i--;
                 }
             }
+        }
+
+        public static void UpdateLastValidMoveForPlayer(string i_UserMoveInString, Player CurrPlayer)
+        {
+            CurrPlayer.LastMove = i_UserMoveInString;
         }
 
         public static bool CheckIfTheWantedPositionIsMustEatenPosition(List<List<int>> i_PossiblePositionToEat, List<int> i_WantedPosition)
@@ -366,9 +388,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                         CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, 2, 2);
                         CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_Board, i_CurrPlayer, k, o_PossiblePositionToEat, -2, -2, 2);
                     }
-
                 }
-
             }
 
             return returnAnswer;
@@ -508,6 +528,33 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
 
             return returnAnswer;
+        }
+
+        public static string ChangeIntToString(List<int> i_ComputerMove)
+        {
+            string returnString = string.Empty;
+            StringBuilder builder = new StringBuilder();
+            for (int k = 0; k < 4; k++)
+            {
+                if (k == 2)
+                {
+                    builder.Append('>');
+                }
+
+                if (k % 2 == 0)
+                {
+                    char col = (char)(i_ComputerMove[k] + 'A');
+                    builder.Append(col);
+                }
+                else
+                {
+                    char row = (char)(i_ComputerMove[k] + 'a');
+                    builder.Append(row);
+                }
+            }
+
+            returnString = builder.ToString();
+            return returnString;
         }
 
         public static void CheckWhoWinAndAnnounceToThePlayer(Board i_Board, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame)//צריך לשים בפונקציותתתת
