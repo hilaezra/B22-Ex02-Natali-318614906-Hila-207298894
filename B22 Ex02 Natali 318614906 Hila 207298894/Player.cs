@@ -293,7 +293,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             else
             {
                 Console.SetCursorPosition(0, 3);
-                playerDetails.Insert(0, Environment.NewLine + "Second player name: ");
+                playerDetails.Insert(0, Environment.NewLine + "Second player name: " + m_NameOfPlayer);
             }
 
             playerDetails.Insert(playerDetails.Length, Environment.NewLine + "    Score in totall = " + m_PointsOfPlayer);

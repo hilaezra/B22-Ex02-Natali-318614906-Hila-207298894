@@ -83,6 +83,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
 
                 i++;
+                System.Threading.Thread.Sleep(700);
             }
         }
 
@@ -180,15 +181,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool returnAnswer = false;
             string answer;
-            do
-            {
-                Ex02.ConsoleUtils.Screen.Clear();
-                StringBuilder checkIfContinueGame = new StringBuilder();
-                checkIfContinueGame.Insert(0, "GAME OVER!!" + Environment.NewLine + i_PlayerQuit.NameOfPlayer + ", Do you want to play another round??" + Environment.NewLine + "Prass 1)Yes  2)No");
-                Console.WriteLine(checkIfContinueGame);
-                answer = Console.ReadLine();
-            }
-            while (answer != "1" && answer != "2");
+            answer=UserOutputManagement.UpdateThePlayerThatWeHaveGameOverAndAskWhatToDoNext(i_PlayerQuit);
             if (answer == "1")
             {
                 o_Index = 1;
@@ -575,18 +568,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             string msg;
             if (i_Index == 1)
             {
-                msg = string.Format("Congratulations {0} !!!! You are the    W I N N E R    !", i_Player1.NameOfPlayer);
-                Console.WriteLine(msg);
-                System.Threading.Thread.Sleep(2500);
-                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player1, i_Player2, ref io_IndexOfFirstPlayer);
+                UserOutputManagement.PrintToTheScreenWhoWinAndAskHowToContinue(i_Player1, i_Player2, ref io_EndGame, i_Board, ref io_IndexOfFirstPlayer);
             }
             else
             {
-                msg = string.Format("Congratulations {0} !!!! You are the    W I N N E R    !", i_Player2.NameOfPlayer);
-                Console.WriteLine(msg);
-                System.Threading.Thread.Sleep(2500);
-                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player2, i_Player1, ref io_IndexOfFirstPlayer);
-
+                UserOutputManagement.PrintToTheScreenWhoWinAndAskHowToContinue(i_Player2, i_Player1, ref io_EndGame, i_Board, ref io_IndexOfFirstPlayer);
             }
 
         }
