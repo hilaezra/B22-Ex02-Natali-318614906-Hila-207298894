@@ -44,6 +44,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             List<List<int>> listOfPositionOptionToEat = new List<List<int>>();
             while (!endGame)
             {
+                playerWithoutPieces = false;
                 isEaten = false;
                 Ex02.ConsoleUtils.Screen.Clear();
                 i_Board.PrintBoard(i_PlayerNumber1, i_PlayerNumber2);
@@ -73,19 +74,19 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
                 if (isEaten)
                 {
-                    UpdatePlayersAfterOneOfThemGotEaten(i_Board, i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat, ref playerWithoutPieces);
+                    UpdatePlayersAfterOneOfThemGotEaten(i_Board, i_PlayerNumber1, i_PlayerNumber2, ref endGame, indexWhoEat, ref playerWithoutPieces,ref  i);
                 }
 
                 if (endGame && !playerWithoutPieces && !quit)
                 {
-                    CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(indexWhoEat, draw, i_PlayerNumber1, i_PlayerNumber2, i_Board, ref endGame);
+                    CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(indexWhoEat, draw, i_PlayerNumber1, i_PlayerNumber2, i_Board, ref endGame, ref i);
                 }
 
                 i++;
             }
         }
 
-        public static void CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(int i_IndexWhoEat, bool i_Draw, Player i_PlayerNumber1, Player i_PlayerNumber2, Board i_Board, ref bool i_EndGame)
+        public static void CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(int i_IndexWhoEat, bool i_Draw, Player i_PlayerNumber1, Player i_PlayerNumber2, Board i_Board, ref bool i_EndGame, ref int o_Index)
         {
             if (i_IndexWhoEat == 1)
             {
@@ -102,10 +103,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
             }
 
-            CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame);
+            CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame, ref o_Index);
         }
 
-        public static void UpdatePlayersAfterOneOfThemGotEaten(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame, int i_IndexWhoEat, ref bool i_PlayerWithoutPieces)
+        public static void UpdatePlayersAfterOneOfThemGotEaten(Board i_Board, Player i_PlayerNumber1, Player i_PlayerNumber2, ref bool i_EndGame, int i_IndexWhoEat, ref bool i_PlayerWithoutPieces, ref int io_Index)
         {
             CheckWhowEatAndUpdate(i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame, i_IndexWhoEat);
             if (i_EndGame == true)
@@ -120,7 +121,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     i_PlayerNumber2.UpdatePointsAfterEachGame(i_PlayerNumber1, i_Board);
                 }
 
-                CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame);
+                CheckWhoWinAndAnnounceToThePlayer(i_Board, i_IndexWhoEat, i_PlayerNumber1, i_PlayerNumber2, ref i_EndGame, ref io_Index);
             }
         }
 
@@ -161,7 +162,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (io_Quit)
             {
                 i_NextPlayer.UpdatePointsAfterEachGame(i_CurrPlayer, i_Board);
-                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_CurrPlayer, i_NextPlayer))
+                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_CurrPlayer, i_NextPlayer, ref i_Index))
                 {
                     io_EndGame = true;
                 }
@@ -175,7 +176,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return userMoverInInt;
         }
 
-        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(Board i_Board, Player i_PlayerQuit, Player i_Player)
+        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(Board i_Board, Player i_PlayerQuit, Player i_Player, ref int o_Index)
         {
             bool returnAnswer = false;
             string answer;
@@ -190,7 +191,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             while (answer != "1" && answer != "2");
             if (answer == "1")
             {
+                o_Index = 1;
                 i_Board.InitBoard(i_PlayerQuit, i_Player);
+                InitNewGame(i_PlayerQuit, i_Player, i_Board.BoardSize);
             }
             else
             {
@@ -202,7 +205,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public static void InitNewGame(Player i_Player1, Player i_Player2, int i_SizeOfBoard)
         {
-            i_Player1.RemainPieces = (((i_SizeOfBoard * i_SizeOfBoard) - 2) * i_SizeOfBoard) / 4;
+            i_Player1.RemainPieces = ((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard)) / 4;
+            i_Player2.RemainPieces = ((i_SizeOfBoard * i_SizeOfBoard) - (2 * i_SizeOfBoard)) / 4;
+            i_Player1.LastMove = string.Empty;
+            i_Player2.LastMove = string.Empty;
         }
 
         public static void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
@@ -277,7 +283,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 o_EndGame = true;
             }
-            else if(validMovesOfNextPlayer)
+            else if (validMovesOfNextPlayer)
             {
                 o_EndGame = true;
             }
@@ -561,7 +567,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnString;
         }
 
-        public static void CheckWhoWinAndAnnounceToThePlayer(Board i_Board, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame)//צריך לשים בפונקציותתתת
+        public static void CheckWhoWinAndAnnounceToThePlayer(Board i_Board, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame, ref int io_IndexOfFirstPlayer)//צריך לשים בפונקציותתתת
         {
             Ex02.ConsoleUtils.Screen.Clear();
             Console.SetCursorPosition((Console.WindowWidth / 2) - 50, Console.CursorTop + 1);
@@ -572,14 +578,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 msg = string.Format("Congratulations {0} !!!! You are the    W I N N E R    !", i_Player1.NameOfPlayer);
                 Console.WriteLine(msg);
                 System.Threading.Thread.Sleep(2500);
-                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player1, i_Player2);
+                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player1, i_Player2, ref io_IndexOfFirstPlayer);
             }
             else
             {
                 msg = string.Format("Congratulations {0} !!!! You are the    W I N N E R    !", i_Player2.NameOfPlayer);
                 Console.WriteLine(msg);
                 System.Threading.Thread.Sleep(2500);
-                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player2, i_Player1);
+                io_EndGame = CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(i_Board, i_Player2, i_Player1, ref io_IndexOfFirstPlayer);
 
             }
 
