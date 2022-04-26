@@ -36,13 +36,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions, int i_IndexMiddle, int i_IndexMoveCol, Player i_Player)
+        private static void UpdatePlayerAfterGotEaten(Board i_Board, List<int> i_Positions, int i_IndexMiddle, int i_IndexMoveCol, Player i_Player)
         {
             i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].PlayerInBoard.SignOfPlayerInBoard = ' ';
             i_Board.GameBoard[i_Positions[1] + i_IndexMiddle, i_Positions[0] + i_IndexMoveCol].IsEmpty = true;
         }
 
-        public static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player, char i_KingSign)
+        private static void UpdateCellInBoardWhileThePlayerMove(Board i_Board, List<int> i_Positions, Player i_Player, char i_KingSign)
         {
             if (i_Board.GameBoard[i_Positions[1], i_Positions[0]].PlayerInBoard.IsKing == true)
             {
@@ -151,7 +151,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public bool CheckIfTheWantedPositionIsOk(Board i_Board, List<int> i_Position, ref bool io_IsEaten, ref bool io_EatBackWord)
+        private bool CheckIfTheWantedPositionIsOk(Board i_Board, List<int> i_Position, ref bool io_IsEaten, ref bool io_EatBackWord)
         {
             bool returnAnswer = false;
             bool pieceIsKing = i_Board.GameBoard[i_Position[1], i_Position[0]].PlayerInBoard.IsKing;
@@ -177,7 +177,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public bool CheckWantedPosition(List<int> i_Position, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer, Board i_Board, ref bool io_IsEaten)
+        private bool CheckWantedPosition(List<int> i_Position, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer, Board i_Board, ref bool io_IsEaten)
         {
             bool returnAnswer = false;
             FindMiddlePosition(i_Position, ref io_MoveCol, ref io_AddOrSub, ref io_IndexMiddle, i_NumberOfPlayer);
@@ -198,7 +198,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             bool returnAns = false;
             int addOrSub = 0, indexMiddle = 0, intMoveCol = 0;
             FindMiddlePosition(i_Position, ref intMoveCol, ref addOrSub, ref indexMiddle, i_NumberOfPlayer);
-            if (CheckersGame.CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[1] + indexMiddle, i_Position[0] + intMoveCol))
+            if (Board.CheckThatWeDontGoBeyondBoundaries(i_Board.BoardSize, i_Position[1] + indexMiddle, i_Position[0] + intMoveCol))
             {
                 if (i_Board.GameBoard[i_Position[3], i_Position[2]].IsEmpty && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignPlayer && i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != ' ' &&
                     i_Board.GameBoard[i_Position[1] + indexMiddle, i_Position[0] + intMoveCol].PlayerInBoard.SignOfPlayerInBoard != this.m_SignOfKing)
@@ -239,11 +239,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public bool CheckIfThereIsNoValidMoveForPlayer(Board i_Board)
+        public bool CheckIfThereIsNoValidMoveForPlayer(CheckersGame io_CheckersGame)
         {
             bool returnAns = false;
             List<List<int>> listOfPositionOptionToMove = new List<List<int>>();
-            CheckersGame.UpdateOptionsOfValidMovements(this, i_Board, listOfPositionOptionToMove, this.NumberOfPlayer);
+            io_CheckersGame.UpdateOptionsOfValidMovements(this, listOfPositionOptionToMove, this.NumberOfPlayer);
             if (listOfPositionOptionToMove.Count == 0)
             {
                 returnAns = true;
@@ -267,7 +267,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public void GoOverAllPlayerPositionAfterGameOverAndSumUpPoints(Board i_Board, ref int currNumberOfDamka)
+        private void GoOverAllPlayerPositionAfterGameOverAndSumUpPoints(Board i_Board, ref int currNumberOfDamka)
         {
             for (int i = 0; i < this.RemainPieces; i++)
             {
@@ -282,26 +282,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public void PrintPlayersDetails()
-        {
-            StringBuilder playerDetails = new StringBuilder();
-            if (m_SignPlayer == 'O')
-            {
-                Console.SetCursorPosition(0, 0);
-                playerDetails.Insert(0, "First player name: " + m_NameOfPlayer);
-            }
-            else
-            {
-                Console.SetCursorPosition(0, 3);
-                playerDetails.Insert(0, Environment.NewLine + "Second player name: " + m_NameOfPlayer);
-            }
-
-            playerDetails.Insert(playerDetails.Length, Environment.NewLine + "    Score in totall = " + m_PointsOfPlayer);
-            playerDetails.Insert(playerDetails.Length, Environment.NewLine + "    Last move was: = " + m_LastMove);
-            Console.WriteLine(playerDetails);
-        }
-
-        public bool CheckIfTheWantedPositionIsOkForKing(List<int> i_Position, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer, Board i_Board, ref bool io_IsEaten, ref bool io_EatBackWord)
+        private bool CheckIfTheWantedPositionIsOkForKing(List<int> i_Position, ref int io_MoveCol, ref int io_AddOrSub, ref int io_IndexMiddle, int i_NumberOfPlayer, Board i_Board, ref bool io_IsEaten, ref bool io_EatBackWord)
         {
             bool returnAnswer = false;
             int backWard = 1;

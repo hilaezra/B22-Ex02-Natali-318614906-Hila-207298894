@@ -21,6 +21,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             a, b, c, d, e, f, g, h, i, j
         }
 
+        public static bool CheckThatWeDontGoBeyondBoundaries(int i_SizeOfTheBoard, int i_WantedRow, int i_WantedCol)
+        {
+            bool returnAnswer = false;
+            if ((i_WantedCol < i_SizeOfTheBoard && i_WantedCol >= 0) && (i_WantedRow < i_SizeOfTheBoard && i_WantedRow >= 0))
+            {
+                returnAnswer = true;
+            }
+
+            return returnAnswer;
+        }
+
         public Board(int i_SizeOfBoard)
         {
             m_BoardSize = i_SizeOfBoard;
@@ -53,7 +64,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing, Player io_Player1, Player io_Player2)
+        private void InitXAndOCells(int i_Row, int i_Col, int i_PlayerSing, Player io_Player1, Player io_Player2)
         {
             Point newPoint = new Point(i_Row, i_Col);
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
@@ -66,87 +77,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 else
                 {
                     io_Player2.Positions.Add(newPoint);
-
                 }
             }
             else
             {
                 m_GameBoard[i_Row, i_Col] = new CellInBoard(true, 3);
             }
-        }
-
-        public void PrintBoard(Player i_PlayerNumber1, Player i_PlayerNumber2)
-        {
-            int lineSize = (m_BoardSize * 4) + 3;
-
-            Ex02.ConsoleUtils.Screen.Clear();
-            PrintBoardFrameAndDividingLine(lineSize, 0, false);
-            PrintBoardSquares(lineSize);
-        }
-
-        public void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
-        {
-            StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
-            StringBuilder dividingLine = new StringBuilder(i_LineSize);
-
-            if (i_DividingLine != true)
-            {
-                for (int i = 0; i < i_LineSize; i++)
-                {
-                    if ((i + 1) % 4 == 0 || i == 3)
-                    {
-                        lineOfBoard.Insert(i, (Column)i_LetterIndex);
-                        i_LetterIndex++;
-                    }
-                    else
-                    {
-                        lineOfBoard.Insert(i, " ");
-                    }
-                }
-
-                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
-            }
-
-            for (int i = 0; i < i_LineSize - 1; i++)
-            {
-                dividingLine.Insert(i, "=");
-            }
-
-            Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (dividingLine.Length / 2)) + "}", dividingLine));
-        }
-
-        public void PrintBoardSquares(int i_LineSize)
-        {
-            for (int i = 0; i < m_BoardSize; i++)
-            {
-                int matrixIndex = 0;
-                StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
-
-                for (int j = 0; j < i_LineSize; j++)
-                {
-                    if (j == 0)
-                    {
-                        lineOfBoard.Insert(j, (Row)i);
-                    }
-                    else if ((j - 1) % 4 == 0)
-                    {
-                        lineOfBoard.Insert(j, "|");
-                    }
-                    else if ((j + 1) % 4 == 0)
-                    {
-                        lineOfBoard.Insert(j, m_GameBoard[i, matrixIndex].PlayerInBoard.SignOfPlayerInBoard.ToString());
-                        matrixIndex++;
-                    }
-                    else
-                    {
-                        lineOfBoard.Insert(j, " ");
-                    }
-                }
-
-                Console.WriteLine(string.Format("{0," + ((Console.WindowWidth / 2) + (lineOfBoard.Length / 2)) + "}", lineOfBoard));
-                PrintBoardFrameAndDividingLine(i_LineSize, 0, true);
-            }
-        }
+        }        
 
         public CellInBoard[,] GameBoard
         {

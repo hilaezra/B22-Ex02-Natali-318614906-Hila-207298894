@@ -8,7 +8,126 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
     public class UserInputManagement
     {
-        public static string GetUserName(bool i_FirstPlayer)
+        private static CheckersGame InitializationGame()
+        {
+            int sizeOfBoard = 0;
+            List<Player> players = new List<Player>(2);
+            UserInputManagement.InitializationDataForTheGame(players, ref sizeOfBoard);
+            Board board = new Board(sizeOfBoard);
+            CheckersGame checkersGame = new CheckersGame(players[0], players[1], board);
+
+            checkersGame.CheckersBoard.InitBoard(checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2);
+
+            return checkersGame;
+        }
+
+        public static void RunGame()
+        {
+            CheckersGame checkersGame = InitializationGame();
+            bool endGame = false, isEaten = false, quit = false, draw = false, playerWithoutPieces = false;
+            int i = 0, indexWhoEat;
+            string userMoveInString = string.Empty;
+            List<int> userMoverInInt = new List<int>(4);
+            List<List<int>> listOfPositionOptionToEat = new List<List<int>>();
+            while (!endGame)
+            {
+                playerWithoutPieces = false;
+                isEaten = false;
+                Ex02.ConsoleUtils.Screen.Clear();
+                UserOutputManagement.PrintBoard(checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, checkersGame.CheckersBoard.BoardSize, checkersGame.CheckersBoard);
+                UserOutputManagement.PrintPlayersDetails(checkersGame.CheckerPlayer1);
+                UserOutputManagement.PrintPlayersDetails(checkersGame.CheckerPlayer2);
+                quit = false;
+                if (i % 2 == 0)
+                {
+                    indexWhoEat = 1;
+                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame,ref quit, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref endGame, ref isEaten, ref i, ref userMoveInString);
+                    checkersGame.IfThePlayerDosentWantToQuitContinueTheGame(quit, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref isEaten, ref i, ref indexWhoEat, ref endGame, ref draw, userMoverInInt, ref userMoveInString, listOfPositionOptionToEat);
+                }
+                else
+                {
+                    if (checkersGame.CheckerPlayer2.NameOfPlayer == "computer")
+                    {
+                        checkersGame.GetRandomPosition(userMoverInInt, listOfPositionOptionToEat, ref userMoveInString);
+                    }
+                    else
+                    {
+                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame,ref quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref endGame, ref isEaten, ref i, ref userMoveInString);///לא טוב !
+                    }
+
+                    indexWhoEat = 2;
+                    checkersGame.IfThePlayerDosentWantToQuitContinueTheGame(quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref isEaten, ref i, ref indexWhoEat, ref endGame, ref draw, userMoverInInt, ref userMoveInString, listOfPositionOptionToEat);
+                }
+
+                if (isEaten)
+                {
+                    checkersGame.UpdatePlayersAfterOneOfThemGotEaten(ref endGame, indexWhoEat, ref playerWithoutPieces, ref i);
+                    if (endGame)
+                    {
+                        UserOutputManagement.CheckWhoWinAndAnnounceToThePlayer(checkersGame, indexWhoEat, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref endGame, ref i);
+                    }
+                }
+
+                if (endGame && !playerWithoutPieces && !quit)
+                {
+                    checkersGame.CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(indexWhoEat, draw, ref endGame, ref i);
+                    UserOutputManagement.CheckWhoWinAndAnnounceToThePlayer(checkersGame, indexWhoEat, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref endGame, ref i);
+                }
+
+                i++;
+                System.Threading.Thread.Sleep(700);
+            }
+        }
+
+        private static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(CheckersGame io_CheckersGame, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index, ref string i_UserMoveInString)
+        {
+            List<int> userMoverInInt = new List<int>(4);
+            string userMoveInString = UserInputManagement.PartOfTheBoardSquares(io_CheckersGame.CheckersBoard.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
+            if (io_Quit)
+            {
+                i_NextPlayer.UpdatePointsAfterEachGame(i_CurrPlayer, io_CheckersGame.CheckersBoard);
+                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame,i_CurrPlayer, i_NextPlayer, ref i_Index))
+                {
+                    io_EndGame = true;
+                }
+            }
+            else
+            {
+                userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
+                i_UserMoveInString = userMoveInString;
+            }
+
+            return userMoverInInt;
+        }
+
+        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(CheckersGame io_CheckersGame,Player i_PlayerQuit, Player i_Player, ref int o_Index)
+        {
+            bool returnAnswer = false;
+            string answer;
+            answer = UserOutputManagement.UpdateThePlayerThatWeHaveGameOverAndAskWhatToDoNext(i_PlayerQuit);
+            if (answer == "1")
+            {
+                o_Index = 1;
+                if (i_PlayerQuit.NumberOfPlayer == 1)
+                {
+                    io_CheckersGame.CheckersBoard.InitBoard(i_PlayerQuit, i_Player);
+                }
+                else
+                {
+                    io_CheckersGame.CheckersBoard.InitBoard(i_Player, i_PlayerQuit);
+
+                }
+                io_CheckersGame.InitNewGame();
+            }
+            else
+            {
+                returnAnswer = true;
+            }
+
+            return returnAnswer;
+        }
+
+        private static string GetUserName(bool i_FirstPlayer)
         {
             string userName = string.Empty;
             bool validName = false;
@@ -37,7 +156,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return userName;
         }
 
-        public static int GetAndCheckValidBoardSize()
+        private static int GetAndCheckValidBoardSize()
         {
             int userBoardSize = 0;
             bool validBoardSize = false;
@@ -63,7 +182,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return userBoardSize;
         }
 
-        public static bool PlayAgainstComputer()
+        private static bool PlayAgainstComputer()
         {
             int playerChoice = 0;
             bool validChoice = false;
@@ -98,7 +217,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return againstComputer;
         }
 
-        public static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, ref bool io_Quit)
+        private static string PartOfTheBoardSquares(int i_BoardSize, int i_WhichPlayer, Player i_Player1, ref bool io_Quit)
         {
             bool validPointOnBoard = false;
             string userMove;
@@ -139,7 +258,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return userMove;
         }
 
-        public static List<int> ChangedStringToListInt(string i_UserMove) ////AB AC >>> [0][1][0][2]
+        private static List<int> ChangedStringToListInt(string i_UserMove) ////AB AC >>> [0][1][0][2]
         {
             int currColumnPos = i_UserMove[0] - 'A', currRowPos = i_UserMove[1] - 'a', newColumnPos = i_UserMove[3] - 'A', newRowPos = i_UserMove[4] - 'a';
             List<int> returnCurrPositionAndNewPosition = new List<int>() { currColumnPos, currRowPos, newColumnPos, newRowPos };
@@ -147,5 +266,21 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnCurrPositionAndNewPosition;
         }
 
+        private static void InitializationDataForTheGame(List<Player> o_Players, ref int io_SizeOfBoard)
+        {
+            bool firstPlayer = true;
+            string nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
+            io_SizeOfBoard = UserInputManagement.GetAndCheckValidBoardSize();
+            o_Players.Add(new Player(nameOfPlayer, io_SizeOfBoard, 'O', 1));
+            Player playerNumber2 = new Player("computer", io_SizeOfBoard, 'X', 2);
+            if (!UserInputManagement.PlayAgainstComputer())
+            {
+                firstPlayer = false;
+                nameOfPlayer = UserInputManagement.GetUserName(firstPlayer);
+                playerNumber2.NameOfPlayer = nameOfPlayer;
+            }
+
+            o_Players.Add(playerNumber2);
+        }
     }
 }
