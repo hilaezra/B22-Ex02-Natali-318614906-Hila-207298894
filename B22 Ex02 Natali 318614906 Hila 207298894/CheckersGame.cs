@@ -537,7 +537,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             string returnString = string.Empty;
             StringBuilder builder = new StringBuilder();
-            for (int k = 0; k < 4; k++)
+            for (int k = 0; k < i_ComputerMove.Count; k++)
             {
                 if (k == 2)
                 {
