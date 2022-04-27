@@ -52,7 +52,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame, ref quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref endGame, ref isEaten, ref i, ref userMoveInString);///לא טוב !
+                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame, ref quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref endGame, ref isEaten, ref i, ref userMoveInString);
                     }
 
                     indexWhoEat = 2;
@@ -116,6 +116,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     io_CheckersGame.CheckersBoard.InitBoard(i_Player, i_PlayerQuit);
                 }
+
                 io_CheckersGame.InitNewGame();
             }
             else

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B22_Ex02_Natali_318614906_Hila_207298894
 {
-    class UserOutputManagement
+    public class UserOutputManagement
     {
         public static string UpdateThePlayerThatWeHaveGameOverAndAskWhatToDoNext(Player i_PlayerQuit)
         {
@@ -24,12 +24,12 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        private static void PrintToTheScreenWhoWinAndAskHowToContinue(CheckersGame io_CheckersGame,Player i_Winner, Player i_Loser,ref bool io_EndGame,ref int io_IndexOfFirstPlayer)
+        private static void PrintToTheScreenWhoWinAndAskHowToContinue(CheckersGame io_CheckersGame, Player i_Winner, Player i_Loser, ref bool io_EndGame, ref int io_IndexOfFirstPlayer)
         {
             string msg = string.Format("Congratulations {0} !!!! You are the    W I N N E R    !", i_Winner.NameOfPlayer);
             Console.WriteLine(msg);
             System.Threading.Thread.Sleep(2500);
-            io_EndGame = UserInputManagement.CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame,i_Winner, i_Loser, ref io_IndexOfFirstPlayer);
+            io_EndGame = UserInputManagement.CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame, i_Winner, i_Loser, ref io_IndexOfFirstPlayer);
         }
 
         private static void PrintBoardFrameAndDividingLine(int i_LineSize, int io_LetterIndex, bool i_DividingLine)
@@ -72,7 +72,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             PrintBoardSquares(lineSize, i_Board);
         }
 
-        private static void PrintBoardSquares(int i_LineSize,Board i_Board)
+        private static void PrintBoardSquares(int i_LineSize, Board i_Board)
         {
             for (int i = 0; i < i_Board.BoardSize; i++)
             {
@@ -105,20 +105,19 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public static void CheckWhoWinAndAnnounceToThePlayer(CheckersGame io_CheckersGame,int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame, ref int io_IndexOfFirstPlayer)
+        public static void CheckWhoWinAndAnnounceToThePlayer(CheckersGame io_CheckersGame, int i_Index, Player i_Player1, Player i_Player2, ref bool io_EndGame, ref int io_IndexOfFirstPlayer)
         {
             Ex02.ConsoleUtils.Screen.Clear();
             Console.SetCursorPosition((Console.WindowWidth / 2) - 50, Console.CursorTop + 1);
 
             if (i_Index == 1)
             {
-                PrintToTheScreenWhoWinAndAskHowToContinue(io_CheckersGame, i_Player1, i_Player2, ref io_EndGame,ref io_IndexOfFirstPlayer);
+                PrintToTheScreenWhoWinAndAskHowToContinue(io_CheckersGame, i_Player1, i_Player2, ref io_EndGame, ref io_IndexOfFirstPlayer);
             }
             else
             {
-                PrintToTheScreenWhoWinAndAskHowToContinue(io_CheckersGame,i_Player2, i_Player1, ref io_EndGame,ref io_IndexOfFirstPlayer);
+                PrintToTheScreenWhoWinAndAskHowToContinue(io_CheckersGame, i_Player2, i_Player1, ref io_EndGame, ref io_IndexOfFirstPlayer);
             }
-
         }
 
         public static void PrintPlayersDetails(Player i_Player)

@@ -16,16 +16,17 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_X = i_X;
             m_Y = i_Y;
         }
+
         public int X
         {
-            set { m_X = value; }
             get { return m_X; }
+            set { m_X = value; }            
         }
 
         public int Y
         {
-            set { m_Y = value; }
             get { return m_Y; }
+            set { m_Y = value; }
         }
     }
 }

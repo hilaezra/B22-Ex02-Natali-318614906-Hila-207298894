@@ -411,8 +411,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                      m_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
                      m_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] + i_Col].PlayerInBoard.SignOfPlayerInBoard != ' ')
             {
-                if (Board.CheckThatWeDontGoBeyondBoundaries(m_Board.BoardSize, i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2) &&
-                    m_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] + i_Col * 2].IsEmpty)
+                if (Board.CheckThatWeDontGoBeyondBoundaries(m_Board.BoardSize, i_Position[3] + (i_Row * 2), i_Position[2] + (i_Col * 2)) &&
+                    m_Board.GameBoard[i_Position[3] + (i_Row * 2), i_Position[2] + (i_Col * 2)].IsEmpty)
                 {
                     returnAnswer = true;
                 }
@@ -422,8 +422,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                      m_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != i_Player.SignOfPlayer &&
                      m_Board.GameBoard[i_Position[3] + i_Row, i_Position[2] - i_Col].PlayerInBoard.SignOfPlayerInBoard != ' ')
             {
-                if (Board.CheckThatWeDontGoBeyondBoundaries(m_Board.BoardSize, i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2) &&
-                    m_Board.GameBoard[i_Position[3] + i_Row * 2, i_Position[2] - i_Col * 2].IsEmpty)
+                if (Board.CheckThatWeDontGoBeyondBoundaries(m_Board.BoardSize, i_Position[3] + (i_Row * 2), i_Position[2] - (i_Col * 2)) &&
+                    m_Board.GameBoard[i_Position[3] + (i_Row * 2), i_Position[2] - (i_Col * 2)].IsEmpty)
                 {
                     returnAnswer = true;
                 }
