@@ -192,7 +192,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 Ex02.ConsoleUtils.Screen.Clear();
                 Console.SetCursorPosition((Console.WindowWidth / 2) - 50, Console.CursorTop + 1);
-                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2."); ////AB>BD
+                Console.WriteLine("If you want to play against the computer press 1, if you want to play against another player press 2.");
                 Console.SetCursorPosition((Console.WindowWidth / 2) - 23, Console.CursorTop + 1);
                 isString = int.TryParse(Console.ReadLine(), out playerChoice);
 
