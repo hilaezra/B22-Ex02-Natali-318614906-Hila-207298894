@@ -55,7 +55,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         public void CheckAndHandlePlayersAfterOneOfThePlayersDosentHaveValidMove(int i_IndexWhoEat, bool i_Draw, ref bool i_EndGame, ref int o_Index)
         {
-            if (i_IndexWhoEat == 1)
+            if (i_IndexWhoEat == (int)Player.PlayerNumber.One)
             {
                 if (!i_Draw)
                 {
@@ -71,13 +71,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        public void UpdatePlayersAfterOneOfThemGotEaten(ref bool i_EndGame, int i_IndexWhoEat, ref bool i_PlayerWithoutPieces, ref int io_Index)
+        public void UpdatePlayersAfterOneOfThemGotEaten(ref bool i_EndGame, int i_IndexWhoEat, ref bool io_PlayerWithoutPieces, ref int io_Index)
         {
             CheckWhowEatAndUpdate(ref i_EndGame, i_IndexWhoEat);
             if (i_EndGame == true)
             {
-                i_PlayerWithoutPieces = true;
-                if (i_IndexWhoEat == 1)
+                io_PlayerWithoutPieces = true;
+                if (i_IndexWhoEat == (int)Player.PlayerNumber.One)
                 {
                     m_Player1.UpdatePointsAfterEachGame(m_Player2, m_Board);
                 }
@@ -100,7 +100,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         private void UpdatePlayerIfKing(Player i_Player, List<int> i_Position)
         {
             int numberOfPlayer = i_Player.NumberOfPlayer;
-            if (numberOfPlayer == 1)
+            if (numberOfPlayer == (int)Player.PlayerNumber.One)
             {
                 if (i_Position[3] == m_Board.BoardSize - 1)
                 {
@@ -127,10 +127,10 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             m_Player2.LastMove = string.Empty;
         }
 
-        private void GivePointsToTheWinner(Player i_LoserPlayer, Player i_WinnerPlayer)
+        private void GivePointsToTheWinner(Player i_LoserPlayer, Player io_WinnerPlayer)
         {
-            int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = i_WinnerPlayer.RemainPieces;
-            i_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;
+            int piecesOfLoserPlayer = i_LoserPlayer.RemainPieces, piecesOfWinnerPlayer = io_WinnerPlayer.RemainPieces;
+            io_WinnerPlayer.PointsOfPlayer += piecesOfWinnerPlayer - piecesOfLoserPlayer;
         }
 
         public void GetRandomPosition(List<int> io_FromWhereToWhereToEatAndMove, List<List<int>> io_ListOfPositionOptionToEat, ref string io_UserInString)
@@ -158,7 +158,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         public void UpdateOptionsOfValidMovements(Player i_Player, List<List<int>> io_ListOfPositionOptionToMove, int i_NumberOfPlayer)
         {
             int currRow, currCol, direction = -1;
-            if (i_NumberOfPlayer == 1)
+            if (i_NumberOfPlayer == (int)Player.PlayerNumber.One)
             {
                 direction = 1;
             }
@@ -217,11 +217,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         private void CheckWhowEatAndUpdate(ref bool io_endGame, int i_NumberOfPlayer)
         {
-            if (i_NumberOfPlayer == 1)
+            if (i_NumberOfPlayer == (int)Player.PlayerNumber.One)
             {
                 UpdatePlayersAfterEaten(m_Player1, m_Player2, ref io_endGame);
             }
-            else if (i_NumberOfPlayer == 2)
+            else if (i_NumberOfPlayer == (int)Player.PlayerNumber.Two)
             {
                 UpdatePlayersAfterEaten(m_Player2, m_Player1, ref io_endGame);
             }
@@ -236,7 +236,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 validEatMove = CheckIfTheWantedPositionIsMustEatenPosition(io_PossiblePositionToEat, i_UserMoveInt);
             }
 
-            if (!i_CurrPlayer.CheckIfTheCurrPositionIsMine(m_Board, i_UserMoveInt, ref io_IsEaten, ref eatBackWord) || !validEatMove)
+            if (!i_CurrPlayer.CheckIfTheCurrPositionIsMineAndValidMove(m_Board, i_UserMoveInt, ref io_IsEaten, ref eatBackWord) || !validEatMove)
             {
                 i--;
             }
@@ -253,9 +253,9 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             }
         }
 
-        private void UpdateLastValidMoveForPlayer(string i_UserMoveInString, Player CurrPlayer)
+        private void UpdateLastValidMoveForPlayer(string i_UserMoveInString, Player io_CurrPlayer)
         {
-            CurrPlayer.LastMove = i_UserMoveInString;
+            io_CurrPlayer.LastMove = i_UserMoveInString;
         }
 
         private void CheckForEachRemainPieceIfCanEat(ref bool o_ReturnAns, Player i_CurrPlayer, int i_IndexOfPiece, List<List<int>> o_PossiblePositionToEat, int i_Row, int i_Col, int i_NumberOfPlayer)
@@ -280,7 +280,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             for (int k = 0; k < i_CurrPlayer.RemainPieces; k++)
             {
                 isKing = m_Board.GameBoard[i_CurrPlayer.Positions[k].X, i_CurrPlayer.Positions[k].Y].PlayerInBoard.IsKing;
-                if (i_CurrPlayer.NumberOfPlayer == 2)
+                if (i_CurrPlayer.NumberOfPlayer == (int)Player.PlayerNumber.Two)
                 {
                     CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_CurrPlayer, k, o_PossiblePositionToEat, -2, 2, 2);
                     CheckForEachRemainPieceIfCanEat(ref returnAnswer, i_CurrPlayer, k, o_PossiblePositionToEat, -2, -2, 2);
@@ -360,14 +360,14 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
         private void UpdatePlayersAfterEaten(Player i_WinPlayer, Player i_LoserPlayer, ref bool o_EndGame)
         {
-            o_EndGame = SubPieceOfTheRemainPiece(i_LoserPlayer);
+            o_EndGame = SubPieceOfTheRemainPiece(i_LoserPlayer, o_EndGame);
         }
 
-        private bool SubPieceOfTheRemainPiece(Player i_Player)
+        private bool SubPieceOfTheRemainPiece(Player i_Player, bool i_EndGame)
         {
             bool returnAnswer = false;
             int remainPieces = --i_Player.RemainPieces;
-            if (remainPieces == 0)
+            if (remainPieces == 0 || i_EndGame == true)
             {
                 returnAnswer = true;
             }
@@ -379,7 +379,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             bool isKing = m_Board.GameBoard[i_Position[3], i_Position[2]].PlayerInBoard.IsKing;
             bool returnAnswer = false;
-            if (i_NumberOfPlayer == 1)
+            if (i_NumberOfPlayer == (int)Player.PlayerNumber.One)
             {
                 returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Position, i_Player, 1, 1);
             }
@@ -390,7 +390,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
 
             if (isKing && !returnAnswer)
             {
-                if (i_NumberOfPlayer == 1)
+                if (i_NumberOfPlayer == (int)Player.PlayerNumber.One)
                 {
                     returnAnswer = CheckForTheCurrPositionAfterMoveIfThereIsMoreToEat(i_Position, i_Player, -1, 1);
                 }

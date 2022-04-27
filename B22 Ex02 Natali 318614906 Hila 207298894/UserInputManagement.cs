@@ -41,7 +41,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 if (i % 2 == 0)
                 {
                     indexWhoEat = 1;
-                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame,ref quit, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref endGame, ref isEaten, ref i, ref userMoveInString);
+                    userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame, ref quit, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref endGame, ref isEaten, ref i, ref userMoveInString);
                     checkersGame.IfThePlayerDosentWantToQuitContinueTheGame(quit, checkersGame.CheckerPlayer1, checkersGame.CheckerPlayer2, ref isEaten, ref i, ref indexWhoEat, ref endGame, ref draw, userMoverInInt, ref userMoveInString, listOfPositionOptionToEat);
                 }
                 else
@@ -52,7 +52,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                     }
                     else
                     {
-                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame,ref quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref endGame, ref isEaten, ref i, ref userMoveInString);///לא טוב !
+                        userMoverInInt = CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(checkersGame, ref quit, checkersGame.CheckerPlayer2, checkersGame.CheckerPlayer1, ref endGame, ref isEaten, ref i, ref userMoveInString);///לא טוב !
                     }
 
                     indexWhoEat = 2;
@@ -75,18 +75,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 }
 
                 i++;
-                System.Threading.Thread.Sleep(700);
+                System.Threading.Thread.Sleep(800);
             }
         }
 
-        private static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(CheckersGame io_CheckersGame, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index, ref string i_UserMoveInString)
+        private static List<int> CheckIfThePlayerWantToQuitAndIfNotContinueTheGame(CheckersGame io_CheckersGame, ref bool io_Quit, Player i_CurrPlayer, Player i_NextPlayer, ref bool io_EndGame, ref bool io_IsEaten, ref int i_Index, ref string io_UserMoveInString)
         {
             List<int> userMoverInInt = new List<int>(4);
             string userMoveInString = UserInputManagement.PartOfTheBoardSquares(io_CheckersGame.CheckersBoard.BoardSize, i_Index, i_CurrPlayer, ref io_Quit);
             if (io_Quit)
             {
                 i_NextPlayer.UpdatePointsAfterEachGame(i_CurrPlayer, io_CheckersGame.CheckersBoard);
-                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame,i_CurrPlayer, i_NextPlayer, ref i_Index))
+                if (CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame, i_CurrPlayer, i_NextPlayer, ref i_Index))
                 {
                     io_EndGame = true;
                 }
@@ -94,13 +94,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             else
             {
                 userMoverInInt = UserInputManagement.ChangedStringToListInt(userMoveInString);
-                i_UserMoveInString = userMoveInString;
+                io_UserMoveInString = userMoveInString;
             }
 
             return userMoverInInt;
         }
 
-        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(CheckersGame io_CheckersGame,Player i_PlayerQuit, Player i_Player, ref int o_Index)
+        public static bool CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(CheckersGame io_CheckersGame, Player i_PlayerQuit, Player i_Player, ref int o_Index)
         {
             bool returnAnswer = false;
             string answer;
@@ -108,14 +108,13 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             if (answer == "1")
             {
                 o_Index = 1;
-                if (i_PlayerQuit.NumberOfPlayer == 1)
+                if (i_PlayerQuit.NumberOfPlayer == (int)Player.PlayerNumber.One)
                 {
                     io_CheckersGame.CheckersBoard.InitBoard(i_PlayerQuit, i_Player);
                 }
                 else
                 {
                     io_CheckersGame.CheckersBoard.InitBoard(i_Player, i_PlayerQuit);
-
                 }
                 io_CheckersGame.InitNewGame();
             }
@@ -258,7 +257,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return userMove;
         }
 
-        private static List<int> ChangedStringToListInt(string i_UserMove) ////AB AC >>> [0][1][0][2]
+        private static List<int> ChangedStringToListInt(string i_UserMove) 
         {
             int currColumnPos = i_UserMove[0] - 'A', currRowPos = i_UserMove[1] - 'a', newColumnPos = i_UserMove[3] - 'A', newRowPos = i_UserMove[4] - 'a';
             List<int> returnCurrPositionAndNewPosition = new List<int>() { currColumnPos, currRowPos, newColumnPos, newRowPos };

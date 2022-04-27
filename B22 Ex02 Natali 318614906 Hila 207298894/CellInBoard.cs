@@ -15,11 +15,11 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
         {
             m_IsEmpty = i_IsThereAPlayer;
             PlayerPieceOnBoard piece;
-            if (i_NumberOfPlayer == 1)
+            if (i_NumberOfPlayer == (int)Player.PlayerNumber.One)
             {
                 piece = new PlayerPieceOnBoard('O');
             }
-            else if (i_NumberOfPlayer == 2)
+            else if (i_NumberOfPlayer == (int)Player.PlayerNumber.Two)
             {
                 piece = new PlayerPieceOnBoard('X');
             }

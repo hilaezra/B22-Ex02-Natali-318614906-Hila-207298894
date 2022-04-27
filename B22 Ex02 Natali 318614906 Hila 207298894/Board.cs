@@ -32,12 +32,6 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             return returnAnswer;
         }
 
-        public Board(int i_SizeOfBoard)
-        {
-            m_BoardSize = i_SizeOfBoard;
-            m_GameBoard = new CellInBoard[m_BoardSize, m_BoardSize];
-        }
-
         public void InitBoard(Player io_Player1, Player io_Player2)
         {
             int playersNumOfRow = (m_BoardSize - 2) / 2;
@@ -69,8 +63,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             Point newPoint = new Point(i_Row, i_Col);
             if ((i_Row % 2 == 0 && i_Col % 2 != 0) || (i_Row % 2 != 0 && i_Col % 2 == 0))
             {
-                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);  ////1==O , 2 == X
-                if(i_PlayerSing == 1)
+                m_GameBoard[i_Row, i_Col] = new CellInBoard(false, i_PlayerSing);
+                if (i_PlayerSing == (int)Player.PlayerNumber.One)
                 {
                     io_Player1.Positions.Add(newPoint);
                 }
@@ -83,12 +77,18 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             {
                 m_GameBoard[i_Row, i_Col] = new CellInBoard(true, 3);
             }
-        }        
+        }
 
         public CellInBoard[,] GameBoard
         {
             get { return m_GameBoard; }
             set { m_GameBoard = value; }
+        }
+
+        public Board(int i_SizeOfBoard)
+        {
+            m_BoardSize = i_SizeOfBoard;
+            m_GameBoard = new CellInBoard[m_BoardSize, m_BoardSize];
         }
 
         public int BoardSize

@@ -32,7 +32,7 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
             io_EndGame = UserInputManagement.CheckIfThePlayerWantToQuitAfterWinOrLoseOrQ(io_CheckersGame,i_Winner, i_Loser, ref io_IndexOfFirstPlayer);
         }
 
-        private static void PrintBoardFrameAndDividingLine(int i_LineSize, int i_LetterIndex, bool i_DividingLine)
+        private static void PrintBoardFrameAndDividingLine(int i_LineSize, int io_LetterIndex, bool i_DividingLine)
         {
             StringBuilder lineOfBoard = new StringBuilder(i_LineSize);
             StringBuilder dividingLine = new StringBuilder(i_LineSize);
@@ -43,8 +43,8 @@ namespace B22_Ex02_Natali_318614906_Hila_207298894
                 {
                     if ((i + 1) % 4 == 0 || i == 3)
                     {
-                        lineOfBoard.Insert(i, (Board.Column)i_LetterIndex);
-                        i_LetterIndex++;
+                        lineOfBoard.Insert(i, (Board.Column)io_LetterIndex);
+                        io_LetterIndex++;
                     }
                     else
                     {
